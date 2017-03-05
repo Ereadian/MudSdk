@@ -1,1 +1,6 @@
 *.userprefs
+bin
+obj
+*.suo
+*.user
+*.Cache

@@ -1,15 +1,15 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="Room.cs" company="Ereadian"> 
+// <copyright file="Program.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
-namespace Ereadian.MudSdk.Sdk.RoomManagemen
+namespace Ereadian.MudSdk.UI.Console
 {
-    using System;
-
-    public class Room
-	{
-	}
+    class Program
+    {
+        static void Main(string[] args)
+        {
+        }
+    }
 }
-

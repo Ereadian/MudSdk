@@ -4,12 +4,15 @@
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
-namespace Ereadian.MudSdk.Sdk.RoomManagemen
+namespace Ereadian.MudSdk.Sdk.RoomManagement
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-    public class Room
-	{
-	}
+    public class RoomData
+    {
+    }
 }
-
