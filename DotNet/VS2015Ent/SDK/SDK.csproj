@@ -40,26 +40,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Source\SDK\Contents\ColorContent.cs">
-      <Link>Contents\ColorContent.cs</Link>
+    <Compile Include="..\..\Source\SDK\ContentManagement\ColorContent.cs">
+      <Link>ContentManagement\ColorContent.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\ColorIndex.cs">
-      <Link>Contents\ColorIndex.cs</Link>
+    <Compile Include="..\..\Source\SDK\ContentManagement\ColorIndex.cs">
+      <Link>ContentManagement\ColorIndex.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\ContentType.cs">
-      <Link>Contents\ContentType.cs</Link>
+    <Compile Include="..\..\Source\SDK\ContentManagement\ContentType.cs">
+      <Link>ContentManagement\ContentType.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\ContentUtility.cs">
-      <Link>Contents\ContentUtility.cs</Link>
+    <Compile Include="..\..\Source\SDK\ContentManagement\ContentUtility.cs">
+      <Link>ContentManagement\ContentUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\IContent.cs">
-      <Link>Contents\IContent.cs</Link>
+    <Compile Include="..\..\Source\SDK\ContentManagement\IContent.cs">
+      <Link>ContentManagement\IContent.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\ParameterContent.cs">
-      <Link>Contents\ParameterContent.cs</Link>
+    <Compile Include="..\..\Source\SDK\ContentManagement\ParameterContent.cs">
+      <Link>ContentManagement\ParameterContent.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\TextContent.cs">
-      <Link>Contents\TextContent.cs</Link>
+    <Compile Include="..\..\Source\SDK\ContentManagement\TextContent.cs">
+      <Link>ContentManagement\TextContent.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Game.cs">
       <Link>Game.cs</Link>
@@ -87,7 +87,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="IO\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
