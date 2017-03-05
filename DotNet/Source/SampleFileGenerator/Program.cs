@@ -4,19 +4,26 @@
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
-namespace Ereadian.MudSdk.UI.Console
+namespace Ereadian.MudSdk.Tools.SampleFileGenerator
 {
     using System;
-    using System.Text;
+    using Ereadian.MudSdk.Sdk;
 
     class Program
     {
-        private static readonly Encoding DefaultEncoding = Encoding.Unicode;
-
         static void Main(string[] args)
         {
-            Console.InputEncoding = DefaultEncoding;
-            Console.OutputEncoding = DefaultEncoding;
+            var gameSettings = new GameSettingsData()
+            {
+                Locale = "zh-cn",
+            };
+            WriteSample("game", gameSettings);
+        }
+
+        private static void WriteSample<T>(string name, T data)
+        {
+            var serializer = new Serializer<T>();
+            serializer.Serialize(name + ".xml", data);
         }
     }
 }

@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ED364437-6EAE-4AC0-B38A-F26286FCE3B7}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{1590CB70-469A-4102-AD65-10FDEE05DE71}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Ereadian.MudSdk.Sdk</RootNamespace>
-    <AssemblyName>MudSDK</AssemblyName>
+    <RootNamespace>Ereadian.MudSdk.Tools.SampleFileGenerator</RootNamespace>
+    <AssemblyName>SampleFileGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,54 +43,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Source\SDK\Contents\ColorContent.cs">
-      <Link>Contents\ColorContent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\ColorIndex.cs">
-      <Link>Contents\ColorIndex.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\ContentType.cs">
-      <Link>Contents\ContentType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\ContentUtility.cs">
-      <Link>Contents\ContentUtility.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\IContent.cs">
-      <Link>Contents\IContent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\ParameterContent.cs">
-      <Link>Contents\ParameterContent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Contents\TextContent.cs">
-      <Link>Contents\TextContent.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Game.cs">
-      <Link>Game.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\GameSettingsData.cs">
-      <Link>GameSettingsData.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\DescriptionData.cs">
-      <Link>Globalization\DescriptionData.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\LocaleIndex.cs">
-      <Link>Globalization\LocaleIndex.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\RoomManagement\Room.cs">
-      <Link>RoomManagement\Room.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\RoomManagement\RoomData.cs">
-      <Link>RoomManagement\RoomData.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Serializer.cs">
-      <Link>Serializer.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Singleton.cs">
-      <Link>Singleton.cs</Link>
+    <Compile Include="..\..\Source\SampleFileGenerator\Program.cs">
+      <Link>Program.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SDK\SDK.csproj">
+      <Project>{ed364437-6eae-4ac0-b38a-f26286fce3b7}</Project>
+      <Name>SDK</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

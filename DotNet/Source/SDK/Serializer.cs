@@ -28,7 +28,7 @@ namespace Ereadian.MudSdk.Sdk
         public void Serialize(string path, T data)
         {
             var folder = Path.GetDirectoryName(path);
-            if (!Directory.Exists(folder))
+            if (!string.IsNullOrEmpty(folder) && !Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
             }

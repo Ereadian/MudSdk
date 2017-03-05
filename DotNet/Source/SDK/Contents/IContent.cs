@@ -1,26 +1,19 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="Room.cs" company="Ereadian"> 
+// <copyright file="IContent.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
-namespace Ereadian.MudSdk.Sdk.RoomManagement
+namespace Ereadian.MudSdk.Sdk.Contents
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Ereadian.MudSdk.Sdk.Globalization;
-
     /// <summary>
-    /// Room data
+    /// Content interface
     /// </summary>
-    public class RoomData
+    public interface IContent
     {
         /// <summary>
-        /// Gets or sets room description in different languages
+        /// Gets content type
         /// </summary>
-        public DescriptionData[] Descriptions { get; set; }
+        ContentType Type { get; }
     }
 }
