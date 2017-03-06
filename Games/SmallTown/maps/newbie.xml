@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<area xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="newbie">
+  <rooms>
+    <room name="backyard">
+      <title>
+        <content locale="en-us">
+          <data>this is backyard</data>
+        </content>
+        <content locale="zh-cn">
+          <data>这是后院</data>
+        </content>
+      </title>
+      <description>
+        <content locale="en-us">
+          <data>lots of flowers</data>
+        </content>
+        <content locale="zh-cn">
+          <data>好多鲜花盛开</data>
+        </content>
+      </description>
+    </room>
+  </rooms>
+</area>
