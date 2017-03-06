@@ -16,6 +16,7 @@ namespace Ereadian.MudSdk.Sdk
     using Ereadian.MudSdk.Sdk.RoomManagement;
     using Ereadian.MudSdk.Sdk.WorldManagement;
     using Ereadian.MudSdk.Sdk.WorldManagement.Login;
+    using Ereadian.MudSdk.Sdk.WorldManagement.General;
 
     public class Game
     {
@@ -38,7 +39,8 @@ namespace Ereadian.MudSdk.Sdk
         public virtual void Start(string gameFolder)
         {
             // load settings
-            this.Settings = new GameSettings(LoadData<GameSettingsData>(gameFolder, "game"), Path.GetFullPath(gameFolder));
+            var settingsData = LoadData<GameSettingsData>(gameFolder, "game");
+            this.Settings = new GameSettings(settingsData, Path.GetFullPath(gameFolder));
 
             // create color index
             this.Colors = new ColorIndex();
@@ -56,8 +58,8 @@ namespace Ereadian.MudSdk.Sdk
                 this.Colors);
 
             // Load World manager
-            this.WorldManager = new WorldManager();
-            this.RegisterWorlds();
+            this.WorldManager = new WorldManager(settingsData.LoginWorldName, settingsData.StartWorldName);
+            this.RegisterWorlds(settingsData);
 
             // create actionable manager
             this.ActionableItemManager = new ActionableObjectManager();
@@ -104,11 +106,42 @@ namespace Ereadian.MudSdk.Sdk
             return new Connector(this, client);
         }
 
-        protected virtual void RegisterWorlds()
+        protected virtual void RegisterWorlds(GameSettingsData settings)
         {
+            if (settings.Worlds != null)
+            {
+                for (var i = 0; i < settings.Worlds.Length; i++)
+                {
+                    var worldData = settings.Worlds[i];
+                    IWorld world = null;
+                    try
+                    {
+                        var type = Type.GetType(worldData.TypeName);
+                        if (type != null)
+                        {
+                            world = Activator.CreateInstance(type) as IWorld;
+                        }
+                    }
+                    catch
+                    {
+                        world = null;
+                    }
+
+                    if (world != null)
+                    {
+                        this.RegisterWorld(worldData.WorldName, world);
+                    }
+                }
+            }
+
             if (this.WorldManager.LoginWorld == null)
             {
-                this.RegisterWorld("login", new LoginWorld());
+                this.RegisterWorld(settings.LoginWorldName, new LoginWorld());
+            }
+
+            if (this.WorldManager.StartWorld == null)
+            {
+                this.RegisterWorld(settings.StartWorldName, new GeneralWorld());
             }
         }
 

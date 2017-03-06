@@ -2,4 +2,10 @@
 <settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <locale>zh-cn</locale>
   <tick>200</tick>
+  <login>login</login>
+  <start>normal</start>
+  <worlds>
+    <world name="login" type="Ereadian.MudSdk.Sdk.WorldManagement.Login.LoginWorld, MudSDK" />
+    <world name="normal" type="Ereadian.MudSdk.Sdk.WorldManagement.General.GeneralWorld, MudSDK" />
+  </worlds>
 </settings>

@@ -178,6 +178,12 @@
     <Compile Include="..\..\Source\SDK\SystemResources.cs">
       <Link>SystemResources.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorld.cs">
+      <Link>WorldManagement\General\GeneralWorld.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorldRuntime.cs">
+      <Link>WorldManagement\General\GeneralWorldRuntime.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\IWorld.cs">
       <Link>WorldManagement\IWorld.cs</Link>
     </Compile>
@@ -192,6 +198,9 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\Login\LoginWorldRuntime.cs">
       <Link>WorldManagement\Login\LoginWorldRuntime.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\World.cs">
+      <Link>WorldManagement\World.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\WorldManager.cs">
       <Link>WorldManagement\WorldManager.cs</Link>

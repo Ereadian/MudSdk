@@ -36,6 +36,12 @@ namespace Ereadian.MudSdk.Sdk
         [XmlElement("tick")]
         public int HeartBeat { get; set; }
 
+        [XmlElement("login")]
+        public string LoginWorldName { get; set; }
+
+        [XmlElement("start")]
+        public string StartWorldName { get; set; }
+
         /// <summary>
         /// Gets or sets worlds
         /// </summary>

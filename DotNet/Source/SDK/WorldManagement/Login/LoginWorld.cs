@@ -7,42 +7,12 @@
     using System.Security.Cryptography;
     using System.Text;
 
-    public class LoginWorld : IWorld
+    public class LoginWorld : World
     {
         private static readonly MD5 md5 = MD5.Create();
 
-        public string Name { get; private set; }
 
-        public Room EntryRoom { get; }
-        public Room RespawnRoom { get; }
-
-        public void Init(string name, Game game)
-        {
-            this.Name = name;
-        }
-
-        public void Add(Player player)
-        {
-            if (player.World != null)
-            {
-                if (object.ReferenceEquals(this, player.World))
-                {
-                    return;
-                }
-
-                player.World.Remove(player);
-            }
-
-            player.World = this;
-            player.WorldRuntime = new LoginWorldRuntime();
-        }
-
-        public void Remove(Player player)
-        {
-            player.WorldRuntime = null;
-        }
-
-        public void Run(Player player)
+        public override void Run(Player player)
         {
             var runtime = player.WorldRuntime as LoginWorldRuntime;
             switch (runtime.Status)
@@ -88,6 +58,11 @@
                     runtime.Status = LoginStatus.Password;
                     break;
             }
+        }
+
+        protected override IWorldRuntime CreateRuntime()
+        {
+            return new LoginWorldRuntime();
         }
 
         private static bool VerifyInput(string input)

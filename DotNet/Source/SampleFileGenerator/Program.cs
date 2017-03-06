@@ -21,7 +21,6 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
             WriteArea();
         }
 
-
         private static void WriteArea()
         {
             var area = new AreaData
@@ -71,6 +70,8 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
             {
                 Locale = "zh-cn",
                 HeartBeat = 100,
+                LoginWorldName = "login",
+                StartWorldName = "start",
                 Worlds = new WorldTypeData[]
                 {
                     new WorldTypeData()

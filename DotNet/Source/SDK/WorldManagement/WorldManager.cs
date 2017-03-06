@@ -7,20 +7,37 @@
 
     public class WorldManager
     {
-        private Dictionary<string, IWorld> worlds = new Dictionary<string, IWorld>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, IWorld> worlds = new Dictionary<string, IWorld>(StringComparer.OrdinalIgnoreCase);
+
+        private readonly string loginWorldName;
+        private readonly string startWorldName;
+
+        public WorldManager(string loginWorldName, string startWorldName)
+        {
+            this.loginWorldName = loginWorldName;
+            this.startWorldName = startWorldName;
+        }
 
         public IWorld LoginWorld { get; private set; }
+        public IWorld StartWorld { get; private set; }
 
         public void RegisterWorld(string name, IWorld world)
         {
-            if (this.LoginWorld == null)
+            if (!this.worlds.ContainsKey(name))
+            {
+                this.worlds.Add(name, world);
+            }
+
+            if ((this.LoginWorld == null) 
+                && name.Equals(this.loginWorldName, StringComparison.OrdinalIgnoreCase))
             {
                 this.LoginWorld = world;
             }
 
-            if (!this.worlds.ContainsKey(name))
+            if ((this.StartWorld == null)
+                && name.Equals(this.startWorldName, StringComparison.OrdinalIgnoreCase))
             {
-                this.worlds.Add(name, world);
+                this.StartWorld = world;
             }
         }
     }
