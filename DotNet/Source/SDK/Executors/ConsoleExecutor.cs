@@ -28,7 +28,7 @@ namespace Ereadian.MudSdk.Sdk.Executors
             }
 
             gamefolder = Path.GetFullPath(args[0]);
-            if (Directory.Exists(gamefolder))
+            if (!Directory.Exists(gamefolder))
             {
                 Console.WriteLine("Game folder does not exist: {0}", gamefolder);
                 return;

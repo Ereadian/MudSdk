@@ -13,13 +13,38 @@ namespace Ereadian.MudSdk.Sdk
     using System.Threading.Tasks;
     using Ereadian.MudSdk.Sdk.IO;
     using Ereadian.MudSdk.Sdk.ContentManagement;
+    using System.IO;
+    using Globalization;
 
     public class Game
     {
-        public ColorIndex Colors { get; private set; }
+        private GameSettings settings;
+        private LocaleIndex localIndex;
+        private ColorIndex colors;
+        private IReadOnlyList<Text> gameTitles;
 
         public virtual void Start(string gameFolder)
         {
+            // load settings
+            this.settings = new GameSettings(LoadData<GameSettingsData>(gameFolder, "game"));
+
+            // create color index
+            this.colors = new ColorIndex();
+
+            // create locale index
+            this.localIndex = new LocaleIndex(this.settings.DefaultLocale);
+
+            // load title
+            var titleData = LoadData<ResourceData>(gameFolder, "title");
+            var title = new Text[titleData.Resources.Length];
+            this.gameTitles = title;
+            for(var i=0;i<titleData.Resources.Length;i++)
+            {
+                var resource = titleData.Resources[i];
+                var localeId = this.localIndex.GetLocaleId(resource.Locale);
+                var content = ContentUtility.FormalizeContent(resource.Description, this.colors);
+                title[i] = new Text(localeId, content);
+            }
         }
 
         public virtual void Stop()
@@ -28,7 +53,8 @@ namespace Ereadian.MudSdk.Sdk
 
         public IConnector Connect(IClient connector)
         {
-            return new Connector(); ;
+            connector.RenderMessage(ContentUtility.GetContent(gameTitles, LocaleIndex.DefaultLocaleId), this.colors, null);
+            return new Connector();
         }
 
         public void Disconnect(IConnector connector)
@@ -41,6 +67,18 @@ namespace Ereadian.MudSdk.Sdk
             {
                 Console.WriteLine(message);
             }
+        }
+
+        private T LoadData<T>(string root, string file) where T: new()
+        {
+            var path = Path.GetFullPath(Path.Combine(root, file + ".xml"));
+            if (!File.Exists(path))
+            {
+                this.WriteConsole("File does not exist: " + path);
+                return default(T);
+            }
+
+            return Singleton<Serializer<T>>.Instance.Deserialize(path);
         }
     }
 }

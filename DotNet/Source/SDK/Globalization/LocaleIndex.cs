@@ -66,7 +66,7 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         /// <param name="defaultLocaleName">default locale name</param>
         public LocaleIndex(string defaultLocaleName)
         {
-            this.defaultLocaleName = this.defaultLocaleName.Trim();
+            this.defaultLocaleName = defaultLocaleName.Trim();
             this.defaultCultureInfo = CultureNames[this.defaultLocaleName];
 
             this.localeIds = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)

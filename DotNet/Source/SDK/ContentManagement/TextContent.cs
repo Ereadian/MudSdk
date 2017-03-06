@@ -55,7 +55,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         {
             get
             {
-                return ContentType.Parameter;
+                return ContentType.Text;
             }
         }
     }

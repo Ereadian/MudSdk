@@ -31,9 +31,10 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// Receive message
         /// </summary>
         /// <param name="content">incoming message</param>
-        public void ReceiveMessage(IReadOnlyList<IContent> content, ColorIndex colorIndex, IReadOnlyList<object> parameters)
+        public void RenderMessage(IReadOnlyList<IContent> content, ColorIndex colorIndex, IReadOnlyList<object> parameters)
         {
-            Console.ResetColor();
+            var currentForegroundColor = Console.ForegroundColor;
+            var currenBackgroundColor = Console.BackgroundColor;
             for (var i = 0; i < content.Count; i++)
             {
                 var data = content[i];
@@ -41,18 +42,11 @@ namespace Ereadian.MudSdk.Sdk.IO
                 {
                     case ContentType.Color:
                         var colorContent = data as ColorContent;
-                        Console.ResetColor();
                         var color = GetColor(colorContent.ForegroundColorId, colorIndex);
-                        if (color.HasValue)
-                        {
-                            Console.ForegroundColor = color.Value;
-                        }
+                        Console.ForegroundColor = color.HasValue ? color.Value : currentForegroundColor;
 
                         color = GetColor(colorContent.BackgroundColorId, colorIndex);
-                        if (color.HasValue)
-                        {
-                            Console.BackgroundColor = color.Value;
-                        }
+                        Console.BackgroundColor = color.HasValue ? color.Value : currenBackgroundColor;
 
                         break;
                     case ContentType.Parameter:
@@ -66,11 +60,13 @@ namespace Ereadian.MudSdk.Sdk.IO
                         break;
                     default:
                         var text = data as TextContent;
-                        Console.Write(text);
+                        Console.Write(text.Text);
                         break;
                 }
             }
 
+            Console.ForegroundColor = currentForegroundColor;
+            Console.BackgroundColor = currenBackgroundColor;
             Console.WriteLine();
         }
 
@@ -92,7 +88,7 @@ namespace Ereadian.MudSdk.Sdk.IO
         {
             var name = colorIndex[colorId];
             ConsoleColor color;
-            if (Enum.TryParse(name, out color))
+            if (Enum.TryParse(name, true, out color))
             {
                 return color;
             }

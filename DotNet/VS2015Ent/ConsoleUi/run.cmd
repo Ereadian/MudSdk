@@ -1,0 +1,1 @@
+bin\Debug\ConsoleUi.exe ..\..\..\Games\SmallTown

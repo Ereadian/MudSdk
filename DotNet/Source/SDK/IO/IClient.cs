@@ -16,12 +16,12 @@ namespace Ereadian.MudSdk.Sdk.IO
     public interface IClient
     {
         /// <summary>
-        /// Receive message
+        /// Render message
         /// </summary>
         /// <param name="content">incoming message</param>
         /// <param name="colorIndex">color index</param>
         /// <param name="parameters">message parameters</param>
-        void ReceiveMessage(IReadOnlyList<IContent> content, ColorIndex colorIndex, IReadOnlyList<object> parameters);
+        void RenderMessage(IReadOnlyList<IContent> content, ColorIndex colorIndex, IReadOnlyList<object> parameters);
 
         /// <summary>
         /// Disconnect from game

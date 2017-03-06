@@ -58,6 +58,9 @@
     <Compile Include="..\..\Source\SDK\ContentManagement\ParameterContent.cs">
       <Link>ContentManagement\ParameterContent.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\ContentManagement\Text.cs">
+      <Link>ContentManagement\Text.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\TextContent.cs">
       <Link>ContentManagement\TextContent.cs</Link>
     </Compile>
@@ -70,6 +73,9 @@
     <Compile Include="..\..\Source\SDK\Game.cs">
       <Link>Game.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\GameSettings.cs">
+      <Link>GameSettings.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\GameSettingsData.cs">
       <Link>GameSettingsData.cs</Link>
     </Compile>
@@ -78,6 +84,9 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\LocaleIndex.cs">
       <Link>Globalization\LocaleIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Globalization\ResourceData.cs">
+      <Link>Globalization\ResourceData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\IO\Connector.cs">
       <Link>IO\Connector.cs</Link>

@@ -6,6 +6,7 @@
 
 namespace Ereadian.MudSdk.Sdk.ContentManagement
 {
+    using Globalization;
     using System;
     using System.Collections.Generic;
 
@@ -21,10 +22,10 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
             = new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>[]
             {
                 new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>(
-                    new KeyValuePair<string, string>("<%", "%>"),
+                    new KeyValuePair<string, string>("{%", "%}"),
                     (content, start, end, colorIndex) => new ColorContent(content, start, end, colorIndex)),
                 new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>(
-                    new KeyValuePair<string, string>("<#", "#>"),
+                    new KeyValuePair<string, string>("{#", "#}"),
                     (content, start, end, colorIndex) => new ParameterContent(content, start, end)),
             };
 
@@ -69,7 +70,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// <param name="text">raw text</param>
         /// <param name="colorIndex">color index</param>
         /// <returns>content list</returns>
-        public static IReadOnlyList<IContent> GetContent(string text, ColorIndex colorIndex)
+        public static IReadOnlyList<IContent> FormalizeContent(string text, ColorIndex colorIndex)
         {
             var list = new List<IContent>();
             if (text != null)
@@ -109,6 +110,31 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         }
 
         /// <summary>
+        /// Get content by locale id
+        /// </summary>
+        /// <param name="contents">content with multiple locale</param>
+        /// <param name="localeId">locale id</param>
+        /// <returns>content for specified locale</returns>
+        public static IReadOnlyList<IContent> GetContent(IReadOnlyList<Text> contents, int localeId)
+        {
+            for (var i = 0; i < contents.Count; i++)
+            {
+                var content = contents[i];
+                if (content.LocaleId == localeId)
+                {
+                    return content.Content;
+                }
+            }
+
+            if (localeId == LocaleIndex.DefaultLocaleId)
+            {
+                return contents[0].Content;
+            }
+
+            return GetContent(contents, LocaleIndex.DefaultLocaleId);
+        }
+         
+        /// <summary>
         /// Match processor
         /// </summary>
         /// <param name="content">content to process</param>
@@ -119,7 +145,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         {
             for (var position = start; position < content.Length; position++)
             {
-                for (var id = 0; position < ContentProcessors.Count; position++)
+                for (var id = 0; id < ContentProcessors.Count; id++)
                 {
                     var processor = ContentProcessors[id];
                     if (IsStartWith(content, processor.Key.Key, position))

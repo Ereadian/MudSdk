@@ -14,6 +14,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SmallTown", "SmallTown", "{53A94F3B-EECF-4237-BDE4-D6BF31ABF53F}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Games\SmallTown\game.xml = ..\..\Games\SmallTown\game.xml
+		..\..\Games\SmallTown\title.xml = ..\..\Games\SmallTown\title.xml
 	EndProjectSection
 EndProject
 Global
