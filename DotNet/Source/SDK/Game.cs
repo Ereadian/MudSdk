@@ -36,15 +36,10 @@ namespace Ereadian.MudSdk.Sdk
 
             // load title
             var titleData = LoadData<ResourceData>(gameFolder, "title");
-            var title = new Text[titleData.Resources.Length];
-            this.gameTitles = title;
-            for(var i=0;i<titleData.Resources.Length;i++)
-            {
-                var resource = titleData.Resources[i];
-                var localeId = this.localIndex.GetLocaleId(resource.Locale);
-                var content = ContentUtility.FormalizeContent(resource.Data, this.colors);
-                title[i] = new Text(localeId, content);
-            }
+            this.gameTitles = ContentUtility.CreateText(titleData, this.localIndex, this.colors);
+
+            // Load resource collection
+            ResourceCollection.LoadResources(Path.Combine(gameFolder, "contents"), this.localIndex, this.colors);
         }
 
         public virtual void Stop()
@@ -53,7 +48,14 @@ namespace Ereadian.MudSdk.Sdk
 
         public IConnector Connect(IClient connector)
         {
-            connector.RenderMessage(ContentUtility.GetContent(gameTitles, LocaleIndex.DefaultLocaleId), this.colors, null);
+            connector.RenderMessage(
+                ContentUtility.GetContent(gameTitles, LocaleIndex.DefaultLocaleId), 
+                this.colors, 
+                null);
+            connector.RenderMessage(
+                ContentUtility.GetContent(ResourceCollection.GetText(SystemResources.EnterUserName), LocaleIndex.DefaultLocaleId),
+                this.colors, 
+                null);
             return new Connector();
         }
 

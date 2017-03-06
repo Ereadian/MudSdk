@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<collection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SystemResources">
+  <resource name="EnterUserName">
+    <content locale="zh-cn">
+      <data>请输入用户名</data>
+    </content>
+    <content locale="en-us">
+      <data>please input user name</data>
+    </content>
+  </resource>
+</collection>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ereadian.MudSdk.Sdk.Globalization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,11 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         {
             this.LocaleId = localeId;
             this.Content = content;
+        }
+
+        public Text(ContentData content, LocaleIndex locales, ColorIndex colors)
+            : this(locales.GetLocaleId(content.Locale), ContentUtility.FormalizeContent(content.Data, colors))
+        {
         }
     }
 }

@@ -88,6 +88,15 @@
     <Compile Include="..\..\Source\SDK\Globalization\LocaleIndex.cs">
       <Link>Globalization\LocaleIndex.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\Globalization\Resource.cs">
+      <Link>Globalization\Resource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Globalization\ResourceCollection.cs">
+      <Link>Globalization\ResourceCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Globalization\ResourceCollectionData.cs">
+      <Link>Globalization\ResourceCollectionData.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\ResourceData.cs">
       <Link>Globalization\ResourceData.cs</Link>
     </Compile>
@@ -133,10 +142,14 @@
     <Compile Include="..\..\Source\SDK\Singleton.cs">
       <Link>Singleton.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\SystemResources.cs">
+      <Link>SystemResources.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CreatureManagement\" />
+    <Folder Include="WorldManagement\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -109,6 +109,25 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
             return (list != null) && (list.Count > 0) ? list.ToArray() : null;
         }
 
+        public static IReadOnlyList<Text> CreateText(ResourceData resourceData, LocaleIndex locales,  ColorIndex colors)
+        {
+            Text[] textCollection = null;
+            if (resourceData != null)
+            {
+                var resources = resourceData.Resources;
+                if ((resources != null) && (resources.Length > 0))
+                {
+                    textCollection = new Text[resources.Length];
+                    for (var i = 0; i < resources.Length; i++)
+                    {
+                        textCollection[i] = new Text(resources[i], locales, colors);
+                    }
+                }
+            }
+
+            return textCollection;
+        }
+
         /// <summary>
         /// Get content by locale id
         /// </summary>

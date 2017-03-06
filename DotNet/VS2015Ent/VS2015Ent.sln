@@ -22,6 +22,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{3EEC2621-3
 		..\..\Games\SmallTown\maps\logging.xml = ..\..\Games\SmallTown\maps\logging.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contents", "contents", "{BF72F924-4EE5-4BF6-81A9-2841DB9DDE4F}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Games\SmallTown\contents\system.xml = ..\..\Games\SmallTown\contents\system.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,5 +52,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{53A94F3B-EECF-4237-BDE4-D6BF31ABF53F} = {4530124C-8A15-4153-AC83-7FEC28A2A5E0}
 		{3EEC2621-3E2A-468E-BC6F-EC084A06AB70} = {53A94F3B-EECF-4237-BDE4-D6BF31ABF53F}
+		{BF72F924-4EE5-4BF6-81A9-2841DB9DDE4F} = {53A94F3B-EECF-4237-BDE4-D6BF31ABF53F}
 	EndGlobalSection
 EndGlobal

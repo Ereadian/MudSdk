@@ -29,23 +29,32 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
 
         private static void WriteResource()
         {
-            var resources = new ResourceData
+            var collection = new ResourceCollectionData
             {
-                Resources = new ContentData[]
+                CollectionName = "collection.name",
+                Resources = new ResourceData[]
                 {
-                    new ContentData
+                    new ResourceData
                     {
-                        Data = "resource default"
-                    },
-                    new ContentData
-                    {
-                        Locale="zh-cn",
-                        Data = "中文"
-                    },
+                        Name = "name",
+                        Resources = new ContentData[]
+                        {
+                            new ContentData
+                            {
+                                Data = "resource default"
+                            },
+                            new ContentData
+                            {
+                                Locale="zh-cn",
+                                Data = "中文"
+                            },
+                        }
+                    }
                 }
             };
 
-            Write("resources", resources);
+
+            Write("resources", collection);
         }
 
         private static void Write<T>(string name, T data)

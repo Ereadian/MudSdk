@@ -15,6 +15,9 @@ namespace Ereadian.MudSdk.Sdk.Globalization
     [XmlRoot("resource")]
     public class ResourceData
     {
+        [XmlAttribute("name")]
+        public string Name { get; set; }
+
         /// <summary>
         /// resource items
         /// </summary>

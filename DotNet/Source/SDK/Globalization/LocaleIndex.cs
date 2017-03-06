@@ -66,7 +66,7 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         /// <param name="defaultLocaleName">default locale name</param>
         public LocaleIndex(string defaultLocaleName)
         {
-            this.defaultLocaleName = defaultLocaleName.Trim();
+            this.defaultLocaleName = MapAlias(defaultLocaleName.Trim());
             this.defaultCultureInfo = CultureNames[this.defaultLocaleName];
 
             this.localeIds = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
@@ -95,13 +95,7 @@ namespace Ereadian.MudSdk.Sdk.Globalization
             }
             else
             {
-                localeName = localeName.Trim();
-            }
-
-            string alias;
-            if (LocaleAlias.TryGetValue(localeName, out alias))
-            {
-                localeName = alias;
+                localeName = MapAlias(localeName.Trim());
             }
 
             lock (this)
@@ -115,7 +109,8 @@ namespace Ereadian.MudSdk.Sdk.Globalization
                     }
                     else
                     {
-                        this.localeIds.Add(localeName, this.cultures.Count);
+                        localeId = this.cultures.Count;
+                        this.localeIds.Add(localeName, localeId);
                         this.cultures.Add(culture);
                     }
                 }
@@ -132,6 +127,17 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         public CultureInfo GetCulture(int localeId)
         {
             return this.cultures[localeId];
+        }
+
+        /// <summary>
+        /// Map alias
+        /// </summary>
+        /// <param name="localeName">locale name</param>
+        /// <returns>convert it to alias if it has</returns>
+        private static string MapAlias(string localeName)
+        {
+            string alias;
+            return LocaleAlias.TryGetValue(localeName, out alias) ? alias : localeName;
         }
     }
 }
