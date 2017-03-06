@@ -40,6 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\SDK\ActionableObject.cs">
+      <Link>ActionableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ActionableObjectManager.cs">
+      <Link>ActionableObjectManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ActionManagement\Command.cs">
+      <Link>ActionManagement\Command.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\ColorContent.cs">
       <Link>ContentManagement\ColorContent.cs</Link>
     </Compile>
@@ -55,6 +64,9 @@
     <Compile Include="..\..\Source\SDK\ContentManagement\IContent.cs">
       <Link>ContentManagement\IContent.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\ContentManagement\Message.cs">
+      <Link>ContentManagement\Message.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\ParameterContent.cs">
       <Link>ContentManagement\ParameterContent.cs</Link>
     </Compile>
@@ -63,6 +75,12 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\TextContent.cs">
       <Link>ContentManagement\TextContent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\CreatureManagement\Creature.cs">
+      <Link>CreatureManagement\Creature.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\CreatureManagement\Player.cs">
+      <Link>CreatureManagement\Player.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Executors\ConsoleExecutor.cs">
       <Link>Executors\ConsoleExecutor.cs</Link>
@@ -79,11 +97,23 @@
     <Compile Include="..\..\Source\SDK\GameSettingsData.cs">
       <Link>GameSettingsData.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\GameTitle.cs">
+      <Link>GameTitle.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\ContentData.cs">
       <Link>Globalization\ContentData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\LocaleIndex.cs">
       <Link>Globalization\LocaleIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Globalization\Resource.cs">
+      <Link>Globalization\Resource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Globalization\ResourceCollection.cs">
+      <Link>Globalization\ResourceCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Globalization\ResourceCollectionData.cs">
+      <Link>Globalization\ResourceCollectionData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\ResourceData.cs">
       <Link>Globalization\ResourceData.cs</Link>
@@ -100,17 +130,53 @@
     <Compile Include="..\..\Source\SDK\IO\IConnector.cs">
       <Link>IO\IConnector.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\Item.cs">
+      <Link>ItemManagement\Item.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\ItemData.cs">
+      <Link>ItemManagement\ItemData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\ItemType.cs">
+      <Link>ItemManagement\ItemType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\ItemTypeCollectionData.cs">
+      <Link>ItemManagement\ItemTypeCollectionData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\ItemTypeData.cs">
+      <Link>ItemManagement\ItemTypeData.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\Room.cs">
       <Link>RoomManagement\Room.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\RoomData.cs">
       <Link>RoomManagement\RoomData.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\RoomManagement\RoomsData.cs">
+      <Link>RoomManagement\RoomsData.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\Serializer.cs">
       <Link>Serializer.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Singleton.cs">
       <Link>Singleton.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\SystemResources.cs">
+      <Link>SystemResources.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\IWorld.cs">
+      <Link>WorldManagement\IWorld.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\IWorldRuntime.cs">
+      <Link>WorldManagement\IWorldRuntime.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\Login\LoginStatus.cs">
+      <Link>WorldManagement\Login\LoginStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\Login\LoginWorld.cs">
+      <Link>WorldManagement\Login\LoginWorld.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\Login\LoginWorldRuntime.cs">
+      <Link>WorldManagement\Login\LoginWorldRuntime.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

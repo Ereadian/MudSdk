@@ -28,40 +28,46 @@ namespace Ereadian.MudSdk.Sdk.IO
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Receive message
+        /// Render message
         /// </summary>
-        /// <param name="content">incoming message</param>
-        public void RenderMessage(IReadOnlyList<IContent> content, ColorIndex colorIndex, IReadOnlyList<object> parameters)
+        /// <param name="message">message to render</param>
+        /// <param name="colorIndex">color index</param>
+        public void RenderMessage(Message message, ColorIndex colorIndex)
         {
             var currentForegroundColor = Console.ForegroundColor;
             var currenBackgroundColor = Console.BackgroundColor;
-            for (var i = 0; i < content.Count; i++)
+            var content = message.Template;
+            var parameters = message.Parameters;
+            lock(this)
             {
-                var data = content[i];
-                switch (data.Type)
+                for (var i = 0; i < content.Count; i++)
                 {
-                    case ContentType.Color:
-                        var colorContent = data as ColorContent;
-                        var color = GetColor(colorContent.ForegroundColorId, colorIndex);
-                        Console.ForegroundColor = color.HasValue ? color.Value : currentForegroundColor;
+                    var data = content[i];
+                    switch (data.Type)
+                    {
+                        case ContentType.Color:
+                            var colorContent = data as ColorContent;
+                            var color = GetColor(colorContent.ForegroundColorId, colorIndex);
+                            Console.ForegroundColor = color.HasValue ? color.Value : currentForegroundColor;
 
-                        color = GetColor(colorContent.BackgroundColorId, colorIndex);
-                        Console.BackgroundColor = color.HasValue ? color.Value : currenBackgroundColor;
+                            color = GetColor(colorContent.BackgroundColorId, colorIndex);
+                            Console.BackgroundColor = color.HasValue ? color.Value : currenBackgroundColor;
 
-                        break;
-                    case ContentType.Parameter:
-                        var parameterContent = data as ParameterContent;
-                        var value = parameters[parameterContent.ParameterId];
-                        if (value != null)
-                        {
-                            Console.Write(value.ToString());
-                        }
+                            break;
+                        case ContentType.Parameter:
+                            var parameterContent = data as ParameterContent;
+                            var value = parameters[parameterContent.ParameterId];
+                            if (value != null)
+                            {
+                                Console.Write(value.ToString());
+                            }
 
-                        break;
-                    default:
-                        var text = data as TextContent;
-                        Console.Write(text.Text);
-                        break;
+                            break;
+                        default:
+                            var text = data as TextContent;
+                            Console.Write(text.Text);
+                            break;
+                    }
                 }
             }
 

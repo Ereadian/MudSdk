@@ -14,32 +14,50 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
     {
         static void Main(string[] args)
         {
+            WriteSettings();
+            WriteResource();
+        }
+
+        private static void WriteSettings()
+        {
             var gameSettings = new GameSettingsData()
             {
                 Locale = "zh-cn",
             };
-            WriteSample("game", gameSettings);
+            Write("game", gameSettings);
+        }
 
-            var resources = new ResourceData
+        private static void WriteResource()
+        {
+            var collection = new ResourceCollectionData
             {
-                Resources = new ContentData[]
+                CollectionName = "collection.name",
+                Resources = new ResourceData[]
                 {
-                    new ContentData
+                    new ResourceData
                     {
-                        Data = "resource default"
-                    },
-                    new ContentData
-                    {
-                        Locale="zh-cn",
-                        Data = "中文"
-                    },
+                        Name = "name",
+                        Resources = new ContentData[]
+                        {
+                            new ContentData
+                            {
+                                Data = "resource default"
+                            },
+                            new ContentData
+                            {
+                                Locale="zh-cn",
+                                Data = "中文"
+                            },
+                        }
+                    }
                 }
             };
 
-            WriteSample("resources", resources);
+
+            Write("resources", collection);
         }
 
-        private static void WriteSample<T>(string name, T data)
+        private static void Write<T>(string name, T data)
         {
             var serializer = new Serializer<T>();
             serializer.Serialize(name + ".xml", data);

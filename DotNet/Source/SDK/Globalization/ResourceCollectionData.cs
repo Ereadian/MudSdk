@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="DescriptionData.cs" company="Ereadian"> 
+// <copyright file="ResourceCollectionData.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
@@ -9,20 +9,21 @@ namespace Ereadian.MudSdk.Sdk.Globalization
     using System.Xml.Serialization;
 
     /// <summary>
-    /// Description data
+    /// Resource data
     /// </summary>
-    public class ContentData
+    [XmlRoot("collection")]
+    public class ResourceCollectionData
     {
         /// <summary>
-        /// Gets or sets localize name
+        /// Gets collection name
         /// </summary>
-        [XmlAttribute("locale")]
-        public string Locale { get; set; }
+        [XmlAttribute("name")]
+        public string CollectionName { get; set; }
 
         /// <summary>
-        /// Gets or sets description
+        /// Resource list
         /// </summary>
-        [XmlElement("data")]
-        public string Data { get; set; }
+        [XmlElement("resource")]
+        public ResourceData[] Resources { get; set; }
     }
 }

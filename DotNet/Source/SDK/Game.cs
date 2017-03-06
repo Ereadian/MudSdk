@@ -10,55 +10,103 @@ namespace Ereadian.MudSdk.Sdk
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
+    using System.Threading;
     using Ereadian.MudSdk.Sdk.IO;
     using Ereadian.MudSdk.Sdk.ContentManagement;
     using System.IO;
-    using Globalization;
+    using System.Diagnostics;
+    using Ereadian.MudSdk.Sdk.Globalization;
+    using Ereadian.MudSdk.Sdk.WorldManagement;
+    using Ereadian.MudSdk.Sdk.WorldManagement.Login;
 
     public class Game
     {
-        private GameSettings settings;
-        private LocaleIndex localIndex;
-        private ColorIndex colors;
-        private IReadOnlyList<Text> gameTitles;
+        public ActionableObjectManager ActionableItemManager { get; private set; }
+
+        public GameSettings Settings { get; private set; }
+
+        public LocaleIndex Locals { get; private set; }
+
+        public ColorIndex Colors { get; private set; }
+
+        public IWorld LoginWorld { get; private set; }
+
+        public Thread thread;
+
+        public ManualResetEventSlim StopEvent { get; private set; }
 
         public virtual void Start(string gameFolder)
         {
+            if (LoginWorld == null)
+            {
+                this.RegisterWorld(new LoginWorld());
+            }
+
             // load settings
-            this.settings = new GameSettings(LoadData<GameSettingsData>(gameFolder, "game"));
+            this.Settings = new GameSettings(LoadData<GameSettingsData>(gameFolder, "game"));
 
             // create color index
-            this.colors = new ColorIndex();
+            this.Colors = new ColorIndex();
 
             // create locale index
-            this.localIndex = new LocaleIndex(this.settings.DefaultLocale);
+            this.Locals = new LocaleIndex(this.Settings.DefaultLocale);
 
-            // load title
-            var titleData = LoadData<ResourceData>(gameFolder, "title");
-            var title = new Text[titleData.Resources.Length];
-            this.gameTitles = title;
-            for(var i=0;i<titleData.Resources.Length;i++)
+            // Load resource collection
+            ResourceCollection.LoadResources(Path.Combine(gameFolder, "contents"), this.Locals, this.Colors);
+
+            // create actionable manager
+            this.ActionableItemManager = new ActionableObjectManager();
+
+            this.StopEvent = new ManualResetEventSlim(false);
+            this.thread = new Thread(RunGame);
+            this.thread.Start(this);
+        }
+
+        public virtual void Run()
+        {
+            var stopwatch = new Stopwatch();
+            int timeout = 0;
+            stopwatch.Start();
+            while (!this.StopEvent.Wait(timeout))
             {
-                var resource = titleData.Resources[i];
-                var localeId = this.localIndex.GetLocaleId(resource.Locale);
-                var content = ContentUtility.FormalizeContent(resource.Data, this.colors);
-                title[i] = new Text(localeId, content);
+                this.ActionableItemManager.Run();
+                stopwatch.Stop();
+                timeout = this.Settings.HeartBeat - (int)stopwatch.ElapsedMilliseconds;
+                if (timeout < 0)
+                {
+                    timeout = 0;
+                }
             }
+        }
+
+        private static void RunGame(object state)
+        {
+            var game = state as Game;
+            game.Run();
         }
 
         public virtual void Stop()
         {
         }
 
-        public IConnector Connect(IClient connector)
+        public void RegisterWorld(params IWorld[] worlds)
         {
-            connector.RenderMessage(ContentUtility.GetContent(gameTitles, LocaleIndex.DefaultLocaleId), this.colors, null);
-            return new Connector();
+            if (worlds != null)
+            {
+                for (var i = 0; i < worlds.Length; i++)
+                {
+                    var world = worlds[i];
+                    if ((this.LoginWorld == null) && world.IsLogingWorld)
+                    {
+                        this.LoginWorld = world;
+                    }
+                }
+            }
         }
 
-        public void Disconnect(IConnector connector)
+        public IConnector Connect(IClient client)
         {
+            return new Connector(this, client);
         }
 
         protected virtual void WriteConsole(string message)

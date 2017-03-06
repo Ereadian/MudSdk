@@ -21,6 +21,6 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// <summary>
         /// Gets or sets room description in different languages
         /// </summary>
-        public ContentData[] Descriptions { get; set; }
+        public ContentData[] RoomDescriptions { get; set; }
     }
 }

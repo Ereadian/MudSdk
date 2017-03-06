@@ -109,6 +109,25 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
             return (list != null) && (list.Count > 0) ? list.ToArray() : null;
         }
 
+        public static IReadOnlyList<Text> CreateText(ResourceData resourceData, LocaleIndex locales,  ColorIndex colors)
+        {
+            Text[] textCollection = null;
+            if (resourceData != null)
+            {
+                var resources = resourceData.Resources;
+                if ((resources != null) && (resources.Length > 0))
+                {
+                    textCollection = new Text[resources.Length];
+                    for (var i = 0; i < resources.Length; i++)
+                    {
+                        textCollection[i] = new Text(resources[i], locales, colors);
+                    }
+                }
+            }
+
+            return textCollection;
+        }
+
         /// <summary>
         /// Get content by locale id
         /// </summary>
@@ -133,7 +152,26 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
 
             return GetContent(contents, LocaleIndex.DefaultLocaleId);
         }
-         
+
+        public static IReadOnlyList<IContent> GetContent<T>(T resourceId, int localeId) 
+            where T: struct
+        {
+            return GetContent(ResourceCollection.GetText(resourceId), localeId);
+        }
+
+        public static Message CreateMessage<T>(T resourceId)
+            where T : struct
+        {
+            return CreateMessage(resourceId, LocaleIndex.DefaultLocaleId, null);
+        }
+
+        public static Message CreateMessage<T>(T resourceId, int localeId, params object[] parameters)
+            where T : struct
+        {
+            var content = GetContent<T>(resourceId, localeId);
+            return new Message(content, parameters);
+        }
+
         /// <summary>
         /// Match processor
         /// </summary>

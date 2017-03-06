@@ -17,11 +17,17 @@ namespace Ereadian.MudSdk.Sdk
         public GameSettings(GameSettingsData settings)
         {
             this.DefaultLocale = settings.Locale;
+            this.HeartBeat = settings.HeartBeat;
         }
 
         /// <summary>
         /// Gets or sets default locale name
         /// </summary>
-        public string DefaultLocale { get; set; }
+        public string DefaultLocale { get; private set; }
+
+        /// <summary>
+        /// Gets or sets game heartbeat
+        /// </summary>
+        public int HeartBeat { get; private set; }
     }
 }

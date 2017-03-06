@@ -1,15 +1,19 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="Room.cs" company="Ereadian"> 
+// <copyright file="RoomsData.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
 namespace Ereadian.MudSdk.Sdk.RoomManagement
 {
-    using System;
-
-    public class Room
-	{
-	}
+    /// <summary>
+    /// Room data
+    /// </summary>
+    public class RoomsData
+    {
+        /// <summary>
+        /// Gets or sets room collection data
+        /// </summary>
+        public RoomData[] Rooms { get; set; }
+    }
 }
-
