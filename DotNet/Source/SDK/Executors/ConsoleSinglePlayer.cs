@@ -1,19 +1,22 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="Program.cs" company="Ereadian"> 
+// <copyright file="IConnector.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
-namespace Ereadian.MudSdk.UI.Console
+namespace Ereadian.MudSdk.Sdk.Executors
 {
-    using Ereadian.MudSdk.Sdk.Executors;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-    class Program
+    public class ConsoleSinglePlayer : ConsoleExecutor
     {
-        static void Main(string[] args)
+        public override void Run(string[] args)
         {
-            var executor = new ConsoleSinglePlayer();
-            executor.Run(args);
+            base.Run(args);
         }
     }
 }

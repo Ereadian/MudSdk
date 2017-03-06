@@ -61,6 +61,12 @@
     <Compile Include="..\..\Source\SDK\ContentManagement\TextContent.cs">
       <Link>ContentManagement\TextContent.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\Executors\ConsoleExecutor.cs">
+      <Link>Executors\ConsoleExecutor.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Executors\ConsoleSinglePlayer.cs">
+      <Link>Executors\ConsoleSinglePlayer.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\Game.cs">
       <Link>Game.cs</Link>
     </Compile>
@@ -72,6 +78,18 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\LocaleIndex.cs">
       <Link>Globalization\LocaleIndex.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\IO\Connector.cs">
+      <Link>IO\Connector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\IO\ConsoleClient.cs">
+      <Link>IO\ConsoleClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\IO\IClient.cs">
+      <Link>IO\IClient.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\IO\IConnector.cs">
+      <Link>IO\IConnector.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\Room.cs">
       <Link>RoomManagement\Room.cs</Link>
@@ -87,9 +105,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IO\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
