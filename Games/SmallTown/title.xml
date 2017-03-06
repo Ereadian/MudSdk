@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0"?>
 <ResourceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Resources>
-    <DescriptionData>
-      <Description>
+    <ContentData>
+      <Data>
         小镇风云 
-        {%blue%}version {%white:red%}1.0{%%}
+        {%white:blue%}version {%white:red%}1.0{%%}
         Ereadian 版权所有
-      </Description>
-    </DescriptionData>
-    <DescriptionData Locale="en-us">
-      <Description>Small Town Story</Description>
-    </DescriptionData>
+      </Data>
+    </ContentData>
+    <ContentData Locale="en-us">
+      <Data>Small Town Story</Data>
+    </ContentData>
   </Resources>
 </ResourceData>

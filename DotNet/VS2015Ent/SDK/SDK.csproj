@@ -79,8 +79,8 @@
     <Compile Include="..\..\Source\SDK\GameSettingsData.cs">
       <Link>GameSettingsData.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\DescriptionData.cs">
-      <Link>Globalization\DescriptionData.cs</Link>
+    <Compile Include="..\..\Source\SDK\Globalization\ContentData.cs">
+      <Link>Globalization\ContentData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\LocaleIndex.cs">
       <Link>Globalization\LocaleIndex.cs</Link>

@@ -16,6 +16,6 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         /// <summary>
         /// resource items
         /// </summary>
-        public DescriptionData[] Resources { get; set; }
+        public ContentData[] Resources { get; set; }
     }
 }

@@ -22,16 +22,16 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
 
             var resources = new ResourceData
             {
-                Resources = new DescriptionData[]
+                Resources = new ContentData[]
                 {
-                    new DescriptionData
+                    new ContentData
                     {
-                        Description = "resource default"
+                        Data = "resource default"
                     },
-                    new DescriptionData
+                    new ContentData
                     {
                         Locale="zh-cn",
-                        Description = "中文"
+                        Data = "中文"
                     },
                 }
             };

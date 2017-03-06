@@ -11,7 +11,7 @@ namespace Ereadian.MudSdk.Sdk.Globalization
     /// <summary>
     /// Description data
     /// </summary>
-    public class DescriptionData
+    public class ContentData
     {
         /// <summary>
         /// Gets or sets localize name
@@ -22,6 +22,6 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         /// <summary>
         /// Gets or sets description
         /// </summary>
-        public string Description { get; set; }
+        public string Data { get; set; }
     }
 }

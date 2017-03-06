@@ -42,7 +42,7 @@ namespace Ereadian.MudSdk.Sdk
             {
                 var resource = titleData.Resources[i];
                 var localeId = this.localIndex.GetLocaleId(resource.Locale);
-                var content = ContentUtility.FormalizeContent(resource.Description, this.colors);
+                var content = ContentUtility.FormalizeContent(resource.Data, this.colors);
                 title[i] = new Text(localeId, content);
             }
         }
