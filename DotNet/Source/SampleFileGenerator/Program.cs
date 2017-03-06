@@ -14,12 +14,21 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
     {
         static void Main(string[] args)
         {
+            WriteSettings();
+            WriteResource();
+        }
+
+        private static void WriteSettings()
+        {
             var gameSettings = new GameSettingsData()
             {
                 Locale = "zh-cn",
             };
-            WriteSample("game", gameSettings);
+            Write("game", gameSettings);
+        }
 
+        private static void WriteResource()
+        {
             var resources = new ResourceData
             {
                 Resources = new ContentData[]
@@ -36,10 +45,10 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
                 }
             };
 
-            WriteSample("resources", resources);
+            Write("resources", resources);
         }
 
-        private static void WriteSample<T>(string name, T data)
+        private static void Write<T>(string name, T data)
         {
             var serializer = new Serializer<T>();
             serializer.Serialize(name + ".xml", data);

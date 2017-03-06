@@ -1,15 +1,13 @@
 ﻿<?xml version="1.0"?>
-<ResourceData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Resources>
-    <ContentData>
-      <Data>
-        小镇风云 
-        {%white:blue%}version {%white:red%}1.0{%%}
-        Ereadian 版权所有
-      </Data>
-    </ContentData>
-    <ContentData Locale="en-us">
-      <Data>Small Town Story</Data>
-    </ContentData>
-  </Resources>
-</ResourceData>
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <content>
+    <data>
+      小镇风云
+      {%white:blue%}version {%white:red%}1.0{%%}
+      Ereadian 版权所有
+    </data>
+  </content>
+  <content locale="en-us">
+    <data>Small Town Story</data>
+  </content>
+</resource>

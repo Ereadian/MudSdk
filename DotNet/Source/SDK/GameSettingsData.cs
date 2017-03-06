@@ -6,9 +6,12 @@
 
 namespace Ereadian.MudSdk.Sdk
 {
+    using System.Xml.Serialization;
+
     /// <summary>
     /// Game settings data
     /// </summary>
+    [XmlRoot("settings")]
     public class GameSettingsData
     {
         /// <summary>
@@ -22,6 +25,7 @@ namespace Ereadian.MudSdk.Sdk
         /// <summary>
         /// Gets or sets default locale name
         /// </summary>
+        [XmlElement("locale")]
         public string Locale { get; set; }
     }
 }

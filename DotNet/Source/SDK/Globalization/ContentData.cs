@@ -16,9 +16,10 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         /// <summary>
         /// Gets or sets localize name
         /// </summary>
-        [XmlAttribute]
+        [XmlAttribute("locale")]
         public string Locale { get; set; }
 
+        [XmlElement("data")]
         /// <summary>
         /// Gets or sets description
         /// </summary>

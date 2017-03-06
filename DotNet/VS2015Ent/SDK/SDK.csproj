@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\SDK\ActionManagement\Command.cs">
+      <Link>ActionManagement\Command.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\ColorContent.cs">
       <Link>ContentManagement\ColorContent.cs</Link>
     </Compile>
@@ -100,11 +103,29 @@
     <Compile Include="..\..\Source\SDK\IO\IConnector.cs">
       <Link>IO\IConnector.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\Item.cs">
+      <Link>ItemManagement\Item.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\ItemData.cs">
+      <Link>ItemManagement\ItemData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\ItemType.cs">
+      <Link>ItemManagement\ItemType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\ItemTypeCollectionData.cs">
+      <Link>ItemManagement\ItemTypeCollectionData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ItemManagement\ItemTypeData.cs">
+      <Link>ItemManagement\ItemTypeData.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\Room.cs">
       <Link>RoomManagement\Room.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\RoomData.cs">
       <Link>RoomManagement\RoomData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\RoomManagement\RoomsData.cs">
+      <Link>RoomManagement\RoomsData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Serializer.cs">
       <Link>Serializer.cs</Link>
@@ -114,7 +135,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="CreatureManagement\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
