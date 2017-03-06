@@ -145,11 +145,22 @@
     <Compile Include="..\..\Source\SDK\SystemResources.cs">
       <Link>SystemResources.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\IWorld.cs">
+      <Link>WorldManagement\IWorld.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\IWorldRuntime.cs">
+      <Link>WorldManagement\IWorldRuntime.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\Login\LoginWorld.cs">
+      <Link>WorldManagement\Login\LoginWorld.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\Login\LoginWorldRuntime.cs">
+      <Link>WorldManagement\Login\LoginWorldRuntime.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CreatureManagement\" />
-    <Folder Include="WorldManagement\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
