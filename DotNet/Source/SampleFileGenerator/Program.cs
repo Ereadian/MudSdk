@@ -8,7 +8,9 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
 {
     using System;
     using Ereadian.MudSdk.Sdk;
-    using Sdk.Globalization;
+    using Ereadian.MudSdk.Sdk.RoomManagement;
+    using Ereadian.MudSdk.Sdk.Globalization;
+    using Ereadian.MudSdk.Sdk.WorldManagement;
 
     class Program
     {
@@ -16,6 +18,51 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
         {
             WriteSettings();
             WriteResource();
+            WriteArea();
+        }
+
+
+        private static void WriteArea()
+        {
+            var area = new AreaData
+            {
+                Name = "town",
+                Rooms = new RoomData[]
+                {
+                    new RoomData
+                    {
+                        Name = "backyard",
+                        Title = new ContentData[]
+                        {
+                            new ContentData
+                            {
+                                Locale = "en-us",
+                                Data = "this is backyard"
+                            },
+                            new ContentData
+                            {
+                                Locale="zh-cn",
+                                Data = "这是后院"
+                            },
+                        },
+                        Description = new ContentData[]
+                        {
+                            new ContentData
+                            {
+                                Locale = "en-us",
+                                Data = "lots of flowers"
+                            },
+                            new ContentData
+                            {
+                                Locale="zh-cn",
+                                Data = "好多鲜花盛开"
+                            },
+                        }
+                    },
+                }
+            };
+
+            Write("area", area);
         }
 
         private static void WriteSettings()
@@ -23,6 +70,20 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
             var gameSettings = new GameSettingsData()
             {
                 Locale = "zh-cn",
+                HeartBeat = 100,
+                Worlds = new WorldTypeData[]
+                {
+                    new WorldTypeData()
+                    {
+                        WorldName = "login",
+                        TypeName = "my_type"
+                    },
+                    new WorldTypeData()
+                    {
+                        WorldName = "normal",
+                        TypeName = "normal type"
+                    },
+                },
             };
             Write("game", gameSettings);
         }
@@ -47,6 +108,22 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
                             {
                                 Locale="zh-cn",
                                 Data = "中文"
+                            },
+                        }
+                    },
+                    new ResourceData
+                    {
+                        Name = "name2",
+                        Resources = new ContentData[]
+                        {
+                            new ContentData
+                            {
+                                Data = "another resource"
+                            },
+                            new ContentData
+                            {
+                                Locale="zh-cn",
+                                Data = "中文2"
                             },
                         }
                     }

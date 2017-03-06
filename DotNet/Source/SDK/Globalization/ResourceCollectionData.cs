@@ -23,7 +23,8 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         /// <summary>
         /// Resource list
         /// </summary>
-        [XmlElement("resource")]
+        [XmlArray("resources")]
+        [XmlArrayItem("resource")]
         public ResourceData[] Resources { get; set; }
     }
 }

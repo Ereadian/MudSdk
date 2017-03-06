@@ -6,14 +6,22 @@
 
 namespace Ereadian.MudSdk.Sdk.RoomManagement
 {
+    using System.Xml.Serialization;
+
     /// <summary>
     /// Room data
     /// </summary>
-    public class RoomsData
+    [XmlRoot("area")]
+    public class AreaData
     {
+        [XmlAttribute("name")]
+        public string Name { get; set; }
+
         /// <summary>
         /// Gets or sets room collection data
         /// </summary>
+        [XmlArray("rooms")]
+        [XmlArrayItem("room")]
         public RoomData[] Rooms { get; set; }
     }
 }

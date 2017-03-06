@@ -21,7 +21,7 @@
         {
             this.Client = client;
             this.CurrentGame = game;
-            var world = game.LoginWorld;
+            var world = game.WorldManager.LoginWorld;
             world.Add(this);
             game.ActionableItemManager.Add(this);
         }
@@ -50,6 +50,20 @@
             {
                 this.Outputs.Enqueue(message);
             }
+        }
+
+        public string GetInput()
+        {
+            string input = null;
+            lock (this.Inputs)
+            {
+                if (this.Inputs.Count > 0)
+                {
+                    input = this.Inputs.Dequeue();
+                }
+            }
+
+            return input;
         }
 
         public override void Run()

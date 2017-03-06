@@ -3,6 +3,7 @@
     public enum SystemResources
     {
         EnterUserName,
-        Password
+        EnterPassword,
+        InvalidName,
     }
 }

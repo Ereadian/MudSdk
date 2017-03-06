@@ -14,11 +14,17 @@ namespace Ereadian.MudSdk.Sdk
         /// <summary>
         /// Initializes a new instance of the <see cref="GameSettingsData" /> class.
         /// </summary>
-        public GameSettings(GameSettingsData settings)
+        public GameSettings(GameSettingsData settings, string folder)
         {
+            this.GameFolder = folder;
             this.DefaultLocale = settings.Locale;
             this.HeartBeat = settings.HeartBeat;
         }
+
+        /// <summary>
+        /// Gets game folder
+        /// </summary>
+        public string GameFolder { get; private set; }
 
         /// <summary>
         /// Gets or sets default locale name

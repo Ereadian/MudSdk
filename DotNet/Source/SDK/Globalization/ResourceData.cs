@@ -21,7 +21,8 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         /// <summary>
         /// resource items
         /// </summary>
-        [XmlElement("content")]
+        [XmlArray("contents")]
+        [XmlArrayItem("content")]
         public ContentData[] Resources { get; set; }
     }
 }

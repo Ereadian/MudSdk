@@ -6,7 +6,9 @@
 
 namespace Ereadian.MudSdk.Sdk
 {
+    using System.Collections.Generic;
     using System.Xml.Serialization;
+    using Ereadian.MudSdk.Sdk.WorldManagement;
 
     /// <summary>
     /// Game settings data
@@ -33,5 +35,12 @@ namespace Ereadian.MudSdk.Sdk
         /// </summary>
         [XmlElement("tick")]
         public int HeartBeat { get; set; }
+
+        /// <summary>
+        /// Gets or sets worlds
+        /// </summary>
+        [XmlArray("worlds")]
+        [XmlArrayItem("world")]
+        public WorldTypeData[] Worlds { get; set; }
     }
 }

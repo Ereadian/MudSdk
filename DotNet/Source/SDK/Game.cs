@@ -7,15 +7,13 @@
 namespace Ereadian.MudSdk.Sdk
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading;
-    using Ereadian.MudSdk.Sdk.IO;
-    using Ereadian.MudSdk.Sdk.ContentManagement;
-    using System.IO;
     using System.Diagnostics;
+    using System.IO;
+    using System.Threading;
+    using Ereadian.MudSdk.Sdk.ContentManagement;
     using Ereadian.MudSdk.Sdk.Globalization;
+    using Ereadian.MudSdk.Sdk.IO;
+    using Ereadian.MudSdk.Sdk.RoomManagement;
     using Ereadian.MudSdk.Sdk.WorldManagement;
     using Ereadian.MudSdk.Sdk.WorldManagement.Login;
 
@@ -29,21 +27,18 @@ namespace Ereadian.MudSdk.Sdk
 
         public ColorIndex Colors { get; private set; }
 
-        public IWorld LoginWorld { get; private set; }
+        public RoomManager RoomManager { get; private set; }
 
         public Thread thread;
 
         public ManualResetEventSlim StopEvent { get; private set; }
 
+        public WorldManager WorldManager { get; private set; }
+
         public virtual void Start(string gameFolder)
         {
-            if (LoginWorld == null)
-            {
-                this.RegisterWorld(new LoginWorld());
-            }
-
             // load settings
-            this.Settings = new GameSettings(LoadData<GameSettingsData>(gameFolder, "game"));
+            this.Settings = new GameSettings(LoadData<GameSettingsData>(gameFolder, "game"), Path.GetFullPath(gameFolder));
 
             // create color index
             this.Colors = new ColorIndex();
@@ -53,6 +48,16 @@ namespace Ereadian.MudSdk.Sdk
 
             // Load resource collection
             ResourceCollection.LoadResources(Path.Combine(gameFolder, "contents"), this.Locals, this.Colors);
+
+            // load room manager
+            this.RoomManager = new RoomManager(
+                Path.Combine(gameFolder, "maps"), 
+                this.Locals, 
+                this.Colors);
+
+            // Load World manager
+            this.WorldManager = new WorldManager();
+            this.RegisterWorlds();
 
             // create actionable manager
             this.ActionableItemManager = new ActionableObjectManager();
@@ -89,24 +94,22 @@ namespace Ereadian.MudSdk.Sdk
         {
         }
 
-        public void RegisterWorld(params IWorld[] worlds)
+        public void RegisterWorld(string name, IWorld world)
         {
-            if (worlds != null)
-            {
-                for (var i = 0; i < worlds.Length; i++)
-                {
-                    var world = worlds[i];
-                    if ((this.LoginWorld == null) && world.IsLogingWorld)
-                    {
-                        this.LoginWorld = world;
-                    }
-                }
-            }
+            this.WorldManager.RegisterWorld(name, world);
         }
 
         public IConnector Connect(IClient client)
         {
             return new Connector(this, client);
+        }
+
+        protected virtual void RegisterWorlds()
+        {
+            if (this.WorldManager.LoginWorld == null)
+            {
+                this.RegisterWorld("login", new LoginWorld());
+            }
         }
 
         protected virtual void WriteConsole(string message)

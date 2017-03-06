@@ -11,6 +11,7 @@ namespace Ereadian.MudSdk.Sdk.Globalization
     /// <summary>
     /// Description data
     /// </summary>
+    [XmlRoot("content")]
     public class ContentData
     {
         /// <summary>

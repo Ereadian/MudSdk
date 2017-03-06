@@ -4,6 +4,8 @@
     {
         Enter,
         UserName,
-        Password
+        Password,
+        LoadProfile,
+        CreateProfile,
     }
 }

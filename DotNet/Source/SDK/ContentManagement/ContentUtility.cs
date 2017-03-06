@@ -111,17 +111,18 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
 
         public static IReadOnlyList<Text> CreateText(ResourceData resourceData, LocaleIndex locales,  ColorIndex colors)
         {
+            return (resourceData != null) ? CreateText(resourceData.Resources, locales, colors) : null;
+        }
+
+        public static IReadOnlyList<Text> CreateText(ContentData[] contents, LocaleIndex locales, ColorIndex colors)
+        {
             Text[] textCollection = null;
-            if (resourceData != null)
+            if ((contents != null) && (contents.Length > 0))
             {
-                var resources = resourceData.Resources;
-                if ((resources != null) && (resources.Length > 0))
+                textCollection = new Text[contents.Length];
+                for (var i = 0; i < contents.Length; i++)
                 {
-                    textCollection = new Text[resources.Length];
-                    for (var i = 0; i < resources.Length; i++)
-                    {
-                        textCollection[i] = new Text(resources[i], locales, colors);
-                    }
+                    textCollection[i] = new Text(contents[i], locales, colors);
                 }
             }
 
