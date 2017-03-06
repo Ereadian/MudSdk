@@ -1,11 +1,12 @@
 ﻿namespace Ereadian.MudSdk.Sdk.WorldManagement
 {
+    using Ereadian.MudSdk.Sdk.CreatureManagement;
+
     public interface IWorld
     {
-        /// <summary>
-        /// Create world runtime for player
-        /// </summary>
-        /// <returns>world runtime</returns>
-        IWorldRuntime CreateRuntime();
+        bool IsLogingWorld { get; }
+        void Add(Player player);
+        void Remove(Player player);
+        void Run(Player player);
     }
 }

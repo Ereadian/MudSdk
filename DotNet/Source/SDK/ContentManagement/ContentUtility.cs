@@ -152,7 +152,26 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
 
             return GetContent(contents, LocaleIndex.DefaultLocaleId);
         }
-         
+
+        public static IReadOnlyList<IContent> GetContent<T>(T resourceId, int localeId) 
+            where T: struct
+        {
+            return GetContent(ResourceCollection.GetText(resourceId), localeId);
+        }
+
+        public static Message CreateMessage<T>(T resourceId)
+            where T : struct
+        {
+            return CreateMessage(resourceId, LocaleIndex.DefaultLocaleId, null);
+        }
+
+        public static Message CreateMessage<T>(T resourceId, int localeId, params object[] parameters)
+            where T : struct
+        {
+            var content = GetContent<T>(resourceId, localeId);
+            return new Message(content, parameters);
+        }
+
         /// <summary>
         /// Match processor
         /// </summary>

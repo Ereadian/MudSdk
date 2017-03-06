@@ -2,9 +2,5 @@
 {
     public interface IWorldRuntime
     {
-        /// <summary>
-        /// Gets world
-        /// </summary>
-        IWorld World { get; }
     }
 }

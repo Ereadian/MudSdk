@@ -27,5 +27,11 @@ namespace Ereadian.MudSdk.Sdk
         /// </summary>
         [XmlElement("locale")]
         public string Locale { get; set; }
+
+        /// <summary>
+        /// Gets or sets game heartbeat
+        /// </summary>
+        [XmlElement("tick")]
+        public int HeartBeat { get; set; }
     }
 }

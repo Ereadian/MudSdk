@@ -18,10 +18,9 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// <summary>
         /// Render message
         /// </summary>
-        /// <param name="content">incoming message</param>
+        /// <param name="message">message to render</param>
         /// <param name="colorIndex">color index</param>
-        /// <param name="parameters">message parameters</param>
-        void RenderMessage(IReadOnlyList<IContent> content, ColorIndex colorIndex, IReadOnlyList<object> parameters);
+        void RenderMessage(Message message, ColorIndex colorIndex);
 
         /// <summary>
         /// Disconnect from game

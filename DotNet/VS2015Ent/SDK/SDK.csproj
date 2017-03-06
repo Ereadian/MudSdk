@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Source\SDK\ActionableObject.cs">
+      <Link>ActionableObject.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ActionableObjectManager.cs">
+      <Link>ActionableObjectManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ActionManagement\Command.cs">
       <Link>ActionManagement\Command.cs</Link>
     </Compile>
@@ -58,6 +64,9 @@
     <Compile Include="..\..\Source\SDK\ContentManagement\IContent.cs">
       <Link>ContentManagement\IContent.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\ContentManagement\Message.cs">
+      <Link>ContentManagement\Message.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\ParameterContent.cs">
       <Link>ContentManagement\ParameterContent.cs</Link>
     </Compile>
@@ -66,6 +75,12 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\TextContent.cs">
       <Link>ContentManagement\TextContent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\CreatureManagement\Creature.cs">
+      <Link>CreatureManagement\Creature.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\CreatureManagement\Player.cs">
+      <Link>CreatureManagement\Player.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Executors\ConsoleExecutor.cs">
       <Link>Executors\ConsoleExecutor.cs</Link>
@@ -81,6 +96,9 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\GameSettingsData.cs">
       <Link>GameSettingsData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\GameTitle.cs">
+      <Link>GameTitle.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\ContentData.cs">
       <Link>Globalization\ContentData.cs</Link>
@@ -151,6 +169,9 @@
     <Compile Include="..\..\Source\SDK\WorldManagement\IWorldRuntime.cs">
       <Link>WorldManagement\IWorldRuntime.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\Login\LoginStatus.cs">
+      <Link>WorldManagement\Login\LoginStatus.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\Login\LoginWorld.cs">
       <Link>WorldManagement\Login\LoginWorld.cs</Link>
     </Compile>
@@ -159,9 +180,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CreatureManagement\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

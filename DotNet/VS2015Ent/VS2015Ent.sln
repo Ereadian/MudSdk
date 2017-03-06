@@ -14,7 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SmallTown", "SmallTown", "{53A94F3B-EECF-4237-BDE4-D6BF31ABF53F}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Games\SmallTown\game.xml = ..\..\Games\SmallTown\game.xml
-		..\..\Games\SmallTown\title.xml = ..\..\Games\SmallTown\title.xml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "maps", "maps", "{3EEC2621-3E2A-468E-BC6F-EC084A06AB70}"
@@ -25,6 +24,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "contents", "contents", "{BF72F924-4EE5-4BF6-81A9-2841DB9DDE4F}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Games\SmallTown\contents\system.xml = ..\..\Games\SmallTown\contents\system.xml
+		..\..\Games\SmallTown\contents\title.xml = ..\..\Games\SmallTown\contents\title.xml
 	EndProjectSection
 EndProject
 Global

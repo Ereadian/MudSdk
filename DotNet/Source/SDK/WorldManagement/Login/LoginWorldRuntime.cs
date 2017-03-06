@@ -1,21 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
+﻿namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 {
     public class LoginWorldRuntime : IWorldRuntime
     {
-        public LoginWorldRuntime(IWorld world)
+        public LoginWorldRuntime()
         {
-            this.World = world;
+            this.Status = LoginStatus.Enter;
         }
 
-        /// <summary>
-        /// Gets world
-        /// </summary>
-        public IWorld World { get; private set; }
+        public LoginStatus Status { get; set; }
     }
 }

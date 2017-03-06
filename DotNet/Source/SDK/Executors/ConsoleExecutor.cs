@@ -44,7 +44,10 @@ namespace Ereadian.MudSdk.Sdk.Executors
             while (!quit)
             {
                 var command = Console.ReadLine();
-                connector.RunUserCommand(command);
+                if (!quit)
+                {
+                    connector.RunUserCommand(command);
+                }
             }
         }
     }
