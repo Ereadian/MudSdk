@@ -7,8 +7,8 @@
     {
         public string Name { get; private set; }
 
-        public Room EntryRoom { get; private set; }
-        public Room RespawnRoom { get; private set; }
+        public Room EntryRoom { get; protected set; }
+        public Room RespawnRoom { get; protected set; }
 
         public virtual void Init(string name, Game game)
         {

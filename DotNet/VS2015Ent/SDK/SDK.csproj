@@ -181,6 +181,9 @@
     <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorld.cs">
       <Link>WorldManagement\General\GeneralWorld.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorldData.cs">
+      <Link>WorldManagement\General\GeneralWorldData.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorldRuntime.cs">
       <Link>WorldManagement\General\GeneralWorldRuntime.cs</Link>
     </Compile>

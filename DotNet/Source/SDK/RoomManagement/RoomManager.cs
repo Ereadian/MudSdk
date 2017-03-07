@@ -46,6 +46,16 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
             }
         }
 
+        public Room FindRoom(string fullName)
+        {
+            return FindRoom(this.areas, fullName);
+        }
+
+        public Room FindRoom(string area, string room)
+        {
+            return FindRoom(this.areas, area, room);
+        }
+
         private static Room FindRoom(IReadOnlyDictionary<string, Area> areas, string fullName)
         {
             var name = fullName.Split('.');

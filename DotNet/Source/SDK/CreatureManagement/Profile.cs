@@ -13,11 +13,12 @@
             this.Room = room;
         }
 
-        public Profile(string file, ProfileData data)
+        public Profile(string file, ProfileData data, RoomManager rooms)
         {
             this.File = file;
             this.Name = data.Name;
             this.PasswordHash = data.PasswordHash;
+            this.Room = rooms.FindRoom(data.AreaName, data.RoomName);
         }
 
         public string File { get; private set; }
