@@ -11,6 +11,7 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
     using Ereadian.MudSdk.Sdk.RoomManagement;
     using Ereadian.MudSdk.Sdk.Globalization;
     using Ereadian.MudSdk.Sdk.WorldManagement;
+    using Ereadian.MudSdk.Sdk.WorldManagement.General;
 
     class Program
     {
@@ -19,6 +20,18 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
             WriteSettings();
             WriteResource();
             WriteArea();
+            WriteWorld();
+        }
+
+        private static void WriteWorld()
+        {
+            var data = new GeneralWorldData
+            {
+                EntryRoomName = "newbie:backyard",
+                RespawnRoomName = "newbie:backyard",
+            };
+
+            Write("world", data);
         }
 
         private static void WriteArea()

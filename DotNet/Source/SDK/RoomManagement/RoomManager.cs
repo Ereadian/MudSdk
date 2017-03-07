@@ -34,14 +34,14 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                     var file = files[i];
 
                     var areaData = Singleton<Serializer<AreaData>>.Instance.Deserialize(file);
-                    var area = new Area(areaData, locales, colors);
-                    if (collection.ContainsKey(area.Name))
+                    Area area;
+                    if (!collection.TryGetValue(areaData.Name, out area))
                     {
-                        // TODO: show error
-                        continue;
+                        area = new Area(areaData.Name);
+                        collection.Add(areaData.Name, area);
                     }
 
-                    collection.Add(area.Name, area);
+                    area.Load(areaData, locales, colors);
                 }
             }
         }
@@ -58,8 +58,13 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
 
         private static Room FindRoom(IReadOnlyDictionary<string, Area> areas, string fullName)
         {
-            var name = fullName.Split('.');
-            return FindRoom(areas, name[0], name[1]);
+            var names = fullName.Split('.');
+            if (names.Length < 2)
+            {
+                return null;
+            }
+
+            return FindRoom(areas, names[0], names[1]);
         }
 
         private static Room FindRoom(IReadOnlyDictionary<string, Area> areas, string areaName, string roomName)

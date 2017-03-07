@@ -13,11 +13,17 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
 
     public class Area
 	{
-        public Area(AreaData area, LocaleIndex locales, ColorIndex colors)
+        private Dictionary<string, Room> roomCollection;
+
+        public Area(string name)
         {
-            this.Name = area.Name;
-            var rooms = new Dictionary<string, Room>(StringComparer.OrdinalIgnoreCase);
-            this.Rooms = rooms;
+            this.Name = name;
+            this.roomCollection = new Dictionary<string, Room>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        public void Load(AreaData area, LocaleIndex locales, ColorIndex colors)
+        {
+            var rooms = this.roomCollection;
             for (var i = 0; i < area.Rooms.Length; i++)
             {
                 var roomData = area.Rooms[i];
@@ -31,7 +37,13 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
 
         public string Name { get; set; }
 
-        public IReadOnlyDictionary<string, Room> Rooms { get; private set; }
+        public IReadOnlyDictionary<string, Room> Rooms
+        {
+            get
+            {
+                return this.roomCollection;
+            }
+        }
 	}
 }
 

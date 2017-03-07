@@ -120,6 +120,7 @@ namespace Ereadian.MudSdk.Sdk
                         if (type != null)
                         {
                             world = Activator.CreateInstance(type) as IWorld;
+                            world.Init(worldData.WorldName, this);
                         }
                     }
                     catch
