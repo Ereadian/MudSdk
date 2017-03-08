@@ -11,7 +11,10 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 
         public LoginStatus Status { get; set; }
 
+        public int LocaleId { get; set; }
+
         public string UserName { get; set; }
+
         public string Password { get; set; }
 
         /// <summary>

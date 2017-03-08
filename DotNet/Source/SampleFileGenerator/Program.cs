@@ -21,6 +21,17 @@ namespace Ereadian.MudSdk.Tools.SampleFileGenerator
             WriteResource();
             WriteArea();
             WriteWorld();
+            WriteWorldRuntime();
+        }
+
+        private static void WriteWorldRuntime()
+        {
+            var data = new GeneralWorldRuntimeData
+            {
+                RoomFullName = "newbie.backyard"
+            };
+
+            Write("runtime", data);
         }
 
         private static void WriteWorld()

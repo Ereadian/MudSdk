@@ -4,7 +4,6 @@
     using Ereadian.MudSdk.Sdk.CreatureManagement;
     using Ereadian.MudSdk.Sdk.RoomManagement;
     using System;
-    using System.Collections.Generic;
     using System.Security.Cryptography;
     using System.Text;
     using System.Threading;
@@ -12,13 +11,6 @@
     public class LoginWorld : World
     {
         private static readonly MD5 md5 = MD5.Create();
-        private Message localeNames;
-
-        public override void Init(string name, Game game)
-        {
-            base.Init(name, game);
-            this.localeNames = CreateLocaleList(game);
-        }
 
         public override void Run(Player player)
         {
@@ -30,35 +22,15 @@
 
             string userName = null;
             string password = null;
-            string localeChoice = null;
-            int localeId;
 
             switch (runtime.Status)
             {
                 case LoginStatus.Enter:
                     player.AddOuput(ContentUtility.CreateMessage(GameTitle.Title));
-                    player.AddOuput(this.localeNames);
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.SelectLocale));
                     runtime.Status = LoginStatus.SelectLocale;
                     break;
                 case LoginStatus.SelectLocale:
-                    localeChoice = player.GetInput();
-                    if (string.IsNullOrWhiteSpace(localeChoice))
-                    {
-                        return;
-                    }
-
-                    if (!int.TryParse(localeChoice, out localeId) || (localeId < 1) || (localeId > player.CurrentGame.Locales.LocaleCount))
-                    {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidLocaleId));
-                        player.AddOuput(this.localeNames);
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.SelectLocale));
-                        return;
-                    }
-
-                    runtime.LocaleId = --localeId;
-
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterUserName, runtime.LocaleId));
+                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterUserName));
                     runtime.Status = LoginStatus.EnterUserName;
                     break;
                 case LoginStatus.EnterUserName:
@@ -71,7 +43,7 @@
                     userName = userName.Trim();
                     if (!VerifyInput(userName))
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName, runtime.LocaleId));
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName));
                         return;
                     }
 
@@ -79,13 +51,12 @@
                     runtime.UserProfile = player.CurrentGame.PlayerManager.GetProfile(userName);
                     if (runtime.UserProfile == null)
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser, runtime.LocaleId));
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser));
                         runtime.Status = LoginStatus.CreateProfile;
                     }
                     else
                     {
-                        runtime.UserProfile.LocaleId = runtime.LocaleId;
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterPassword, runtime.LocaleId));
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterPassword));
                         runtime.Status = LoginStatus.VerifyPassword;
                     }
 
@@ -100,7 +71,7 @@
                     password = password.Trim();
                     if (!VerifyInput(password))
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName, runtime.LocaleId));
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName));
                         return;
                     }
 
@@ -118,11 +89,11 @@
                     password = password.Trim();
                     if (!VerifyInput(password))
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName, runtime.LocaleId));
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName));
                         return;
                     }
 
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.ConfirmPassword, runtime.LocaleId));
+                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.ConfirmPassword));
                     runtime.Password = password;
                     runtime.Status = LoginStatus.ConfirmPassword;
                     break;
@@ -136,19 +107,18 @@
 
                     if (password != runtime.Password)
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.PasswordNotMatch, runtime.LocaleId));
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser, runtime.LocaleId));
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.PasswordNotMatch));
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser));
                         runtime.Status = LoginStatus.CreateProfile;
                         return;
                     }
 
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.CreatingAccount, runtime.LocaleId));
+                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.CreatingAccount));
                     player.Profile = new Profile(runtime.UserName, GetHash(runtime.Password));
                     player.Profile.World = player.CurrentGame.WorldManager.StartWorld;
                     runtime.Status = LoginStatus.EnterWorld;
                     break;
                 case LoginStatus.EnterWorld:
-                    player.Profile.LocaleId = runtime.LocaleId;
                     runtime.Status = LoginStatus.Transferring;
                     player.Profile.World.Add(player);
                     break;
@@ -158,10 +128,6 @@
         protected override IWorldRuntime CreateRuntime()
         {
             return new LoginWorldRuntime(this);
-        }
-
-        private void ShowLocaleList(Player player)
-        {
         }
 
         private static bool VerifyInput(string input)
@@ -202,18 +168,19 @@
             return 0 == comparer.Compare(hashOfInput, hash);
         }
 
-        private static Message CreateLocaleList(Game game)
+        private void CreateLocaleList(Game game)
         {
             var locales = game.Locales;
             var list = new IContent[locales.LocaleCount];
             for (var i = 0; i < locales.LocaleCount; i++)
             {
                 var culture = locales.GetCulture(i);
-                var text = string.Format("{0}: {1}({2}){3}", i + 1, culture.NativeName, culture.EnglishName, Environment.NewLine);
-                list[i] = new TextContent(text);
+                var content = new TextContent(string.Format("{0}: {1}({2})", i + 1, culture.NativeName, culture.EnglishName));
             }
+        }
 
-            return new Message(list, null);
+        private void ShowLocaleList(Player player)
+        {
         }
     }
 }

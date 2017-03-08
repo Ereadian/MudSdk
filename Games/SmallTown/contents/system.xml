@@ -1,13 +1,33 @@
 <?xml version="1.0"?>
 <collection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SystemResources">
   <resources>
+    <resource name="SelectLocale">
+      <contents>
+        <content locale="zh-cn">
+          <data>请输入语言编号:</data>
+        </content>
+        <content locale="en-us">
+          <data>Please enter id of langauge:</data>
+        </content>
+      </contents>
+    </resource>
+    <resource name="InvalidLocaleId">
+      <contents>
+        <content locale="zh-cn">
+          <data>错误的语言编号，请重新输入。</data>
+        </content>
+        <content locale="en-us">
+          <data>Invalid language id. Please try again.</data>
+        </content>
+      </contents>
+    </resource>
     <resource name="EnterUserName">
       <contents>
         <content locale="zh-cn">
           <data>请输入用户名</data>
         </content>
         <content locale="en-us">
-          <data>please enter user name</data>
+          <data>Please enter user name</data>
         </content>
       </contents>
     </resource>

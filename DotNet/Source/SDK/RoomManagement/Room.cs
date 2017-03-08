@@ -10,6 +10,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
     using System.Collections.Generic;
     using Ereadian.MudSdk.Sdk.Globalization;
     using Ereadian.MudSdk.Sdk.ContentManagement;
+    using Ereadian.MudSdk.Sdk.CreatureManagement;
 
     public class Room
 	{
@@ -25,6 +26,10 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         public Area Area { get; private set; }
         public IReadOnlyList<Text> Title { get; private set; }
         public IReadOnlyList<Text> Description { get; private set; }
+
+        public void ShowRoom(Player player)
+        {
+        }
 	}
 }
 

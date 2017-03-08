@@ -81,6 +81,17 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         }
 
         /// <summary>
+        /// Gets locale count
+        /// </summary>
+        public int LocaleCount
+        {
+            get
+            {
+                return this.cultures.Count;
+            }
+        }
+
+        /// <summary>
         /// Get locale id by name
         /// </summary>
         /// <param name="localeName">locale name</param>

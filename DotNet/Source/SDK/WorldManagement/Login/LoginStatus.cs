@@ -3,6 +3,7 @@
     public enum LoginStatus
     {
         Enter,
+        SelectLocale,
         EnterUserName,
         VerifyPassword,
         LoadProfile,

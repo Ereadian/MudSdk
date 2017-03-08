@@ -8,6 +8,8 @@
 
     public class GeneralWorld : World
     {
+        private string runtimeDataFolder;
+
         public override void Run(Player player)
         {
             var runtime = this.GetRuntime<GeneralWorldRuntime>(player.WorldRuntime);
@@ -37,11 +39,21 @@
             {
                 this.RespawnRoom = game.RoomManager.FindRoom(data.RespawnRoomName);
             }
+
+            this.runtimeDataFolder = Path.GetFileName(Path.Combine(
+                game.Settings.GameFolder, 
+                Constants.UserFolderName, 
+                Constants.UserWorldRuntimeFolderName, 
+                name));
+            if (!Directory.Exists(this.runtimeDataFolder))
+            {
+                Directory.CreateDirectory(this.runtimeDataFolder);
+            }
         }
 
         public override void Add(Player player)
         {
-            player.AddOuput(ContentUtility.CreateMessage(SystemResources.LoadingUserWorldData));
+            player.AddOuput(ContentUtility.CreateMessage(SystemResources.LoadingUserWorldData, player.Profile.LocaleId));
             ThreadPool.QueueUserWorkItem(AddPlayerTask, Tuple.Create(this, player));
         }
 
@@ -52,7 +64,9 @@
 
         protected override IWorldRuntime CreateRuntime()
         {
-            return new GeneralWorldRuntime(this);
+            var runtime = new GeneralWorldRuntime(this);
+            runtime.Status = WorldStatus.Init;
+            return runtime;
         }
 
         private static void AddPlayerTask(object state)
@@ -63,10 +77,28 @@
 
         private void AddPlayer(Player player)
         {
-            player.Profile.World = this;
-            player.Profile.LastActive = DateTime.UtcNow;
-            player.CurrentGame.PlayerManager.SaveProfile(player.Profile);
             base.Add(player);
+
+            var runtime = this.GetRuntime<GeneralWorldRuntime>(player.WorldRuntime);
+            var profile = player.Profile;
+            player.Profile.LastActive = DateTime.UtcNow;
+            player.CurrentGame.PlayerManager.SaveProfile(player);
+
+            var runtimeFile = Path.Combine(this.runtimeDataFolder, profile.File);
+            if (File.Exists(runtimeFile))
+            {
+                var data = Singleton<Serializer<GeneralWorldRuntimeData>>.Instance.Deserialize(runtimeFile);
+                runtime.Room = player.CurrentGame.RoomManager.FindRoom(data.RoomFullName);
+            }
+
+            if (runtime.Room == null)
+            {
+                runtime.Room = this.EntryRoom;
+            }
+
+            runtime.Room.ShowRoom(player);
+
+            runtime.Status = WorldStatus.Run;
         }
     }
 }

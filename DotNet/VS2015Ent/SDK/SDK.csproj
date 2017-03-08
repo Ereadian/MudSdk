@@ -49,6 +49,9 @@
     <Compile Include="..\..\Source\SDK\ActionManagement\Command.cs">
       <Link>ActionManagement\Command.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\Constants.cs">
+      <Link>Constants.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\ColorContent.cs">
       <Link>ContentManagement\ColorContent.cs</Link>
     </Compile>
@@ -186,6 +189,9 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorldRuntime.cs">
       <Link>WorldManagement\General\GeneralWorldRuntime.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorldRuntimeData.cs">
+      <Link>WorldManagement\General\GeneralWorldRuntimeData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\General\WorldStatus.cs">
       <Link>WorldManagement\General\WorldStatus.cs</Link>

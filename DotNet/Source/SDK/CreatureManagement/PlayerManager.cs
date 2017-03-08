@@ -9,15 +9,15 @@
 
     public class PlayerManager
     {
-        private string userFolder;
         private string profileFolder;
+        private string userFolder;
 
         private ConcurrentDictionary<string, Profile> profiles;
 
         public PlayerManager(string root, Game game)
         {
-            this.userFolder = GetFolderName(root, "users");
-            this.profileFolder = GetFolderName(this.userFolder, "profile");
+            this.userFolder = GetFolderName(root, Constants.UserFolderName);
+            this.profileFolder = GetFolderName(this.userFolder, Constants.ProfileFolderName);
 
             this.profiles = new ConcurrentDictionary<string, Profile>(StringComparer.OrdinalIgnoreCase);
             var files = Directory.GetFiles(this.profileFolder);
@@ -59,12 +59,14 @@
             return true;
         }
 
-        public void SaveProfile(Profile profile)
+        public void SaveProfile(Player player)
         {
+            var profile = player.Profile;
             var data = new ProfileData
             {
                 Name = profile.Name,
-                PasswordHash = profile.PasswordHash
+                PasswordHash = profile.PasswordHash,
+                LocaleName = player.CurrentGame.Locales.GetCulture(profile.LocaleId).Name,
             };
 
             Singleton<Serializer<ProfileData>>.Instance.Serialize(Path.Combine(this.profileFolder, profile.File), data);

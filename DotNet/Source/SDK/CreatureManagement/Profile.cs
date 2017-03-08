@@ -18,6 +18,7 @@
             this.File = file;
             this.Name = data.Name;
             this.PasswordHash = data.PasswordHash;
+
             this.World = worldManager.GetWorld(data.WorldName) ?? worldManager.StartWorld;
         }
 
@@ -30,5 +31,7 @@
         public IWorld World { get; set; }
 
         public DateTime LastActive { get; set; }
+
+        public int LocaleId { get; set; }
     }
 }

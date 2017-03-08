@@ -6,16 +6,19 @@
     [XmlRoot("profile")]
     public class ProfileData
     {
-        [XmlAttribute("name")]
+        [XmlElement("name")]
         public string Name { get; set; }
 
-        [XmlAttribute("password")]
+        [XmlElement("password")]
         public string PasswordHash { get; set; }
 
-        [XmlAttribute("world")]
+        [XmlElement("locale")]
+        public string LocaleName { get; set; }
+
+        [XmlElement("world")]
         public string WorldName { get; set; }
 
-        [XmlAttribute("active")]
+        [XmlElement("active")]
         public DateTime LastActive { get; set; }
     }
 }
