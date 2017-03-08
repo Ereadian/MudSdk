@@ -1,5 +1,6 @@
 ﻿namespace Ereadian.MudSdk.Sdk.CreatureManagement
 {
+    using System;
     using System.Xml.Serialization;
 
     [XmlRoot("profile")]
@@ -11,10 +12,10 @@
         [XmlAttribute("password")]
         public string PasswordHash { get; set; }
 
-        [XmlAttribute("area")]
-        public string AreaName { get; set; }
+        [XmlAttribute("world")]
+        public string WorldName { get; set; }
 
-        [XmlAttribute("room")]
-        public string RoomName { get; set; }
+        [XmlAttribute("active")]
+        public DateTime LastActive { get; set; }
     }
 }

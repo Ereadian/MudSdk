@@ -14,7 +14,7 @@
 
         private ConcurrentDictionary<string, Profile> profiles;
 
-        public PlayerManager(string root, RoomManager rooms)
+        public PlayerManager(string root, Game game)
         {
             this.userFolder = GetFolderName(root, "users");
             this.profileFolder = GetFolderName(this.userFolder, "profile");
@@ -27,7 +27,7 @@
                 {
                     var file = files[i];
                     var profileData = Singleton<Serializer<ProfileData>>.Instance.Deserialize(file);
-                    var profile = new Profile(Path.GetFileName(file), profileData, rooms);
+                    var profile = new Profile(Path.GetFileName(file), profileData, game.WorldManager);
                     if (!this.profiles.TryAdd(profile.Name, profile))
                     {
                         // TODO: show error
@@ -53,12 +53,21 @@
             {
                 Name = profile.Name,
                 PasswordHash = profile.PasswordHash,
-                AreaName = profile.Room.Area.Name,
-                RoomName = profile.Room.Name
             };
 
             Singleton<Serializer<ProfileData>>.Instance.Serialize(this.profileFolder, data);
             return true;
+        }
+
+        public void SaveProfile(Profile profile)
+        {
+            var data = new ProfileData
+            {
+                Name = profile.Name,
+                PasswordHash = profile.PasswordHash
+            };
+
+            Singleton<Serializer<ProfileData>>.Instance.Serialize(Path.Combine(this.profileFolder, profile.File), data);
         }
 
         private static string GetFolderName(string root, string folder)

@@ -3,9 +3,12 @@
     public enum LoginStatus
     {
         Enter,
-        UserName,
-        Password,
+        EnterUserName,
+        VerifyPassword,
         LoadProfile,
         CreateProfile,
+        ConfirmPassword,
+        EnterWorld,
+        Transferring,
     }
 }

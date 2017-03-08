@@ -40,5 +40,11 @@
                 this.StartWorld = world;
             }
         }
+
+        public IWorld GetWorld(string name)
+        {
+            IWorld world = null;
+            return !string.IsNullOrEmpty(name) && this.worlds.TryGetValue(name, out world) ? world : null;
+        }
     }
 }

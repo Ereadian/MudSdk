@@ -2,7 +2,10 @@
 {
     using Ereadian.MudSdk.Sdk.CreatureManagement;
 
-    public class GeneralWorldRuntime : IWorldRuntime
+    public class GeneralWorldRuntime : WorldRuntime
     {
+        public GeneralWorldRuntime(GeneralWorld world) : base(world)
+        {
+        }
     }
 }

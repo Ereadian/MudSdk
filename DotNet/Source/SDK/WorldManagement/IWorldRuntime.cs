@@ -2,5 +2,6 @@
 {
     public interface IWorldRuntime
     {
+        IWorld World { get; }
     }
 }

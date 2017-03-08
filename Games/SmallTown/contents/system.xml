@@ -31,5 +31,55 @@
         </content>
       </contents>
     </resource>
+    <resource name="NewUser">
+      <contents>
+        <content locale="zh-cn">
+          <data>欢迎加入游戏。系统正在为您建立账号。请输入您新账号的密码:</data>
+        </content>
+        <content locale="en-us">
+          <data>Welcome to the game! we are creating profile for you. Please enter password for your account:</data>
+        </content>
+      </contents>
+    </resource>
+    <resource name="ConfirmPassword">
+      <contents>
+        <content locale="zh-cn">
+          <data>请再次输入您的密码:</data>
+        </content>
+        <content locale="en-us">
+          <data>Please re-enter password:</data>
+        </content>
+      </contents>
+    </resource>
+    <resource name="PasswordNotMatch">
+      <contents>
+        <content locale="zh-cn">
+          <data>密码不一致。请重新创建密码。</data>
+        </content>
+        <content locale="en-us">
+          <data>Password does not match. Please re-create password.</data>
+        </content>
+      </contents>
+    </resource>
+    <resource name="CreatingAccount">
+      <contents>
+        <content locale="zh-cn">
+          <data>创建游戏账号中。。。</data>
+        </content>
+        <content locale="en-us">
+          <data>Creating account ...</data>
+        </content>
+      </contents>
+    </resource>
+    <resource name="LoadingUserWorldData">
+      <contents>
+        <content locale="zh-cn">
+          <data>加载玩家数据。。。</data>
+        </content>
+        <content locale="en-us">
+          <data>Loading player game data ...</data>
+        </content>
+      </contents>
+    </resource>
   </resources>
 </collection>

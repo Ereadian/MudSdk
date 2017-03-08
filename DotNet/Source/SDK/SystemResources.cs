@@ -5,5 +5,11 @@
         EnterUserName,
         EnterPassword,
         InvalidName,
+        NewUser,
+        ConfirmPassword,
+        PasswordNotMatch,
+        CreatingAccount,
+
+        LoadingUserWorldData,
     }
 }

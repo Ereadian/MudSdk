@@ -6,6 +6,7 @@
     using System;
     using System.Security.Cryptography;
     using System.Text;
+    using System.Threading;
 
     public class LoginWorld : World
     {
@@ -14,34 +15,52 @@
 
         public override void Run(Player player)
         {
-            var runtime = player.WorldRuntime as LoginWorldRuntime;
+            var runtime = this.GetRuntime<LoginWorldRuntime>(player.WorldRuntime);
+            if (runtime == null)
+            {
+                return;
+            }
+
+            string userName = null;
+            string password = null;
+
             switch (runtime.Status)
             {
                 case LoginStatus.Enter:
                     player.AddOuput(ContentUtility.CreateMessage(GameTitle.Title));
                     player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterUserName));
-                    runtime.Status = LoginStatus.UserName;
+                    runtime.Status = LoginStatus.EnterUserName;
                     break;
-                case LoginStatus.UserName:
-                    var name = player.GetInput();
-                    if (string.IsNullOrWhiteSpace(name))
+                case LoginStatus.EnterUserName:
+                    userName = player.GetInput();
+                    if (string.IsNullOrWhiteSpace(userName))
                     {
                         return;
                     }
 
-                    name = name.Trim();
-                    if (!VerifyInput(name))
+                    userName = userName.Trim();
+                    if (!VerifyInput(userName))
                     {
                         player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName));
                         return;
                     }
 
-                    runtime.UserName = name;
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterPassword));
-                    runtime.Status = LoginStatus.Password;
+                    runtime.UserName = userName;
+                    runtime.UserProfile = player.CurrentGame.PlayerManager.GetProfile(userName);
+                    if (runtime.UserProfile == null)
+                    {
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser));
+                        runtime.Status = LoginStatus.CreateProfile;
+                    }
+                    else
+                    {
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterPassword));
+                        runtime.Status = LoginStatus.VerifyPassword;
+                    }
+
                     break;
-                case LoginStatus.Password:
-                    var password = player.GetInput();
+                case LoginStatus.VerifyPassword:
+                    password = player.GetInput();
                     if (string.IsNullOrWhiteSpace(password))
                     {
                         return;
@@ -54,15 +73,59 @@
                         return;
                     }
 
-                    runtime.PasswordHash = GetHash(password);
-                    runtime.Status = LoginStatus.Password;
+                    runtime.Password = password;
+                    player.Profile = runtime.UserProfile;
+                    runtime.Status = LoginStatus.EnterWorld;
+                    break;
+                case LoginStatus.CreateProfile:
+                    password = player.GetInput();
+                    if (string.IsNullOrWhiteSpace(password))
+                    {
+                        return;
+                    }
+
+                    password = password.Trim();
+                    if (!VerifyInput(password))
+                    {
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName));
+                        return;
+                    }
+
+                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.ConfirmPassword));
+                    runtime.Password = password;
+                    runtime.Status = LoginStatus.ConfirmPassword;
+                    break;
+
+                case LoginStatus.ConfirmPassword:
+                    password = player.GetInput();
+                    if (string.IsNullOrWhiteSpace(password))
+                    {
+                        return;
+                    }
+
+                    if (password != runtime.Password)
+                    {
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.PasswordNotMatch));
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser));
+                        runtime.Status = LoginStatus.CreateProfile;
+                        return;
+                    }
+
+                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.CreatingAccount));
+                    player.Profile = new Profile(runtime.UserName, GetHash(runtime.Password));
+                    player.Profile.World = player.CurrentGame.WorldManager.StartWorld;
+                    runtime.Status = LoginStatus.EnterWorld;
+                    break;
+                case LoginStatus.EnterWorld:
+                    runtime.Status = LoginStatus.Transferring;
+                    player.Profile.World.Add(player);
                     break;
             }
         }
 
         protected override IWorldRuntime CreateRuntime()
         {
-            return new LoginWorldRuntime();
+            return new LoginWorldRuntime(this);
         }
 
         private static bool VerifyInput(string input)

@@ -17,6 +17,7 @@ namespace Ereadian.MudSdk.Sdk
     using Ereadian.MudSdk.Sdk.WorldManagement;
     using Ereadian.MudSdk.Sdk.WorldManagement.Login;
     using Ereadian.MudSdk.Sdk.WorldManagement.General;
+    using Ereadian.MudSdk.Sdk.CreatureManagement;
 
     public class Game
     {
@@ -29,6 +30,8 @@ namespace Ereadian.MudSdk.Sdk
         public ColorIndex Colors { get; private set; }
 
         public RoomManager RoomManager { get; private set; }
+
+        public PlayerManager PlayerManager { get; private set; }
 
         public Thread thread;
 
@@ -63,6 +66,9 @@ namespace Ereadian.MudSdk.Sdk
 
             // create actionable manager
             this.ActionableItemManager = new ActionableObjectManager();
+
+            // load player manager
+            this.PlayerManager = new PlayerManager(gameFolder, this);
 
             this.StopEvent = new ManualResetEventSlim(false);
             this.thread = new Thread(RunGame);

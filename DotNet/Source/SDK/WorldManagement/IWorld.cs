@@ -5,6 +5,8 @@
 
     public interface IWorld
     {
+        int Id { get; }
+
         string Name { get; }
 
         void Init(string name, Game game);

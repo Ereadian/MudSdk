@@ -28,6 +28,7 @@
 
         public Game CurrentGame { get; private set; }
         public IClient Client { get; private set; }
+        public Profile Profile { get; set; }
 
         public IWorld World { get; set; }
         public IWorldRuntime WorldRuntime { get; set; }
