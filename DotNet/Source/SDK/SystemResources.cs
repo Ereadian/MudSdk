@@ -7,6 +7,7 @@
         EnterUserName,
         EnterPassword,
         InvalidName,
+        InvalidPassword,
         NewUser,
         ConfirmPassword,
         PasswordNotMatch,

@@ -76,15 +76,15 @@
                     }
 
                     runtime.UserName = userName;
-                    runtime.UserProfile = player.CurrentGame.PlayerManager.GetProfile(userName);
-                    if (runtime.UserProfile == null)
+                    player.Profile = player.CurrentGame.PlayerManager.GetProfile(userName);
+                    if (player.Profile == null)
                     {
                         player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser, runtime.LocaleId));
                         runtime.Status = LoginStatus.CreateProfile;
                     }
                     else
                     {
-                        runtime.UserProfile.LocaleId = runtime.LocaleId;
+                        player.Profile.LocaleId = runtime.LocaleId;
                         player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterPassword, runtime.LocaleId));
                         runtime.Status = LoginStatus.VerifyPassword;
                     }
@@ -104,8 +104,13 @@
                         return;
                     }
 
+                    if (player.Profile.PasswordHash != GetHash(password))
+                    {
+                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidPassword, runtime.LocaleId));
+                        return;
+                    }
+
                     runtime.Password = password;
-                    player.Profile = runtime.UserProfile;
                     runtime.Status = LoginStatus.EnterWorld;
                     break;
                 case LoginStatus.CreateProfile:

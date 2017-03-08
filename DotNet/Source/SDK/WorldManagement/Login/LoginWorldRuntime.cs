@@ -16,10 +16,5 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
         public string UserName { get; set; }
 
         public string Password { get; set; }
-
-        /// <summary>
-        /// Gets or sets player profile
-        /// </summary>
-        public Profile UserProfile {get;set;}
     }
 }

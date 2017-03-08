@@ -14,10 +14,10 @@
     <resource name="InvalidLocaleId">
       <contents>
         <content locale="zh-cn">
-          <data>错误的语言编号，请重新输入。</data>
+          <data>{%red%}错误的语言编号，请重新输入。{%%}</data>
         </content>
         <content locale="en-us">
-          <data>Invalid language id. Please try again.</data>
+          <data>{%red%}Invalid language id. Please try again.{%%}</data>
         </content>
       </contents>
     </resource>
@@ -44,10 +44,20 @@
     <resource name="InvalidName">
       <contents>
         <content locale="zh-cn">
-          <data>用户名只能包含字母数字和小数点</data>
+          <data>{%red%}用户名只能包含字母数字和小数点{%%}</data>
         </content>
         <content locale="en-us">
-          <data>user name should contain letter, number and dot only</data>
+          <data>{%red%}User name should contain letter, number and dot only{%%}</data>
+        </content>
+      </contents>
+    </resource>
+    <resource name="InvalidPassword">
+      <contents>
+        <content locale="zh-cn">
+          <data>{%red%}密码不正确，请重试。{%%}</data>
+        </content>
+        <content locale="en-us">
+          <data>{%red%}Password is not correct. Please try again.{%%}</data>
         </content>
       </contents>
     </resource>
@@ -74,10 +84,10 @@
     <resource name="PasswordNotMatch">
       <contents>
         <content locale="zh-cn">
-          <data>密码不一致。请重新创建密码。</data>
+          <data>{%red%}密码不一致。请重新创建密码。{%%}</data>
         </content>
         <content locale="en-us">
-          <data>Password does not match. Please re-create password.</data>
+          <data>{%red%}Password does not match. Please re-create password.{%%}</data>
         </content>
       </contents>
     </resource>
