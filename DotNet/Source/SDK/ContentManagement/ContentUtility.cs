@@ -27,6 +27,9 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                 new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>(
                     new KeyValuePair<string, string>("{#", "#}"),
                     (content, start, end, colorIndex) => new ParameterContent(content, start, end)),
+                new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>(
+                    new KeyValuePair<string, string>("{!", "!}"),
+                    (content, start, end, colorIndex) => new BlankContent(content, start, end)),
             };
 
         /// <summary>

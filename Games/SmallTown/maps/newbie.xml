@@ -15,7 +15,7 @@
           <data>lots of flowers</data>
         </content>
         <content locale="zh-cn">
-          <data>好多鲜花盛开</data>
+          <data>好多鲜花盛开{!!}葡萄架下有一个石桌和四个石凳。</data>
         </content>
       </description>
     </room>

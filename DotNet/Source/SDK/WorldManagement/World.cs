@@ -36,7 +36,7 @@
                 player.World.Remove(player);
             }
 
-            player.WorldRuntime = this.CreateRuntime();
+            player.WorldRuntime = this.CreateRuntime(player);
             player.World = this;
         }
 
@@ -47,7 +47,7 @@
 
         public abstract void Run(Player player);
 
-        protected abstract IWorldRuntime CreateRuntime();
+        protected abstract IWorldRuntime CreateRuntime(Player player);
 
         protected T GetRuntime<T>(IWorldRuntime runtime) where T : class, IWorldRuntime
         {

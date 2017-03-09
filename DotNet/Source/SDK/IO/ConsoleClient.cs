@@ -15,6 +15,13 @@ namespace Ereadian.MudSdk.Sdk.IO
     /// </summary>
     public class ConsoleClient : IClient
     {
+        private static readonly IReadOnlyDictionary<string, string> BlankTextMapping
+            = new Dictionary<string, string>
+            {
+                { "l", Environment.NewLine },
+                { "b", " " },
+            };
+
         private readonly Action DisconnectConectClient;
 
         public ConsoleClient(Action disconnectConectClient)
@@ -60,6 +67,20 @@ namespace Ereadian.MudSdk.Sdk.IO
                             if (value != null)
                             {
                                 Console.Write(value.ToString());
+                            }
+
+                            break;
+                        case ContentType.Blank:
+                            var blankContent = data as BlankContent;
+                            string output;
+                            if (!BlankTextMapping.TryGetValue(blankContent.Text, out output))
+                            {
+                                output = Environment.NewLine;
+                            }
+
+                            for (var j = 0; j < blankContent.Count; j++)
+                            {
+                                Console.Write(output);
                             }
 
                             break;

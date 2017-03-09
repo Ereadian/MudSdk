@@ -8,7 +8,7 @@
 
     public class GeneralWorld : World
     {
-        private string runtimeDataFolder;
+        public  string RuntimeDataFolder { get; set; }
 
         public override void Run(Player player)
         {
@@ -16,6 +16,14 @@
             if (runtime == null)
             {
                 return;
+            }
+
+            switch (runtime.Status)
+            {
+                case WorldStatus.Enter:
+                    runtime.Room.ShowRoom(player);
+                    runtime.Status = WorldStatus.Run;
+                    break;
             }
         }
 
@@ -40,14 +48,14 @@
                 this.RespawnRoom = game.RoomManager.FindRoom(data.RespawnRoomName);
             }
 
-            this.runtimeDataFolder = Path.GetFileName(Path.Combine(
+            this.RuntimeDataFolder = Path.GetFullPath(Path.Combine(
                 game.Settings.GameFolder, 
                 Constants.UserFolderName, 
                 Constants.UserWorldRuntimeFolderName, 
                 name));
-            if (!Directory.Exists(this.runtimeDataFolder))
+            if (!Directory.Exists(this.RuntimeDataFolder))
             {
-                Directory.CreateDirectory(this.runtimeDataFolder);
+                Directory.CreateDirectory(this.RuntimeDataFolder);
             }
         }
 
@@ -59,14 +67,19 @@
 
         public override void Remove(Player player)
         {
+            var runtime = this.GetRuntime(player);
+            runtime.Save(player);
             base.Remove(player);
         }
 
-        protected override IWorldRuntime CreateRuntime()
+        protected override IWorldRuntime CreateRuntime(Player player)
         {
-            var runtime = new GeneralWorldRuntime(this);
-            runtime.Status = WorldStatus.Init;
-            return runtime;
+            return new GeneralWorldRuntime(player, this);
+        }
+
+        private GeneralWorldRuntime GetRuntime(Player player)
+        {
+            return this.GetRuntime<GeneralWorldRuntime>(player.WorldRuntime); ;
         }
 
         private static void AddPlayerTask(object state)
@@ -79,26 +92,18 @@
         {
             base.Add(player);
 
-            var runtime = this.GetRuntime<GeneralWorldRuntime>(player.WorldRuntime);
+            var runtime = GetRuntime(player);
             var profile = player.Profile;
             player.Profile.LastActive = DateTime.UtcNow;
             player.CurrentGame.PlayerManager.SaveProfile(player);
 
-            var runtimeFile = Path.Combine(this.runtimeDataFolder, profile.File);
-            if (File.Exists(runtimeFile))
-            {
-                var data = Singleton<Serializer<GeneralWorldRuntimeData>>.Instance.Deserialize(runtimeFile);
-                runtime.Room = player.CurrentGame.RoomManager.FindRoom(data.RoomFullName);
-            }
 
             if (runtime.Room == null)
             {
                 runtime.Room = this.EntryRoom;
             }
 
-            runtime.Room.ShowRoom(player);
-
-            runtime.Status = WorldStatus.Run;
+            runtime.Status = WorldStatus.Enter;
         }
     }
 }

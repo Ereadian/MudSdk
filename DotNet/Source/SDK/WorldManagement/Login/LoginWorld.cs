@@ -110,7 +110,6 @@
                         return;
                     }
 
-                    runtime.Password = password;
                     runtime.Status = LoginStatus.EnterWorld;
                     break;
                 case LoginStatus.CreateProfile:
@@ -160,7 +159,7 @@
             }
         }
 
-        protected override IWorldRuntime CreateRuntime()
+        protected override IWorldRuntime CreateRuntime(Player player)
         {
             return new LoginWorldRuntime(this);
         }

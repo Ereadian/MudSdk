@@ -24,6 +24,14 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// <summary>
         /// pure text
         /// </summary>
-        Text
+        Text,
+
+        /// <summary>
+        /// Blank content
+        /// </summary>
+        /// <remarks>
+        /// For example, new line, tab, etc.
+        /// </remarks>
+        Blank,
     }
 }
