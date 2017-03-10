@@ -20,7 +20,7 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// </summary>
         /// <param name="message">message to render</param>
         /// <param name="colorIndex">color index</param>
-        void RenderMessage(Message message, ColorIndex colorIndex);
+        void RenderMessage(Message message);
 
         /// <summary>
         /// Disconnect from game

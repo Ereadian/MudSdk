@@ -98,7 +98,7 @@
             var client = player.Client;
             for (var i = 0; i < messages.Count; i++)
             {
-                client.RenderMessage(messages[i], player.CurrentGame.Colors);
+                client.RenderMessage(messages[i]);
             }
         }
     }

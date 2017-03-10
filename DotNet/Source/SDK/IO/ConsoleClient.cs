@@ -23,9 +23,11 @@ namespace Ereadian.MudSdk.Sdk.IO
             };
 
         private readonly Action DisconnectConectClient;
+        private readonly Game game;
 
-        public ConsoleClient(Action disconnectConectClient)
+        public ConsoleClient(Game game, Action disconnectConectClient)
         {
+            this.game = game;
             this.DisconnectConectClient = disconnectConectClient;
         }
 
@@ -39,8 +41,9 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// </summary>
         /// <param name="message">message to render</param>
         /// <param name="colorIndex">color index</param>
-        public void RenderMessage(Message message, ColorIndex colorIndex)
+        public void RenderMessage(Message message)
         {
+            ColorIndex colorIndex = this.game.Colors;
             var currentForegroundColor = Console.ForegroundColor;
             var currenBackgroundColor = Console.BackgroundColor;
             var content = message.Template;
@@ -81,6 +84,14 @@ namespace Ereadian.MudSdk.Sdk.IO
                             for (var j = 0; j < blankContent.Count; j++)
                             {
                                 Console.Write(output);
+
+                                if (output == Environment.NewLine)
+                                {
+                                    for (var k = 1; k < this.game.Settings.LineSpace; k++)
+                                    {
+                                        Console.WriteLine();
+                                    }
+                                }
                             }
 
                             break;
@@ -94,7 +105,10 @@ namespace Ereadian.MudSdk.Sdk.IO
 
             Console.ForegroundColor = currentForegroundColor;
             Console.BackgroundColor = currenBackgroundColor;
-            Console.WriteLine();
+            for (var i = 0; i < this.game.Settings.LineSpace; i++)
+            {
+                Console.WriteLine();
+            }
         }
 
         /// <summary>

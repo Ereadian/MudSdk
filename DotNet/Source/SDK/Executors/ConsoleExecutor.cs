@@ -38,7 +38,7 @@ namespace Ereadian.MudSdk.Sdk.Executors
             game.Start(gamefolder);
 
             var quit = false;
-            var client = new ConsoleClient(() => quit = true);
+            var client = new ConsoleClient(game, () => quit = true);
             var connector = game.Connect(client);
 
             while (!quit)

@@ -42,6 +42,9 @@ namespace Ereadian.MudSdk.Sdk
         [XmlElement("start")]
         public string StartWorldName { get; set; }
 
+        [XmlElement("lines")]
+        public int LineSpace { get; set; }
+
         /// <summary>
         /// Gets or sets worlds
         /// </summary>

@@ -6,6 +6,8 @@
 
 namespace Ereadian.MudSdk.Sdk
 {
+    using System;
+
     /// <summary>
     /// Game settings data
     /// </summary>
@@ -19,6 +21,7 @@ namespace Ereadian.MudSdk.Sdk
             this.GameFolder = folder;
             this.DefaultLocale = settings.Locale;
             this.HeartBeat = settings.HeartBeat;
+            this.LineSpace = Math.Max(1, settings.LineSpace);
         }
 
         /// <summary>
@@ -35,5 +38,10 @@ namespace Ereadian.MudSdk.Sdk
         /// Gets or sets game heartbeat
         /// </summary>
         public int HeartBeat { get; private set; }
+
+        /// <summary>
+        /// Gets or sets line spaces between paragraph
+        /// </summary>
+        public int LineSpace { get; set; }
     }
 }
