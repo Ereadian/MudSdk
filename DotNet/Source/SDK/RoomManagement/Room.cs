@@ -11,22 +11,28 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
     using System.Globalization;
     using Ereadian.MudSdk.Sdk.Globalization;
     using Ereadian.MudSdk.Sdk.ContentManagement;
-    using Ereadian.MudSdk.Sdk.CreatureManagement;
+    using Ereadian.MudSdk.Sdk.CreatureManagement; 
 
     public class Room
 	{
-        public Room(Area area, RoomData data, LocaleIndex locales, ColorIndex colors)
+        public Room(
+            string areaName,
+            RoomData data, 
+            LocaleManager locales, 
+            ColorManager colors,
+            Func<string, string, int> getRoomIdFunction)
         {
-            this.Area = area;
+            this.AreaName = areaName;
             this.Name = data.Name;
             this.Title = ContentUtility.CreateText(data.Title, locales, colors);
             this.Description = ContentUtility.CreateText(data.Description, locales, colors);
         }
 
         public string Name { get; private set; }
-        public Area Area { get; private set; }
+        public string AreaName { get; private set; }
         public IReadOnlyList<Text> Title { get; private set; }
         public IReadOnlyList<Text> Description { get; private set; }
+        public IReadOnlyDictionary<string, int> Outlets { get; private set; }
 
         /// <summary>
         /// Gets room full name
@@ -37,13 +43,19 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
             {
                 return string.Format(
                     CultureInfo.InvariantCulture,
-                    "{0}.{1}",
-                    this.Area.Name,
+                    "{0}{1}{2}",
+                    this.AreaName,
+                    RoomManager.AreaSeparatorChar,
                     this.Name);
             }
         }
 
-        public void ShowRoom(Player player)
+        public virtual void ShowRoom(Player player)
+        {
+            this.ShowRoomDescription(player);
+        }
+
+        public virtual void ShowRoomDescription(Player player)
         {
             player.AddOuput(Message.NewLineMessage);
             player.AddOuput(new Message(this.Title, player.Profile.LocaleId, null));

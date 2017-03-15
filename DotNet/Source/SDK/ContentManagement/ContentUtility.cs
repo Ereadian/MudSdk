@@ -18,16 +18,16 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// <summary>
         /// Content processors
         /// </summary>
-        private static readonly IReadOnlyList<KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>> ContentProcessors
-            = new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>[]
+        private static readonly IReadOnlyList<KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>> ContentProcessors
+            = new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>[]
             {
-                new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>(
+                new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>(
                     new KeyValuePair<string, string>("{%", "%}"),
                     (content, start, end, colorIndex) => new ColorContent(content, start, end, colorIndex)),
-                new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>(
+                new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>(
                     new KeyValuePair<string, string>("{#", "#}"),
                     (content, start, end, colorIndex) => new ParameterContent(content, start, end)),
-                new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorIndex, IContent>>(
+                new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>(
                     new KeyValuePair<string, string>("{!", "!}"),
                     (content, start, end, colorIndex) => new BlankContent(content, start, end)),
             };
@@ -73,7 +73,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// <param name="text">raw text</param>
         /// <param name="colorIndex">color index</param>
         /// <returns>content list</returns>
-        public static IReadOnlyList<IContent> FormalizeContent(string text, ColorIndex colorIndex)
+        public static IReadOnlyList<IContent> FormalizeContent(string text, ColorManager colorIndex)
         {
             var list = new List<IContent>();
             if (text != null)
@@ -112,12 +112,12 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
             return (list != null) && (list.Count > 0) ? list.ToArray() : null;
         }
 
-        public static IReadOnlyList<Text> CreateText(ResourceData resourceData, LocaleIndex locales,  ColorIndex colors)
+        public static IReadOnlyList<Text> CreateText(ResourceData resourceData, LocaleManager locales,  ColorManager colors)
         {
             return (resourceData != null) ? CreateText(resourceData.Resources, locales, colors) : null;
         }
 
-        public static IReadOnlyList<Text> CreateText(ContentData[] contents, LocaleIndex locales, ColorIndex colors)
+        public static IReadOnlyList<Text> CreateText(ContentData[] contents, LocaleManager locales, ColorManager colors)
         {
             Text[] textCollection = null;
             if ((contents != null) && (contents.Length > 0))
@@ -149,12 +149,12 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                 }
             }
 
-            if (localeId == LocaleIndex.DefaultLocaleId)
+            if (localeId == LocaleManager.DefaultLocaleId)
             {
                 return contents[0].Content;
             }
 
-            return GetContent(contents, LocaleIndex.DefaultLocaleId);
+            return GetContent(contents, LocaleManager.DefaultLocaleId);
         }
 
         public static IReadOnlyList<IContent> GetContent<T>(T resourceId, int localeId) 
@@ -166,7 +166,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         public static Message CreateMessage<T>(T resourceId)
             where T : struct
         {
-            return CreateMessage(resourceId, LocaleIndex.DefaultLocaleId, null);
+            return CreateMessage(resourceId, LocaleManager.DefaultLocaleId, null);
         }
 
         public static Message CreateMessage<T>(T resourceId, int localeId, params object[] parameters)

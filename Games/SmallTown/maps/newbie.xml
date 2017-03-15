@@ -18,6 +18,10 @@
           <data>这是一块很大的草坪，周围种满了各种鲜花，蝴蝶在花丛中飞来飞去。一条小石板路从草坪边上穿过。{!!}小路的尽头是个小池塘。你站在小路的这一头，一个小小的露台，上面有个葡萄架。{!!}葡萄架下有一个石桌(table)和四个石凳。石桌上似乎雕了些花纹，但年代久远，已经看不太真切了。{!!}你可以使用"look"命令来查看这里的场景。也可以使用"look [某样东西]"去仔细观察。比如：look table</data>
         </content>
       </description>
+      <outlets>
+        <outlet command="west" room="WestRoom" />
+        <outlet command="east" room="EastRoom" />
+      </outlets>
     </room>
   </rooms>
 </area>

@@ -23,6 +23,8 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         [XmlAttribute("name")]
         public string Name { get; set; }
 
+        public string TypeName { get; set; }
+
         /// <summary>
         /// Gets or sets room description in different languages
         /// </summary>
@@ -36,5 +38,22 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         [XmlArray("description")]
         [XmlArrayItem("content")]
         public ContentData[] Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets room description in different languages
+        /// </summary>
+        [XmlArray("outlets")]
+        [XmlArrayItem("outlet")]
+        public Outlet[] Outlets { get; set; }
+
+        [XmlRoot("outlet")]
+        public class Outlet
+        {
+            [XmlAttribute("command")]
+            public string Command { get; set; }
+
+            [XmlAttribute("room")]
+            public string RoomName { get; set; }
+        }
     }
 }

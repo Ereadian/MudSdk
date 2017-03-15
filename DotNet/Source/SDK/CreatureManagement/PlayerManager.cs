@@ -1,4 +1,10 @@
-﻿namespace Ereadian.MudSdk.Sdk.CreatureManagement
+﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
+// <copyright file="PlayerManager.cs" company="Ereadian"> 
+//     Copyright (c) Ereadian.  All rights reserved. 
+// </copyright> 
+//------------------------------------------------------------------------------------------------------------------------------------------ 
+
+namespace Ereadian.MudSdk.Sdk.CreatureManagement
 {
     using System;
     using System.Collections.Generic;
@@ -26,8 +32,7 @@
                 for (var i = 0; i < files.Length; i++)
                 {
                     var file = files[i];
-                    var profileData = Singleton<Serializer<ProfileData>>.Instance.Deserialize(file);
-                    var profile = new Profile(Path.GetFileName(file), profileData, game.WorldManager);
+                    var profile = new Profile(Path.GetFileName(file), this.profileFolder, game.WorldManager);
                     if (!this.profiles.TryAdd(profile.Name, profile))
                     {
                         // TODO: show error
@@ -49,27 +54,13 @@
                 return false;
             }
 
-            var data = new ProfileData
-            {
-                Name = profile.Name,
-                PasswordHash = profile.PasswordHash,
-            };
-
-            Singleton<Serializer<ProfileData>>.Instance.Serialize(this.profileFolder, data);
+            profile.Save(this.profileFolder);
             return true;
         }
 
         public void SaveProfile(Player player)
         {
-            var profile = player.Profile;
-            var data = new ProfileData
-            {
-                Name = profile.Name,
-                PasswordHash = profile.PasswordHash,
-                LocaleName = player.CurrentGame.Locales.GetCulture(profile.LocaleId).Name,
-            };
-
-            Singleton<Serializer<ProfileData>>.Instance.Serialize(Path.Combine(this.profileFolder, profile.File), data);
+            player.Profile.Save(this.profileFolder);
         }
 
         private static string GetFolderName(string root, string folder)

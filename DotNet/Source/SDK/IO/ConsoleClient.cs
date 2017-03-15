@@ -43,7 +43,7 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// <param name="colorIndex">color index</param>
         public void RenderMessage(Message message)
         {
-            ColorIndex colorIndex = this.game.Colors;
+            ColorManager colorIndex = this.game.Colors;
             var currentForegroundColor = Console.ForegroundColor;
             var currenBackgroundColor = Console.BackgroundColor;
             var content = message.Template;
@@ -125,7 +125,7 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// <param name="colorId">color id</param>
         /// <param name="colorIndex">color index</param>
         /// <returns>console color</returns>
-        private static ConsoleColor? GetColor(int colorId, ColorIndex colorIndex)
+        private static ConsoleColor? GetColor(int colorId, ColorManager colorIndex)
         {
             var name = colorIndex[colorId];
             ConsoleColor color;

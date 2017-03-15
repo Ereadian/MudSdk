@@ -29,7 +29,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// <param name="start">start position</param>
         /// <param name="end">end position</param>
         /// <param name="colorIndex">color index</param>
-        public ColorContent(string text, int start, int end, ColorIndex colorIndex)
+        public ColorContent(string text, int start, int end, ColorManager colorIndex)
         {
             start = ContentUtility.SkipBlank(text, start, end);
             var name = ContentUtility.GetToken(text, start, end);

@@ -13,7 +13,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
     /// <summary>
     /// Color management
     /// </summary>
-    public class ColorIndex : IDisposable
+    public class ColorManager : IDisposable
     {
         /// <summary>
         /// undefined/default color name

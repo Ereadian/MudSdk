@@ -1,4 +1,10 @@
-﻿namespace Ereadian.MudSdk.Sdk.CreatureManagement
+﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
+// <copyright file="Player.cs" company="Ereadian"> 
+//     Copyright (c) Ereadian.  All rights reserved. 
+// </copyright> 
+//------------------------------------------------------------------------------------------------------------------------------------------ 
+
+namespace Ereadian.MudSdk.Sdk.CreatureManagement
 {
     using Ereadian.MudSdk.Sdk.ContentManagement;
     using Ereadian.MudSdk.Sdk.IO;

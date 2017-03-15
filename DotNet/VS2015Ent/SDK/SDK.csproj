@@ -58,8 +58,8 @@
     <Compile Include="..\..\Source\SDK\ContentManagement\ColorContent.cs">
       <Link>ContentManagement\ColorContent.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\ContentManagement\ColorIndex.cs">
-      <Link>ContentManagement\ColorIndex.cs</Link>
+    <Compile Include="..\..\Source\SDK\ContentManagement\ColorManager.cs">
+      <Link>ContentManagement\ColorManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\ContentType.cs">
       <Link>ContentManagement\ContentType.cs</Link>
@@ -94,9 +94,6 @@
     <Compile Include="..\..\Source\SDK\CreatureManagement\Profile.cs">
       <Link>CreatureManagement\Profile.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\CreatureManagement\ProfileData.cs">
-      <Link>CreatureManagement\ProfileData.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\SDK\Executors\ConsoleExecutor.cs">
       <Link>Executors\ConsoleExecutor.cs</Link>
     </Compile>
@@ -115,11 +112,14 @@
     <Compile Include="..\..\Source\SDK\GameTitle.cs">
       <Link>GameTitle.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\GameUtility.cs">
+      <Link>GameUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\ContentData.cs">
       <Link>Globalization\ContentData.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\LocaleIndex.cs">
-      <Link>Globalization\LocaleIndex.cs</Link>
+    <Compile Include="..\..\Source\SDK\Globalization\LocaleManager.cs">
+      <Link>Globalization\LocaleManager.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Globalization\Resource.cs">
       <Link>Globalization\Resource.cs</Link>
@@ -225,6 +225,9 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\WorldTypeData.cs">
       <Link>WorldManagement\WorldTypeData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\XmlExtensions.cs">
+      <Link>XmlExtensions.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

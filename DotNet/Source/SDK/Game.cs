@@ -25,9 +25,9 @@ namespace Ereadian.MudSdk.Sdk
 
         public GameSettings Settings { get; private set; }
 
-        public LocaleIndex Locales { get; private set; }
+        public LocaleManager Locales { get; private set; }
 
-        public ColorIndex Colors { get; private set; }
+        public ColorManager Colors { get; private set; }
 
         public RoomManager RoomManager { get; private set; }
 
@@ -46,10 +46,10 @@ namespace Ereadian.MudSdk.Sdk
             this.Settings = new GameSettings(settingsData, Path.GetFullPath(gameFolder));
 
             // create color index
-            this.Colors = new ColorIndex();
+            this.Colors = new ColorManager();
 
             // create locale index
-            this.Locales = new LocaleIndex(this.Settings.DefaultLocale);
+            this.Locales = new LocaleManager(this.Settings.DefaultLocale);
 
             // Load resource collection
             ResourceCollection.LoadResources(Path.Combine(gameFolder, "contents"), this.Locales, this.Colors);

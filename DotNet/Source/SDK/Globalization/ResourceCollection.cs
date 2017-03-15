@@ -18,7 +18,7 @@ namespace Ereadian.MudSdk.Sdk.Globalization
     {
         private static IReadOnlyDictionary<string, IReadOnlyDictionary<string, IReadOnlyList<Text>>> resourceCollection;
 
-        public static void LoadResources(string resourceFolder, LocaleIndex locales, ColorIndex colors)
+        public static void LoadResources(string resourceFolder, LocaleManager locales, ColorManager colors)
         {
             var collection = new Dictionary<string, IReadOnlyDictionary<string, IReadOnlyList<Text>>>(StringComparer.OrdinalIgnoreCase);
             if (Directory.Exists(resourceFolder))

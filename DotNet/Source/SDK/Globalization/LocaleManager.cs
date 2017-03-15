@@ -14,7 +14,7 @@ namespace Ereadian.MudSdk.Sdk.Globalization
     /// <summary>
     /// Locale index
     /// </summary>
-    public class LocaleIndex
+    public class LocaleManager
     {
         /// <summary>
         /// Default locale id
@@ -61,10 +61,10 @@ namespace Ereadian.MudSdk.Sdk.Globalization
         private readonly CultureInfo defaultCultureInfo;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocaleIndex" /> class.
+        /// Initializes a new instance of the <see cref="LocaleManager" /> class.
         /// </summary>
         /// <param name="defaultLocaleName">default locale name</param>
-        public LocaleIndex(string defaultLocaleName)
+        public LocaleManager(string defaultLocaleName)
         {
             this.defaultLocaleName = MapAlias(defaultLocaleName.Trim());
             this.defaultCultureInfo = CultureNames[this.defaultLocaleName];
