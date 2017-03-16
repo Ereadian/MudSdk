@@ -2,28 +2,31 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.Configuration;
     using System.Xml;
 
     public class DefaultObjectFactory : IObjectFactory
     {
-        private const string FactoryElementName = "add";
-        private const string SourceTypeAttributeName = "target";
-        private const string TargetTypeAttributeName = "target";
-        private const string ConstructorElementName = "constructor";
-        private const string ParameterElementName = "parameter";
-        private const string ParameterTypeAttributeName = "type";
-        private const string ConvertAttributeName = "convert";
-        private const string FromConfigurationAttributeName = "configuration";
-        private const string FactoryNameAttributeName = "name";
+        public const string RootElementName = "factory";
+        public const string FactoryElementName = "add";
+        public const string SourceTypeAttributeName = "source";
+        public const string TargetTypeAttributeName = "target";
+        public const string ConstructorElementName = "constructor";
+        public const string ParameterElementName = "parameter";
+        public const string ParameterTypeAttributeName = "type";
+        public const string ConvertAttributeName = "convert";
+        public const string FromConfigurationAttributeName = "configuration";
+        public const string FactoryNameAttributeName = "name";
 
         private IDictionary<Type, IDictionary<string, Creator>> storage;
 
-        public DefaultObjectFactory() : this(ConfigurationManager.GetSection("factory") as XmlElement)
+        public DefaultObjectFactory() 
+            : this(ConfigurationManager.GetSection(RootElementName) as XmlElement, ConfigurationManager.AppSettings)
         {
         }
 
-        public DefaultObjectFactory(XmlElement xml)
+        public DefaultObjectFactory(XmlElement xml, NameValueCollection configurations)
         {
             this.storage = new Dictionary<Type, IDictionary<string, Creator>>();
             if (xml != null)
@@ -49,7 +52,7 @@
                         this.storage.Add(type, creaters);
                     }
 
-                    var creator = new Creator(itemElment);
+                    var creator = new Creator(itemElment, configurations);
                     var name = itemElment.GetAttribute(FactoryNameAttributeName) ?? string.Empty;
                     creaters[name] = creator;
                 }
@@ -77,19 +80,29 @@
         {
             private Lazy<object> loader;
 
-            public Creator(XmlElement xml)
+            public Creator(XmlElement xml, NameValueCollection configurations)
             {
-                this.loader = new Lazy<object>(() => Create(xml));
+                this.loader = new Lazy<object>(() => Create(xml, configurations));
             }
 
-            private static object Create(XmlElement xml)
+            private static object Create(XmlElement xml, NameValueCollection configurations)
             {
                 Type type;
                 object instance;
-                return TryCreate(xml, TargetTypeAttributeName, out type, out instance) ? instance : null;
+                return TryCreate(
+                    xml, 
+                    TargetTypeAttributeName, 
+                    configurations, 
+                    out type, 
+                    out instance) ? instance : null;
             }
 
-            private static bool TryCreate(XmlElement xml, string typeAttributeName, out Type type, out object instance)
+            private static bool TryCreate(
+                XmlElement xml, 
+                string typeAttributeName, 
+                NameValueCollection configurations, 
+                out Type type, 
+                out object instance)
             {
                 type = null;
                 instance = null;
@@ -123,7 +136,7 @@
                         var data = xml.InnerText;
                         if (fromConfig)
                         {
-                            data = ConfigurationManager.AppSettings[data];
+                            data = configurations[data];
                         }
 
                         instance = Convert.ChangeType(data, type);
@@ -138,7 +151,7 @@
                     {
                         Type parameterType;
                         object parameterValue;
-                        if (!TryCreate(parameterXml, ParameterTypeAttributeName, out parameterType, out parameterValue))
+                        if (!TryCreate(parameterXml, ParameterTypeAttributeName, configurations, out parameterType, out parameterValue))
                         {
                             return false;
                         }
