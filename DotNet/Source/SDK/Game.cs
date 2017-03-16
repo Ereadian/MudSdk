@@ -31,7 +31,7 @@ namespace Ereadian.MudSdk.Sdk
 
         public RoomManager RoomManager { get; private set; }
 
-        public PlayerManager PlayerManager { get; private set; }
+        public IProfileStorage ProfileStorage { get; private set; }
 
         public Thread thread;
 
@@ -39,7 +39,7 @@ namespace Ereadian.MudSdk.Sdk
 
         public WorldManager WorldManager { get; private set; }
 
-        public virtual void Start(string gameFolder)
+        public virtual void Start(string gameFolder, IProfileStorage profileStorage)
         {
             // load settings
             var settingsData = LoadData<GameSettingsData>(gameFolder, "game");
@@ -68,7 +68,7 @@ namespace Ereadian.MudSdk.Sdk
             this.ActionableItemManager = new ActionableObjectManager();
 
             // load player manager
-            this.PlayerManager = new PlayerManager(gameFolder, this);
+            this.ProfileStorage = profileStorage;
 
             this.StopEvent = new ManualResetEventSlim(false);
             this.thread = new Thread(RunGame);

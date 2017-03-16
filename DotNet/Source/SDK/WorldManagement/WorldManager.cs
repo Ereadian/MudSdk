@@ -41,10 +41,18 @@
             }
         }
 
-        public IWorld GetWorld(string name)
+        public IWorld GetWorld(string name, bool fallback = true)
         {
-            IWorld world = null;
-            return !string.IsNullOrEmpty(name) && this.worlds.TryGetValue(name, out world) ? world : null;
+            if (!string.IsNullOrEmpty(name))
+            {
+                IWorld world;
+                if (this.worlds.TryGetValue(name, out world))
+                {
+                    return world;
+                }
+            }
+            
+            return fallback ? this.StartWorld : null;
         }
     }
 }

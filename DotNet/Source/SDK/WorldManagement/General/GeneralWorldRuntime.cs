@@ -41,7 +41,7 @@
 
         private static string GetFilePath(Player player, GeneralWorld world)
         {
-            return Path.Combine(world.RuntimeDataFolder, player.Profile.Filename);
+            return Path.Combine(world.RuntimeDataFolder, GameUtility.GetFilenameById(player.Profile.Id));
         }
     }
 }

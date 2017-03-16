@@ -1,4 +1,10 @@
-﻿namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
+﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
+// <copyright file="LoginWorld.cs" company="Ereadian"> 
+//     Copyright (c) Ereadian.  All rights reserved. 
+// </copyright> 
+//------------------------------------------------------------------------------------------------------------------------------------------ 
+
+namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 {
     using Ereadian.MudSdk.Sdk.ContentManagement;
     using Ereadian.MudSdk.Sdk.CreatureManagement;
@@ -76,7 +82,7 @@
                     }
 
                     runtime.UserName = userName;
-                    player.Profile = player.CurrentGame.PlayerManager.GetProfile(userName);
+                    player.Profile = player.CurrentGame.ProfileStorage.Load(userName);
                     if (player.Profile == null)
                     {
                         player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser, runtime.LocaleId));
@@ -147,14 +153,14 @@
                     }
 
                     player.AddOuput(ContentUtility.CreateMessage(SystemResources.CreatingAccount, runtime.LocaleId));
-                    player.Profile = new Profile(runtime.UserName, GetHash(runtime.Password));
-                    player.Profile.World = player.CurrentGame.WorldManager.StartWorld;
+                    player.Profile = new Profile(Guid.NewGuid(), runtime.UserName, GetHash(runtime.Password));
+                    player.Profile.WorldName = player.CurrentGame.WorldManager.StartWorld.Name;
                     runtime.Status = LoginStatus.EnterWorld;
                     break;
                 case LoginStatus.EnterWorld:
                     player.Profile.LocaleId = runtime.LocaleId;
                     runtime.Status = LoginStatus.Transferring;
-                    player.Profile.World.Add(player);
+                    player.CurrentGame.WorldManager.GetWorld(player.Profile.WorldName).Add(player);
                     break;
             }
         }

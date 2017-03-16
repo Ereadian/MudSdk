@@ -57,5 +57,10 @@ namespace Ereadian.MudSdk.Sdk
 
             return rootElement;
         }
+
+        public static string GetFilenameById(Guid id)
+        {
+            return id.ToString("N") + ".xml";
+        }
     }
 }

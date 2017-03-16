@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Ereadian.MudSdk.Sdk.IO
+﻿namespace Ereadian.MudSdk.Sdk.IO
 {
+    using System.Collections.Generic;
+    using System.IO;
+
     public interface IContentStorage
     {
+        string CombinePath(string rootPath, string childPath);
+        Stream OpenForRead(string path);
+        Stream OpenForWrite(string path);
+        IReadOnlyList<string> GetFiles(string folder);
+        bool IsFileExist(string path);
     }
 }

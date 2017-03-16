@@ -88,9 +88,6 @@
     <Compile Include="..\..\Source\SDK\CreatureManagement\Player.cs">
       <Link>CreatureManagement\Player.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\CreatureManagement\PlayerManager.cs">
-      <Link>CreatureManagement\PlayerManager.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\SDK\CreatureManagement\Profile.cs">
       <Link>CreatureManagement\Profile.cs</Link>
     </Compile>
