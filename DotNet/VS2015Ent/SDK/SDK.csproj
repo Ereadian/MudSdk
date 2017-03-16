@@ -139,11 +139,23 @@
     <Compile Include="..\..\Source\SDK\IO\ConsoleClient.cs">
       <Link>IO\ConsoleClient.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\IO\ContentFileStorage.cs">
+      <Link>IO\ContentFileStorage.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\IO\IClient.cs">
       <Link>IO\IClient.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\IO\IConnector.cs">
       <Link>IO\IConnector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\IO\IContentStorage.cs">
+      <Link>IO\IContentStorage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\IO\IProfileStorage.cs">
+      <Link>IO\IProfileStorage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\IO\ProfileFileStorage.cs">
+      <Link>IO\ProfileFileStorage.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\ItemManagement\Item.cs">
       <Link>ItemManagement\Item.cs</Link>
