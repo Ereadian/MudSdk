@@ -91,6 +91,15 @@
     <Compile Include="..\..\Source\SDK\CreatureManagement\Profile.cs">
       <Link>CreatureManagement\Profile.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\Diagnostics\ConsoleLogger.cs">
+      <Link>Diagnostics\ConsoleLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Diagnostics\ILog.cs">
+      <Link>Diagnostics\ILog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Diagnostics\LogLevel.cs">
+      <Link>Diagnostics\LogLevel.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\Executors\ConsoleExecutor.cs">
       <Link>Executors\ConsoleExecutor.cs</Link>
     </Compile>
@@ -99,6 +108,9 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\Game.cs">
       <Link>Game.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\GameContext.cs">
+      <Link>GameContext.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\GameSettings.cs">
       <Link>GameSettings.cs</Link>
