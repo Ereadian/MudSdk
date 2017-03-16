@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -195,6 +196,18 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\RoomManager.cs">
       <Link>RoomManagement\RoomManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Runtime\DefaultObjectFactory.cs">
+      <Link>Runtime\DefaultObjectFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Runtime\IObjectFactory.cs">
+      <Link>Runtime\IObjectFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Runtime\ObjectFactory.cs">
+      <Link>Runtime\ObjectFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\Runtime\XmlConfigurationSectionHandler.cs">
+      <Link>Runtime\XmlConfigurationSectionHandler.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\Serializer.cs">
       <Link>Serializer.cs</Link>
