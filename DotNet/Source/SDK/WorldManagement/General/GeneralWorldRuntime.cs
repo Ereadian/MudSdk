@@ -13,7 +13,7 @@
             if (fileExists)
             {
                 var data = Singleton<Serializer<GeneralWorldRuntimeData>>.Instance.Deserialize(runtimeFile);
-                this.Room = player.CurrentGame.RoomManager.FindRoom(data.RoomFullName);
+                this.Room = player.CurrentGame.Context.RoomManager.FindRoom(data.RoomFullName);
                 if (this.Room == null)
                 {
                     this.Room = world.EntryRoom;

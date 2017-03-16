@@ -27,7 +27,7 @@ namespace Ereadian.MudSdk.Sdk.CreatureManagement
         {
             this.Client = client;
             this.CurrentGame = game;
-            var world = game.WorldManager.LoginWorld;
+            var world = game.Context.WorldManager.LoginWorld;
             world.Add(this);
             game.ActionableItemManager.Add(this);
         }

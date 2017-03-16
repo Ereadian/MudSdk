@@ -43,7 +43,7 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// <param name="colorIndex">color index</param>
         public void RenderMessage(Message message)
         {
-            ColorManager colorIndex = this.game.Colors;
+            ColorManager colorIndex = this.game.Context.ColorManager;
             var currentForegroundColor = Console.ForegroundColor;
             var currenBackgroundColor = Console.BackgroundColor;
             var content = message.Template;
@@ -87,7 +87,7 @@ namespace Ereadian.MudSdk.Sdk.IO
 
                                 if (output == Environment.NewLine)
                                 {
-                                    for (var k = 1; k < this.game.Settings.LineSpace; k++)
+                                    for (var k = 1; k < this.game.Context.Settings.LineSpace; k++)
                                     {
                                         Console.WriteLine();
                                     }
@@ -105,7 +105,7 @@ namespace Ereadian.MudSdk.Sdk.IO
 
             Console.ForegroundColor = currentForegroundColor;
             Console.BackgroundColor = currenBackgroundColor;
-            for (var i = 0; i < this.game.Settings.LineSpace; i++)
+            for (var i = 0; i < this.game.Context.Settings.LineSpace; i++)
             {
                 Console.WriteLine();
             }

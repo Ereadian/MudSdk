@@ -54,7 +54,7 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                         return;
                     }
 
-                    if (!int.TryParse(localeChoice, out localeId) || (localeId < 1) || (localeId > player.CurrentGame.Locales.LocaleCount))
+                    if (!int.TryParse(localeChoice, out localeId) || (localeId < 1) || (localeId > player.CurrentGame.Context.LocaleManager.LocaleCount))
                     {
                         player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidLocaleId));
                         player.AddOuput(this.localeNames);
@@ -82,7 +82,7 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     }
 
                     runtime.UserName = userName;
-                    player.Profile = player.CurrentGame.ProfileStorage.Load(userName);
+                    player.Profile = player.CurrentGame.Context.ProfileStorage.Load(userName);
                     if (player.Profile == null)
                     {
                         player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser, runtime.LocaleId));
@@ -154,13 +154,13 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 
                     player.AddOuput(ContentUtility.CreateMessage(SystemResources.CreatingAccount, runtime.LocaleId));
                     player.Profile = new Profile(Guid.NewGuid(), runtime.UserName, GetHash(runtime.Password));
-                    player.Profile.WorldName = player.CurrentGame.WorldManager.StartWorld.Name;
+                    player.Profile.WorldName = player.CurrentGame.Context.WorldManager.StartWorld.Name;
                     runtime.Status = LoginStatus.EnterWorld;
                     break;
                 case LoginStatus.EnterWorld:
                     player.Profile.LocaleId = runtime.LocaleId;
                     runtime.Status = LoginStatus.Transferring;
-                    player.CurrentGame.WorldManager.GetWorld(player.Profile.WorldName).Add(player);
+                    player.CurrentGame.Context.WorldManager.GetWorld(player.Profile.WorldName).Add(player);
                     break;
             }
         }
@@ -214,7 +214,7 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 
         private static Message CreateLocaleList(Game game)
         {
-            var locales = game.Locales;
+            var locales = game.Context.LocaleManager;
             var list = new IContent[locales.LocaleCount];
             for (var i = 0; i < locales.LocaleCount; i++)
             {

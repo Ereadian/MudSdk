@@ -30,7 +30,7 @@
         public override void Init(string name, Game game)
         {
             base.Init(name, game);
-            var configurationFile = Path.Combine(game.Settings.GameFolder, "worlds", name + ".xml");
+            var configurationFile = Path.Combine(game.Context.Settings.GameFolder, "worlds", name + ".xml");
             if (!File.Exists(configurationFile))
             {
                 // TODO: write error
@@ -40,16 +40,16 @@
             var data = Singleton<Serializer<GeneralWorldData>>.Instance.Deserialize(configurationFile);
             if (!string.IsNullOrEmpty(data.EntryRoomName))
             {
-                this.EntryRoom = game.RoomManager.FindRoom(data.EntryRoomName);
+                this.EntryRoom = game.Context.RoomManager.FindRoom(data.EntryRoomName);
             }
 
             if (!string.IsNullOrEmpty(data.RespawnRoomName))
             {
-                this.RespawnRoom = game.RoomManager.FindRoom(data.RespawnRoomName);
+                this.RespawnRoom = game.Context.RoomManager.FindRoom(data.RespawnRoomName);
             }
 
             this.RuntimeDataFolder = Path.GetFullPath(Path.Combine(
-                game.Settings.GameFolder, 
+                game.Context.Settings.GameFolder, 
                 Constants.UserFolderName, 
                 Constants.UserWorldRuntimeFolderName, 
                 name));
@@ -95,7 +95,7 @@
             var runtime = GetRuntime(player);
             var profile = player.Profile;
             player.Profile.LastActive = DateTime.UtcNow;
-            player.CurrentGame.ProfileStorage.Save(player.Profile);
+            player.CurrentGame.Context.ProfileStorage.Save(player.Profile);
 
 
             if (runtime.Room == null)

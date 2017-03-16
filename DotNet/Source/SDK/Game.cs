@@ -18,57 +18,51 @@ namespace Ereadian.MudSdk.Sdk
     using Ereadian.MudSdk.Sdk.WorldManagement.Login;
     using Ereadian.MudSdk.Sdk.WorldManagement.General;
     using Ereadian.MudSdk.Sdk.CreatureManagement;
+    using Ereadian.MudSdk.Sdk.Diagnostics;
 
     public class Game
     {
+        public GameContext Context { get; private set; }
+
         public ActionableObjectManager ActionableItemManager { get; private set; }
-
-        public GameSettings Settings { get; private set; }
-
-        public LocaleManager Locales { get; private set; }
-
-        public ColorManager Colors { get; private set; }
-
-        public RoomManager RoomManager { get; private set; }
-
-        public IProfileStorage ProfileStorage { get; private set; }
 
         public Thread thread;
 
         public ManualResetEventSlim StopEvent { get; private set; }
 
-        public WorldManager WorldManager { get; private set; }
-
         public virtual void Start(string gameFolder, IProfileStorage profileStorage)
         {
             // load settings
             var settingsData = LoadData<GameSettingsData>(gameFolder, "game");
-            this.Settings = new GameSettings(settingsData, Path.GetFullPath(gameFolder));
+            var settings = new GameSettings(settingsData, Path.GetFullPath(gameFolder));
 
             // create color index
-            this.Colors = new ColorManager();
+            var colors = new ColorManager();
 
             // create locale index
-            this.Locales = new LocaleManager(this.Settings.DefaultLocale);
+            var locales = new LocaleManager(settings.DefaultLocale);
 
             // Load resource collection
-            ResourceCollection.LoadResources(Path.Combine(gameFolder, "contents"), this.Locales, this.Colors);
+            ResourceCollection.LoadResources(Path.Combine(gameFolder, "contents"), locales, colors);
 
             // load room manager
-            this.RoomManager = new RoomManager(
-                Path.Combine(gameFolder, "maps"), 
-                this.Locales, 
-                this.Colors);
+            var roomManager = new RoomManager(Path.Combine(gameFolder, "maps"), locales, colors);
 
             // Load World manager
-            this.WorldManager = new WorldManager(settingsData.LoginWorldName, settingsData.StartWorldName);
-            this.RegisterWorlds(settingsData);
+            var worldManager = new WorldManager(settingsData.LoginWorldName, settingsData.StartWorldName);
+            this.RegisterWorlds(worldManager, settingsData);
 
             // create actionable manager
             this.ActionableItemManager = new ActionableObjectManager();
 
-            // load player manager
-            this.ProfileStorage = profileStorage;
+            this.Context = new GameContext(
+                settings,
+                locales,
+                colors,
+                roomManager,
+                worldManager,
+                profileStorage,
+                new ConsoleLogger());
 
             this.StopEvent = new ManualResetEventSlim(false);
             this.thread = new Thread(RunGame);
@@ -84,7 +78,7 @@ namespace Ereadian.MudSdk.Sdk
             {
                 this.ActionableItemManager.Run();
                 stopwatch.Stop();
-                timeout = this.Settings.HeartBeat - (int)stopwatch.ElapsedMilliseconds;
+                timeout = this.Context.Settings.HeartBeat - (int)stopwatch.ElapsedMilliseconds;
                 if (timeout < 0)
                 {
                     timeout = 0;
@@ -102,17 +96,12 @@ namespace Ereadian.MudSdk.Sdk
         {
         }
 
-        public void RegisterWorld(string name, IWorld world)
-        {
-            this.WorldManager.RegisterWorld(name, world);
-        }
-
         public IConnector Connect(IClient client)
         {
             return new Connector(this, client);
         }
 
-        protected virtual void RegisterWorlds(GameSettingsData settings)
+        protected virtual void RegisterWorlds(WorldManager worldManager, GameSettingsData settings)
         {
             if (settings.Worlds != null)
             {
@@ -136,19 +125,19 @@ namespace Ereadian.MudSdk.Sdk
 
                     if (world != null)
                     {
-                        this.RegisterWorld(worldData.WorldName, world);
+                       worldManager.RegisterWorld(worldData.WorldName, world);
                     }
                 }
             }
 
-            if (this.WorldManager.LoginWorld == null)
+            if (worldManager.LoginWorld == null)
             {
-                this.RegisterWorld(settings.LoginWorldName, new LoginWorld());
+                worldManager.RegisterWorld(settings.LoginWorldName, new LoginWorld());
             }
 
-            if (this.WorldManager.StartWorld == null)
+            if (worldManager.StartWorld == null)
             {
-                this.RegisterWorld(settings.StartWorldName, new GeneralWorld());
+                worldManager.RegisterWorld(settings.StartWorldName, new GeneralWorld());
             }
         }
 
