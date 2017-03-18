@@ -118,32 +118,29 @@
                     return false;
                 }
 
-                if (!xml.HasChildNodes)
+                var convert = GetBoolean(xml, ConvertAttributeName, false);
+                if (convert)
                 {
+                    if (!xml.HasChildNodes)
+                    {
+                        return true;
+                    }
+
+                    var fromConfig = GetBoolean(xml, FromConfigurationAttributeName, false);
+                    var data = xml.InnerText;
+                    if (fromConfig)
+                    {
+                        data = configurations[data];
+                    }
+
+                    instance = Convert.ChangeType(data, type);
                     return true;
                 }
-
-                var convert = GetBoolean(xml, ConvertAttributeName, false);
-                var fromConfig = GetBoolean(xml, FromConfigurationAttributeName, false);
 
                 Type[] parameterTypes = Type.EmptyTypes;
                 object[] parameterValues = null;
                 var constructorElement = xml.SelectSingleNode(ConstructorElementName) as XmlElement;
-                if (constructorElement == null)
-                {
-                    if (convert)
-                    {
-                        var data = xml.InnerText;
-                        if (fromConfig)
-                        {
-                            data = configurations[data];
-                        }
-
-                        instance = Convert.ChangeType(data, type);
-                        return true;
-                    }
-                }
-                else
+                if (constructorElement != null)
                 {
                     var types = new List<Type>();
                     var values = new List<object>();
@@ -176,7 +173,7 @@
                 bool success;
                 try
                 {
-                    instance = constructor.Invoke(parameterTypes);
+                    instance = constructor.Invoke(parameterValues);
                     success = true;
                 }
                 catch

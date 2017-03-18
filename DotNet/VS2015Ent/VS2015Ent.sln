@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "worlds", "worlds", "{84E80D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SDKUnitTest", "SDKUnitTest\SDKUnitTest.csproj", "{1B52B5EA-4AAB-4386-AA99-9BB7601DFED2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCommon", "TestCommon\TestCommon.csproj", "{BB45E2FA-E149-4CDE-B778-AEF258449C93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{1B52B5EA-4AAB-4386-AA99-9BB7601DFED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B52B5EA-4AAB-4386-AA99-9BB7601DFED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B52B5EA-4AAB-4386-AA99-9BB7601DFED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB45E2FA-E149-4CDE-B778-AEF258449C93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB45E2FA-E149-4CDE-B778-AEF258449C93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB45E2FA-E149-4CDE-B778-AEF258449C93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB45E2FA-E149-4CDE-B778-AEF258449C93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
