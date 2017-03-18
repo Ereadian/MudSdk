@@ -101,6 +101,9 @@
     <Compile Include="..\..\Source\SDK\Diagnostics\LogLevel.cs">
       <Link>Diagnostics\LogLevel.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\Empty.cs">
+      <Link>Empty.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\Executors\ConsoleExecutor.cs">
       <Link>Executors\ConsoleExecutor.cs</Link>
     </Compile>

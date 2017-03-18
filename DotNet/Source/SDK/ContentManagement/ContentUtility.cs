@@ -15,6 +15,13 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
     /// </summary>
     public static class ContentUtility
     {
+        public const string ColorTagStart = "{%";
+        public const string ColorTagEnd = "%}";
+        public const string ParameterTagStart = "{#";
+        public const string ParameterTagEnd = "#}";
+        public const string BlankTagStart = "{!";
+        public const string BlankTagEnd = "!}";
+
         /// <summary>
         /// Content processors
         /// </summary>
@@ -22,13 +29,13 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
             = new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>[]
             {
                 new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>(
-                    new KeyValuePair<string, string>("{%", "%}"),
+                    new KeyValuePair<string, string>(ColorTagStart, ColorTagEnd),
                     (content, start, end, colorIndex) => new ColorContent(content, start, end, colorIndex)),
                 new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>(
-                    new KeyValuePair<string, string>("{#", "#}"),
+                    new KeyValuePair<string, string>(ParameterTagStart, ParameterTagEnd),
                     (content, start, end, colorIndex) => new ParameterContent(content, start, end)),
                 new KeyValuePair<KeyValuePair<string, string>, Func<string, int, int, ColorManager, IContent>>(
-                    new KeyValuePair<string, string>("{!", "!}"),
+                    new KeyValuePair<string, string>(BlankTagStart, BlankTagEnd),
                     (content, start, end, colorIndex) => new BlankContent(content, start, end)),
             };
 
@@ -109,12 +116,12 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                 }
             }
 
-            return (list != null) && (list.Count > 0) ? list.ToArray() : null;
+            return (list != null) && (list.Count > 0) ? list.ToArray() : Empty<IContent>.Array;
         }
 
         public static IReadOnlyList<Text> CreateText(ResourceData resourceData, LocaleManager locales,  ColorManager colors)
         {
-            return (resourceData != null) ? CreateText(resourceData.Resources, locales, colors) : null;
+            return (resourceData != null) ? CreateText(resourceData.Resources, locales, colors) : Empty<Text>.Array;
         }
 
         public static IReadOnlyList<Text> CreateText(ContentData[] contents, LocaleManager locales, ColorManager colors)
@@ -129,7 +136,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                 }
             }
 
-            return textCollection;
+            return textCollection ?? Empty<Text>.Array;
         }
 
         /// <summary>
