@@ -13,21 +13,21 @@
     public class ContentUtilityTestRunner : ContentUtilityUnitTest
     {
         [TestMethod]
-        public override void ContentUtility_EmptyContent()
+        public override void ContentUtility_FormalizeContent_EmptyContent()
         {
-            base.ContentUtility_EmptyContent();
+            base.ContentUtility_FormalizeContent_EmptyContent();
         }
 
         [TestMethod]
-        public override void ContentUtility_TextOnly()
+        public override void ContentUtility_FormalizeContent_TextOnly()
         {
-            base.ContentUtility_TextOnly();
+            base.ContentUtility_FormalizeContent_TextOnly();
         }
 
         [TestMethod]
-        public override void ContentUtility_ColorAroundText()
+        public override void ContentUtility_FormalizeContent_ColorAroundText()
         {
-            base.ContentUtility_ColorAroundText();
+            base.ContentUtility_FormalizeContent_ColorAroundText();
         }
     }
 }

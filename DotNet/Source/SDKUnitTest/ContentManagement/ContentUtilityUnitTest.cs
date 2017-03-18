@@ -7,7 +7,7 @@
 
     public class ContentUtilityUnitTest
     {
-        public virtual void ContentUtility_EmptyContent()
+        public virtual void ContentUtility_FormalizeContent_EmptyContent()
         {
             // Arrange
             var colorManager = new ColorManager();
@@ -19,7 +19,7 @@
             Assert.AreEqual(0, text.Count);
         }
 
-        public virtual void ContentUtility_TextOnly()
+        public virtual void ContentUtility_FormalizeContent_TextOnly()
         {
             // Arrange
             var data = "This is a text with numbers like 1 2 33 44 and so on.";
@@ -35,7 +35,7 @@
             Assert.AreEqual(data, content.Text);
         }
 
-        public virtual void ContentUtility_ColorAroundText()
+        public virtual void ContentUtility_FormalizeContent_ColorAroundText()
         {
             // Arrange
             var colorManager = new ColorManager();
