@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="Room.cs" company="Ereadian"> 
+// <copyright file="RoomManager.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
@@ -9,12 +9,14 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
     using System;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.IO;
-    using System.Xml;
     using System.Threading.Tasks;
+    using System.Xml;
     using Ereadian.MudSdk.Sdk.ContentManagement;
-    using Ereadian.MudSdk.Sdk.IO;
+    using IO;
 
+    /// <summary>
+    /// Room manager
+    /// </summary>
     public class RoomManager
 	{
         /// <summary>
@@ -22,24 +24,52 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// </summary>
         public const char AreaSeparatorChar = '.';
 
+        /// <summary>
+        /// name of area name attribute
+        /// </summary>
         public const string AreaNameAttributeName = "name";
+
+        /// <summary>
+        /// name of room element
+        /// </summary>
         public const string RoomElementName = "room";
+
+        /// <summary>
+        /// name of room name attribute
+        /// </summary>
         public const string RoomNameAttributeName = "name";
+
+        /// <summary>
+        /// room type element name
+        /// </summary>
         public const string TypeElementName = "type";
+
+        /// <summary>
+        /// name of reference type attribute name
+        /// </summary>
         public const string TypeNameAttributeName = "reference";
+
+        /// <summary>
+        /// title element name
+        /// </summary>
         public const string TitleElementName = "title";
+
+        /// <summary>
+        /// description element name
+        /// </summary>
         public const string DescriptionElementName = "description";
 
-        private static readonly Type[] RoomConstructorParameterTypes = new Type[]
-        {
-            typeof(string),
-            typeof(Area),
-            typeof(IReadOnlyList<Text>),
-            typeof(IReadOnlyList<Text>)
-        };
+        /// <summary>
+        /// Default folder name
+        /// </summary>
+        public const string DefaultFolderName = "maps";
 
         private IDictionary<string, Area> areas;
-        private IDictionary<string, Room> rooms;
+        private IDictionary<string, IRoom> rooms;
+
+        public RoomManager(IGameContext context) : this(DefaultFolderName, context)
+        {
+        }
 
         public RoomManager(string folder, IGameContext context)
         {
@@ -50,8 +80,9 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
 
             var syncObject = new object();
             this.areas = new Dictionary<string, Area>(StringComparer.OrdinalIgnoreCase);
-            this.rooms = new Dictionary<string, Room>(StringComparer.OrdinalIgnoreCase);
-            var roomConfiguraions = new Dictionary<string, XmlElement>(StringComparer.OrdinalIgnoreCase);
+            this.rooms = new Dictionary<string, IRoom>(StringComparer.OrdinalIgnoreCase);
+            var activeConfigurations = new List<RoomData>();
+            var inactiveConfigurations = new List<RoomData>();
 
             var files = storage.GetFiles(folder);
             if ((files != null) && (files.Count > 0))
@@ -62,121 +93,42 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                     index =>
                     {
                         var path = storage.CombinePath(folder, files[index]);
-                        XmlElement rootElement;
-                        using (var stream = storage.OpenForRead(path))
+                        LoadRoomsFromMapFile(storage, path, syncObject, typeManager, activeConfigurations);
+                    });
+            }
+
+            int phaseId = 0;
+            Func<string, IRoom> getRoom = name =>
+            {
+                lock (syncObject)
+                {
+                    IRoom room;
+                    return rooms.TryGetValue(name, out room) ? room : null;
+                }
+            };
+
+            while (activeConfigurations.Count > 0)
+            {
+                inactiveConfigurations.Clear();
+                Parallel.For(
+                    0,
+                    activeConfigurations.Count,
+                    index =>
+                    {
+                        var roomData = activeConfigurations[index];
+                        var room = roomData.Area.Rooms[roomData.Name];
+                        if (room.Init(phaseId, roomData.Name, roomData.Area, roomData.Data, context, getRoom))
                         {
-                            var document = new XmlDocument();
-                            document.Load(stream);
-                            rootElement = document.DocumentElement;
-                        }
-
-                        string areaName = rootElement.GetAttribute(AreaNameAttributeName);
-                        if (string.IsNullOrWhiteSpace(areaName))
-                        {
-                            // TODO: write log. area name is required
-                            return;
-                        }
-
-                        Area area;
-                        lock (syncObject)
-                        {
-                            if (!this.areas.TryGetValue(areaName, out area))
-                            {
-                                area = new Area(areaName);
-                                this.areas.Add(areaName, area);
-                            }
-                        }
-
-                        var constructorParameters = new object[4];
-                        foreach (XmlElement roomElement in rootElement.SelectNodes(RoomElementName))
-                        {
-                            string roomName = roomElement.GetAttribute(RoomNameAttributeName);
-                            if (string.IsNullOrWhiteSpace(roomName))
-                            {
-                                // TODO: write error. room name is required
-                                continue;
-                            }
-
-                            roomName = roomName.Trim();
-
-                            Type type = null;
-                            Resource title = default(Resource);
-                            Resource description = default(Resource);
-                            foreach (XmlNode node in rootElement.ChildNodes)
-                            {
-                                if (node.NodeType == XmlNodeType.Element)
-                                {
-                                    var childElement = node as XmlElement;
-                                    switch (childElement.Name)
-                                    {
-                                        case TypeElementName:
-                                            type = GetTypeFromXml(childElement, typeManager);
-                                            break;
-                                        case TitleElementName:
-                                            title = LoadContentFromXml(childElement, localeManager, colorManager);
-                                            break;
-                                        case DescriptionElementName:
-                                            description = LoadContentFromXml(childElement, localeManager, colorManager);
-                                            break;
-                                    }
-                                }
-                            }
-
-                            Room room = null;
-                            if (type != null)
-                            {
-                                var constructor = type.GetConstructor(RoomConstructorParameterTypes);
-                                if (constructor == null)
-                                {
-                                    // TODO: could not find Room constructor from that type
-                                    continue;
-                                }
-
-                                try
-                                {
-                                    constructorParameters[0] = roomName;
-                                    constructorParameters[1] = area;
-                                    constructorParameters[2] = title;
-                                    constructorParameters[3] = description;
-                                    var instance = constructor.Invoke(constructorParameters);
-                                    if (instance is Room)
-                                    {
-                                        room = instance as Room;
-                                    }
-                                    else
-                                    {
-                                        // TODO: write type mismatch
-                                    }
-                                }
-                                catch
-                                {
-                                    // TODO: room was not found
-                                }
-                            }
-
-                            if (room == null)
-                            {
-                                room = new Room(roomName, area, title, description);
-                            }
-
-                            var fullName = GetRoomFullName(areaName, roomName);
                             lock (syncObject)
                             {
-                                if (area.Rooms.ContainsKey(roomName))
-                                {
-                                    // TODO: write error
-                                }
-                                else
-                                {
-                                    area.Rooms.Add(roomName, room);
-                                }
-
-                                rooms.Add(fullName, room);
-                                roomConfiguraions.Add(fullName, roomElement);
+                                inactiveConfigurations.Add(roomData);
                             }
                         }
                     });
 
+                var temp = activeConfigurations;
+                activeConfigurations = inactiveConfigurations;
+                inactiveConfigurations = temp;
             }
         }
 
@@ -190,15 +142,114 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                 roomName);
         }
 
-        public Room FindRoom(string fullName)
+        public IRoom FindRoom(string fullName)
         {
-            Room room;
+            IRoom room;
             return this.rooms.TryGetValue(fullName, out room) ? room : null;
         }
 
-        public Room FindRoom(string areaName, string roomName)
+        public IRoom FindRoom(string areaName, string roomName)
         {
             return FindRoom(GetRoomFullName(areaName, roomName));
+        }
+
+        private void LoadRoomsFromMapFile(
+            IContentStorage storage, 
+            string path, 
+            object syncObject, 
+            TypeManager typeManager, 
+            IList<RoomData> activeConfigurations)
+        {
+            XmlElement rootElement;
+            using (var stream = storage.OpenForRead(path))
+            {
+                var document = new XmlDocument();
+                document.Load(stream);
+                rootElement = document.DocumentElement;
+            }
+
+            string areaName = rootElement.GetAttribute(AreaNameAttributeName);
+            if (string.IsNullOrWhiteSpace(areaName))
+            {
+                // TODO: write log. area name is required
+                return;
+            }
+
+            Area area;
+            lock (syncObject)
+            {
+                if (!this.areas.TryGetValue(areaName, out area))
+                {
+                    area = new Area(areaName);
+                    this.areas.Add(areaName, area);
+                }
+            }
+
+            foreach (XmlElement roomElement in rootElement.SelectNodes(RoomElementName))
+            {
+                string roomName = roomElement.GetAttribute(RoomNameAttributeName);
+                if (string.IsNullOrWhiteSpace(roomName))
+                {
+                    // TODO: write error. room name is required
+                    continue;
+                }
+
+                roomName = roomName.Trim();
+
+                IRoom room = null;
+                var typeElement = roomElement.SelectSingleNode(TypeElementName) as XmlElement;
+                if (typeElement != null)
+                {
+                    Type type = GetTypeFromXml(typeElement, typeManager);
+                    if (type == null)
+                    {
+                        // TODO: write error. type was not found
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var instance = Activator.CreateInstance(type);
+                            room = instance as IRoom;
+                            if (room == null)
+                            {
+                                // TODO: write error. wrong instance
+                            }
+                        }
+                        catch
+                        {
+                            // TODO: write error. Creating room got exception
+                        }
+                    }
+                }
+
+                if (room == null)
+                {
+                    room = new Room();
+                }
+
+                var fullName = GetRoomFullName(areaName, roomName);
+                var roomData = new RoomData
+                {
+                    Name = roomName,
+                    Area = area,
+                    Data = roomElement
+                };
+
+                lock (syncObject)
+                {
+                    if (area.Rooms.ContainsKey(roomName))
+                    {
+                        // TODO: write error
+                    }
+                    else
+                    {
+                        area.Rooms.Add(roomName, room);
+                        rooms.Add(fullName, room);
+                        activeConfigurations.Add(roomData);
+                    }
+                }
+            }
         }
 
         private static Type GetTypeFromXml(XmlElement typeElement, TypeManager typeManager)
@@ -247,6 +298,13 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
             }
 
             return new Resource(list.ToArray());
+        }
+
+        private class RoomData
+        {
+            internal string Name { get; set; }
+            internal Area Area { get; set; }
+            internal XmlElement Data { get; set; }
         }
     }
 }

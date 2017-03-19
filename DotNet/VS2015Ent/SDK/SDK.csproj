@@ -176,6 +176,9 @@
     <Compile Include="..\..\Source\SDK\RoomManagement\Area.cs">
       <Link>RoomManagement\Area.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\RoomManagement\IRoom.cs">
+      <Link>RoomManagement\IRoom.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\Room.cs">
       <Link>RoomManagement\Room.cs</Link>
     </Compile>

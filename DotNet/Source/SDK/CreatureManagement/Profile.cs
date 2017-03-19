@@ -27,7 +27,5 @@ namespace Ereadian.MudSdk.Sdk.CreatureManagement
         public string WorldName { get; set; }
 
         public DateTime LastActive { get; set; }
-
-        public int LocaleId { get; set; }
     }
 }

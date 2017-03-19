@@ -20,8 +20,8 @@
 
         public IGameContext GameConext { get; private set; }
 
-        public Room EntryRoom { get; protected set; }
-        public Room RespawnRoom { get; protected set; }
+        public IRoom EntryRoom { get; protected set; }
+        public IRoom RespawnRoom { get; protected set; }
 
         public virtual void Init(string name, IGameContext context)
         {

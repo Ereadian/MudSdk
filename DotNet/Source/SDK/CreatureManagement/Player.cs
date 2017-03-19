@@ -6,13 +6,16 @@
 
 namespace Ereadian.MudSdk.Sdk.CreatureManagement
 {
-    using Ereadian.MudSdk.Sdk.ContentManagement;
-    using Ereadian.MudSdk.Sdk.IO;
-    using Ereadian.MudSdk.Sdk.WorldManagement;
     using System;
     using System.Collections.Generic;
     using System.Threading;
+    using Ereadian.MudSdk.Sdk.ContentManagement;
+    using Ereadian.MudSdk.Sdk.IO;
+    using Ereadian.MudSdk.Sdk.WorldManagement;
 
+    /// <summary>
+    /// Player instance
+    /// </summary>
     public class Player : Creature
     {
         /// <summary>
@@ -20,9 +23,21 @@ namespace Ereadian.MudSdk.Sdk.CreatureManagement
         /// </summary>
         private static readonly char[] CommandSeparatorCharacters = new char[] { ';' };
 
-        private readonly Queue<string> Inputs = new Queue<string>(100);
-        private readonly Queue<Message> Outputs = new Queue<Message>(50);
+        /// <summary>
+        /// player input for processing
+        /// </summary>
+        private readonly Queue<string> inputs = new Queue<string>(100);
 
+        /// <summary>
+        /// message for player to render
+        /// </summary>
+        private readonly Queue<Message> outputs = new Queue<Message>(50);
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Player" /> class.
+        /// </summary>
+        /// <param name="game">game instance</param>
+        /// <param name="client">player client</param>
         public Player(Game game, IClient client) : base(game.ActionableItemManager)
         {
             this.Client = client;
@@ -32,58 +47,96 @@ namespace Ereadian.MudSdk.Sdk.CreatureManagement
             game.ActionableItemManager.Add(this);
         }
 
+        /// <summary>
+        /// Gets current game instance
+        /// </summary>
         public Game CurrentGame { get; private set; }
+
+        /// <summary>
+        /// Gets or sets player locale id
+        /// </summary>
+        public int LocaleId { get; set; }
+
+        /// <summary>
+        /// Gets current client instance
+        /// </summary>
         public IClient Client { get; private set; }
+
+        /// <summary>
+        /// Gets or sets current profile instance
+        /// </summary>
         public Profile Profile { get; set; }
 
+        /// <summary>
+        /// Gets or sets current user world
+        /// </summary>
         public IWorld World { get; set; }
+
+        /// <summary>
+        /// Gets or sets current player world runtime
+        /// </summary>
         public IWorldRuntime WorldRuntime { get; set; }
 
+        /// <summary>
+        /// Add player input
+        /// </summary>
+        /// <param name="command">command player entered</param>
         public void AddInput(string command)
         {
             var items = command.Split(CommandSeparatorCharacters, StringSplitOptions.RemoveEmptyEntries);
-            lock (this.Inputs)
+            lock (this.inputs)
             {
                 for (var i = 0; i < items.Length; i++)
                 {
-                    this.Inputs.Enqueue(items[i]);
+                    this.inputs.Enqueue(items[i]);
                 }
             }
         }
 
+        /// <summary>
+        /// Add message for player to display
+        /// </summary>
+        /// <param name="message">message instance</param>
         public void AddOuput(Message message)
         {
-            lock (this.Outputs)
+            lock (this.outputs)
             {
-                this.Outputs.Enqueue(message);
+                this.outputs.Enqueue(message);
             }
         }
 
+        /// <summary>
+        /// Get input from player input queue
+        /// </summary>
+        /// <returns>command from player</returns>
         public string GetInput()
         {
             string input = null;
-            lock (this.Inputs)
+            lock (this.inputs)
             {
-                if (this.Inputs.Count > 0)
+                if (this.inputs.Count > 0)
                 {
-                    input = this.Inputs.Dequeue();
+                    input = this.inputs.Dequeue();
                 }
             }
 
             return input;
         }
 
+        /// <summary>
+        /// Process player work
+        /// </summary>
         public override void Run()
         {
-            lock (this.Outputs)
+            lock (this.outputs)
             {
-                var count = this.Outputs.Count;
+                var count = this.outputs.Count;
                 if (count > 0)
                 {
                     var messages = new Message[count];
                     for (var i = 0; i < count; i++)
                     {
-                        messages[i] = this.Outputs.Dequeue();
+                        messages[i] = this.outputs.Dequeue();
                     }
 
                     ThreadPool.QueueUserWorkItem(
@@ -95,6 +148,10 @@ namespace Ereadian.MudSdk.Sdk.CreatureManagement
             this.World.Run(this);
         }
 
+        /// <summary>
+        /// Show message to player
+        /// </summary>
+        /// <param name="state">thread state</param>
         private static void ShowMessage(object state)
         {
             var data = (KeyValuePair<Player, IReadOnlyList<Message>>)state;
@@ -104,7 +161,7 @@ namespace Ereadian.MudSdk.Sdk.CreatureManagement
             var client = player.Client;
             for (var i = 0; i < messages.Count; i++)
             {
-                client.RenderMessage(messages[i], player.Profile.LocaleId);
+                client.RenderMessage(messages[i], player.LocaleId);
             }
         }
     }

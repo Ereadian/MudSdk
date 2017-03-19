@@ -17,7 +17,7 @@
 
         public WorldStatus Status { get; set; }
 
-        public Room Room { get; set; }
+        public IRoom Room { get; set; }
 
         private GeneralWorld CurrentWorld
         {

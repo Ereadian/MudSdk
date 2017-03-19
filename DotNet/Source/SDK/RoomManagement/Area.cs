@@ -9,17 +9,29 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// Map area
+    /// </summary>
     public class Area
-	{
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Area" /> class.
+        /// </summary>
+        /// <param name="name">area name</param>
         public Area(string name)
         {
             this.Name = name;
-            this.Rooms = new Dictionary<string, Room>(StringComparer.OrdinalIgnoreCase);
+            this.Rooms = new Dictionary<string, IRoom>(StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Gets area name
+        /// </summary>
         public string Name { get; private set; }
 
-        public IDictionary<string, Room> Rooms { get; private set; }
-	}
+        /// <summary>
+        /// Gets rooms of this area
+        /// </summary>
+        public IDictionary<string, IRoom> Rooms { get; private set; }
+    }
 }
-

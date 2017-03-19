@@ -90,7 +90,6 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     }
                     else
                     {
-                        player.Profile.LocaleId = runtime.LocaleId;
                         player.AddOuput(Message.Create(SystemResources.EnterPassword));
                         runtime.Status = LoginStatus.VerifyPassword;
                     }
@@ -158,7 +157,7 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     runtime.Status = LoginStatus.EnterWorld;
                     break;
                 case LoginStatus.EnterWorld:
-                    player.Profile.LocaleId = runtime.LocaleId;
+                    player.LocaleId = runtime.LocaleId;
                     runtime.Status = LoginStatus.Transferring;
                     player.CurrentGame.Context.WorldManager.GetWorld(player.Profile.WorldName).Add(player);
                     break;

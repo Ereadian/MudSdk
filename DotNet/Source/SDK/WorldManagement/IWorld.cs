@@ -17,7 +17,7 @@
         void Remove(Player player);
         void Run(Player player);
 
-        Room EntryRoom { get; }
-        Room RespawnRoom { get; }
+        IRoom EntryRoom { get; }
+        IRoom RespawnRoom { get; }
     }
 }

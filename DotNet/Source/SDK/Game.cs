@@ -45,7 +45,7 @@ namespace Ereadian.MudSdk.Sdk
             // Load resource collection
             ResourceCollection.LoadResources(context);
 
-            context.RoomManager = new RoomManager("maps", context);
+            context.RoomManager = new RoomManager(context);
             var worldManager = new WorldManager(context.Settings.LoginWorldName, context.Settings.StartWorldName);
             this.RegisterWorlds(worldManager, context);
             context.WorldManager = worldManager;
