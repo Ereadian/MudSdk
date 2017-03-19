@@ -8,9 +8,12 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
+    using System.Xml;
+    using System.Threading.Tasks;
     using Ereadian.MudSdk.Sdk.ContentManagement;
-    using Ereadian.MudSdk.Sdk.Globalization;
+    using Ereadian.MudSdk.Sdk.IO;
 
     public class RoomManager
 	{
@@ -19,74 +22,232 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// </summary>
         public const char AreaSeparatorChar = '.';
 
-        private readonly IReadOnlyDictionary<string, Area> areas;
-        private readonly IReadOnlyList<Room> rooms;
+        public const string AreaNameAttributeName = "name";
+        public const string RoomElementName = "room";
+        public const string RoomNameAttributeName = "name";
+        public const string TypeElementName = "type";
+        public const string TypeNameAttributeName = "reference";
+        public const string TitleElementName = "title";
+        public const string DescriptionElementName = "description";
 
-        public RoomManager(string folder, LocaleManager locales, ColorManager colors)
+        private static readonly Type[] RoomConstructorParameterTypes = new Type[]
         {
-            var areaCollection = new Dictionary<string, Area>(StringComparer.OrdinalIgnoreCase);
-            var roomList = new List<Room>();
+            typeof(string),
+            typeof(Area),
+            typeof(IReadOnlyList<Text>),
+            typeof(IReadOnlyList<Text>)
+        };
 
-            if (Directory.Exists(folder))
+        private IDictionary<string, Area> areas;
+        private IDictionary<string, Room> rooms;
+
+        public RoomManager(string folder, IGameContext context)
+        {
+            var storage = context.ContentStorage;
+            var typeManager = context.TypeManager;
+            var localeManager = context.LocaleManager;
+            var colorManager = context.ColorManager;
+
+            var syncObject = new object();
+            this.areas = new Dictionary<string, Area>(StringComparer.OrdinalIgnoreCase);
+            this.rooms = new Dictionary<string, Room>(StringComparer.OrdinalIgnoreCase);
+            var roomConfiguraions = new Dictionary<string, XmlElement>(StringComparer.OrdinalIgnoreCase);
+
+            var files = storage.GetFiles(folder);
+            if ((files != null) && (files.Count > 0))
             {
-
-                var files = Directory.GetFiles(folder);
-                if (files != null)
-                {
-                    for (var i = 0; i < files.Length; i++)
+                Parallel.For(
+                    0,
+                    files.Count,
+                    index =>
                     {
-                        var file = files[i];
-
-                        var areaData = Singleton<Serializer<AreaData>>.Instance.Deserialize(file);
-                        Area area;
-                        if (!areaCollection.TryGetValue(areaData.Name, out area))
+                        var path = storage.CombinePath(folder, files[index]);
+                        XmlElement rootElement;
+                        using (var stream = storage.OpenForRead(path))
                         {
-                            //area = new Area(areaData.Name);
-                            areaCollection.Add(areaData.Name, area);
+                            var document = new XmlDocument();
+                            document.Load(stream);
+                            rootElement = document.DocumentElement;
                         }
 
-                        //area.Load(areaData, roomList, locales, colors);
-                    }
-                }
-            }
+                        string areaName = rootElement.GetAttribute(AreaNameAttributeName);
+                        if (string.IsNullOrWhiteSpace(areaName))
+                        {
+                            // TODO: write log. area name is required
+                            return;
+                        }
 
-            this.areas = areaCollection;
-            this.rooms = roomList.ToArray();
+                        Area area;
+                        lock (syncObject)
+                        {
+                            if (!this.areas.TryGetValue(areaName, out area))
+                            {
+                                area = new Area(areaName);
+                                this.areas.Add(areaName, area);
+                            }
+                        }
+
+                        var constructorParameters = new object[4];
+                        foreach (XmlElement roomElement in rootElement.SelectNodes(RoomElementName))
+                        {
+                            string roomName = roomElement.GetAttribute(RoomNameAttributeName);
+                            if (string.IsNullOrWhiteSpace(roomName))
+                            {
+                                // TODO: write error. room name is required
+                                continue;
+                            }
+
+                            roomName = roomName.Trim();
+
+                            Type type = null;
+                            Resource title = default(Resource);
+                            Resource description = default(Resource);
+                            foreach (XmlNode node in rootElement.ChildNodes)
+                            {
+                                if (node.NodeType == XmlNodeType.Element)
+                                {
+                                    var childElement = node as XmlElement;
+                                    switch (childElement.Name)
+                                    {
+                                        case TypeElementName:
+                                            type = GetTypeFromXml(childElement, typeManager);
+                                            break;
+                                        case TitleElementName:
+                                            title = LoadContentFromXml(childElement, localeManager, colorManager);
+                                            break;
+                                        case DescriptionElementName:
+                                            description = LoadContentFromXml(childElement, localeManager, colorManager);
+                                            break;
+                                    }
+                                }
+                            }
+
+                            Room room = null;
+                            if (type != null)
+                            {
+                                var constructor = type.GetConstructor(RoomConstructorParameterTypes);
+                                if (constructor == null)
+                                {
+                                    // TODO: could not find Room constructor from that type
+                                    continue;
+                                }
+
+                                try
+                                {
+                                    constructorParameters[0] = roomName;
+                                    constructorParameters[1] = area;
+                                    constructorParameters[2] = title;
+                                    constructorParameters[3] = description;
+                                    var instance = constructor.Invoke(constructorParameters);
+                                    if (instance is Room)
+                                    {
+                                        room = instance as Room;
+                                    }
+                                    else
+                                    {
+                                        // TODO: write type mismatch
+                                    }
+                                }
+                                catch
+                                {
+                                    // TODO: room was not found
+                                }
+                            }
+
+                            if (room == null)
+                            {
+                                room = new Room(roomName, area, title, description);
+                            }
+
+                            var fullName = GetRoomFullName(areaName, roomName);
+                            lock (syncObject)
+                            {
+                                if (area.Rooms.ContainsKey(roomName))
+                                {
+                                    // TODO: write error
+                                }
+                                else
+                                {
+                                    area.Rooms.Add(roomName, room);
+                                }
+
+                                rooms.Add(fullName, room);
+                                roomConfiguraions.Add(fullName, roomElement);
+                            }
+                        }
+                    });
+
+            }
+        }
+
+        public static string GetRoomFullName(string areaName, string roomName)
+        {
+            return string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}{1}{2}",
+                areaName,
+                AreaSeparatorChar,
+                roomName);
         }
 
         public Room FindRoom(string fullName)
         {
-            return FindRoom(this.areas, this.rooms, fullName);
+            Room room;
+            return this.rooms.TryGetValue(fullName, out room) ? room : null;
         }
 
-        public Room FindRoom(string area, string room)
+        public Room FindRoom(string areaName, string roomName)
         {
-            return FindRoom(this.areas, this.rooms, area, room);
+            return FindRoom(GetRoomFullName(areaName, roomName));
         }
 
-        private static Room FindRoom(IReadOnlyDictionary<string, Area> areas, IReadOnlyList<Room> rooms, string fullName)
+        private static Type GetTypeFromXml(XmlElement typeElement, TypeManager typeManager)
         {
-            var names = fullName.Split(AreaSeparatorChar);
-            if (names.Length < 2)
+            Type type = null;
+            var referenceName = typeElement.GetAttribute(TypeNameAttributeName);
+            if (!string.IsNullOrWhiteSpace(referenceName))
             {
-                return null;
+                type = typeManager.GetRegisteredType(referenceName.Trim());
+                if (type == null)
+                {
+                    // TODO: write error. could not find registered type
+                }
+            }
+            else
+            {
+                var typeName = typeElement.InnerText;
+                if (string.IsNullOrEmpty(typeName))
+                {
+                    // TODO: write error. type name is required
+                }
+                else
+                {
+                    type = Type.GetType(typeName.Trim());
+                    if (type == null)
+                    {
+                        // TODO: write type does not exist
+                    }
+                }
             }
 
-            return FindRoom(areas, rooms, names[0], names[1]);
+            return type;
         }
 
-        private static Room FindRoom(IReadOnlyDictionary<string, Area> areas, IReadOnlyList<Room> rooms, string areaName, string roomName)
+        private static Resource LoadContentFromXml(
+            XmlElement contentsElement, 
+            LocaleManager localeManager, 
+            ColorManager colorManager)
         {
-            Area area;
-            if (!areas.TryGetValue(areaName, out area))
+            var list = new List<Text>();
+            foreach (XmlElement contentElement in contentsElement.SelectNodes(
+                ResourceCollection.ContentElementName))
             {
-                return null;
+                var content = new Text(contentElement, localeManager, colorManager);
+                list.Add(content);
             }
 
-            int roomId;
-            //return area.Rooms.TryGetValue(roomName, out roomId) ? rooms[roomId]: null;
-            return null;
+            return new Resource(list.ToArray());
         }
-	}
+    }
 }
 

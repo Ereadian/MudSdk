@@ -1,29 +1,27 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="ResourceData.cs" company="Ereadian"> 
+// <copyright file="Resources.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
-namespace Ereadian.MudSdk.Sdk.Globalization
+namespace Ereadian.MudSdk.Sdk.ContentManagement
 {
     using System;
     using System.Collections.Generic;
-    using System.Xml.Serialization;
-    using Ereadian.MudSdk.Sdk.ContentManagement;
 
     /// <summary>
     /// Resource data
     /// </summary>
-    public class Resource<T> where T: struct
+    public class Resources<T> where T: struct
     {
-        private readonly IReadOnlyList<IReadOnlyList<Text>> resources;
+        private readonly IReadOnlyList<Resource> resources;
 
-        public Resource()
+        public Resources()
         {
-            IReadOnlyList<Text>[] collection = null;
+            Resource[] collection = null;
             if (typeof(T).IsEnum)
             {
-                var resources = ResourceCollection.GetCollection(typeof(T));
+                var resources = ResourceCollection.GetResources(typeof(T));
                 if (resources != null)
                 {
                     var names = Enum.GetNames(typeof(T));
@@ -39,11 +37,11 @@ namespace Ereadian.MudSdk.Sdk.Globalization
                         }
                     }
 
-                    collection = new IReadOnlyList<Text>[names.Length];
+                    collection = new Resource[names.Length];
                     for (var i = 0; i < names.Length; i++)
                     {
                         var name = names[i];
-                        IReadOnlyList<Text> data;
+                        Resource data;
                         if (resources.TryGetValue(name, out data))
                         {
                             collection[ids[i]] = data;
@@ -55,9 +53,12 @@ namespace Ereadian.MudSdk.Sdk.Globalization
             resources = collection;
         }
 
-        public IReadOnlyList<Text> GetResource(T id)
+        public Resource this[T id]
         {
-            return this.resources[(int)(object)id];
+            get
+            {
+                return this.resources[(int)(object)id];
+            }
         }
     }
 }

@@ -40,19 +40,19 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// Render message
         /// </summary>
         /// <param name="message">message to render</param>
-        /// <param name="colorIndex">color index</param>
-        public void RenderMessage(Message message)
+        /// <param name="localeId">locale id</param>
+        public void RenderMessage(Message message, int localeId)
         {
             ColorManager colorIndex = this.game.Context.ColorManager;
             var currentForegroundColor = Console.ForegroundColor;
             var currenBackgroundColor = Console.BackgroundColor;
-            var content = message.Template;
+            var content = message.Resource[localeId];
             var parameters = message.Parameters;
             lock(this)
             {
-                for (var i = 0; i < content.Count; i++)
+                for (var i = 0; i < content.Data.Count; i++)
                 {
-                    var data = content[i];
+                    var data = content.Data[i];
                     switch (data.Type)
                     {
                         case ContentType.Color:

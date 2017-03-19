@@ -26,6 +26,22 @@ namespace Ereadian.MudSdk.Sdk
             return text;
         }
 
+        public static T GetChildElementValue<T>(this XmlElement element, string childElementPath)
+        {
+            return element.GetChildElementValue<T>(childElementPath, default(T));
+        }
+
+        public static T GetChildElementValue<T>(this XmlElement element, string childElementPath, T defaultValue)
+        {
+            var rawData = element.GetChildElementText(childElementPath);
+            if (!string.IsNullOrEmpty(rawData))
+            {
+                return (T)Convert.ChangeType(rawData, typeof(T));
+            }
+
+            return defaultValue;
+        }
+
         public static XmlElement AddTextElement(this XmlElement element, string name, string text, bool useCData = false)
         {
             if (element == null)

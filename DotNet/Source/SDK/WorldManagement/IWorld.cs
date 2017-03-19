@@ -9,7 +9,9 @@
 
         string Name { get; }
 
-        void Init(string name, Game game);
+        IGameContext GameConext { get; }
+
+        void Init(string name, IGameContext context);
 
         void Add(Player player);
         void Remove(Player player);

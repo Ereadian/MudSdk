@@ -11,6 +11,7 @@ namespace Ereadian.MudSdk.Sdk
     /// </summary>
     public static class Constants
     {
+        public const string GameFolderConfigurationKey = "GameFolder";
         public const string UserFolderName = "users";
         public const string ProfileFolderName = "profile";
         public const string UserWorldRuntimeFolderName = "data";

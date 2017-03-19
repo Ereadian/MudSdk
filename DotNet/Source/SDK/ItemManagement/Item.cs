@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ereadian.MudSdk.Sdk.ItemManagement
 {
-    class Item
+    public class Item
     {
     }
 }

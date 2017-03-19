@@ -6,22 +6,55 @@
 
 namespace Ereadian.MudSdk.Sdk.ContentManagement
 {
-    using System.Collections.Generic;
-    using Ereadian.MudSdk.Sdk.Globalization;
+    using System.Xml;
 
+    /// <summary>
+    /// Text structure
+    /// </summary>
     public struct Text
     {
-        public int LocaleId;
-        public IReadOnlyList<IContent> Content;
+        /// <summary>
+        /// Locale attribute name
+        /// </summary>
+        public const string LocaleAttributeName = "locale";
 
-        public Text(int localeId, IReadOnlyList<IContent> content)
+        /// <summary>
+        /// locale id of current content
+        /// </summary>
+        public int LocaleId { get; private set; }
+
+        /// <summary>
+        /// Formalized contents (color, text as so on)
+        /// </summary>
+        public Content Content { get; private set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Text" /> structure.
+        /// </summary>
+        /// <param name="localeId">locale id</param>
+        /// <param name="content">formalized contents</param>
+        public Text(int localeId, Content content)
         {
             this.LocaleId = localeId;
             this.Content = content;
         }
 
-        public Text(ContentData content, LocaleManager locales, ColorManager colors)
-            : this(locales.GetLocaleId(content.Locale), ContentUtility.FormalizeContent(content.Data, colors))
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Text" /> structure.
+        /// </summary>
+        /// <param name="contentElement">content XML element</param>
+        /// <param name="localeManager">locale manager</param>
+        /// <param name="colorManager">color manager</param>
+        /// <example>
+        /// <![CDATA[
+        /// XML:
+        /// <content locale="en-us">this is my content</content>
+        /// ]]>
+        /// </example>
+        public Text(XmlElement contentElement, LocaleManager localeManager, ColorManager colorManager)
+            : this(
+                  localeManager.GetLocaleId(contentElement.GetAttribute(LocaleAttributeName)),
+                  new Content(contentElement.InnerText, colorManager))
         {
         }
     }

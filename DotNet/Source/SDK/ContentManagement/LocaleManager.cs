@@ -4,7 +4,7 @@
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
-namespace Ereadian.MudSdk.Sdk.Globalization
+namespace Ereadian.MudSdk.Sdk.ContentManagement
 {
     using System;
     using System.Collections.Generic;

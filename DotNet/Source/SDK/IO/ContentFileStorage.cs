@@ -1,33 +1,46 @@
 ﻿namespace Ereadian.MudSdk.Sdk.IO
 {
-    using System;
     using System.Collections.Generic;
-    using System.IO;
+    using System.Configuration;
     using System.Globalization;
-    using System.Linq;
+    using System.IO;
+    using System.Text;
 
     public class ContentFileStorage : IContentStorage
     {
+        public const char DirectorySeparatorChar = '/';
+
         private string rootFolder;
 
-        public ContentFileStorage(string rootFolder)
+        public ContentFileStorage(string rootFolder = null, string childFolder = null)
         {
             if (string.IsNullOrEmpty(rootFolder))
             {
-                throw new ArgumentException("root folder should not be null or empty");
+                rootFolder = ConfigurationManager.AppSettings["GameFolder"];
             }
 
             rootFolder = rootFolder.Trim();
-            this.rootFolder = rootFolder;
+            if (!string.IsNullOrWhiteSpace(childFolder))
+            {
+                childFolder = childFolder.Trim();
+                if (DirectorySeparatorChar != Path.DirectorySeparatorChar)
+                {
+                    childFolder = childFolder.Replace(DirectorySeparatorChar, Path.DirectorySeparatorChar);
+                }
+
+                rootFolder = Combine(rootFolder, childFolder, null);
+            }
+
+            this.rootFolder = Path.GetFullPath(rootFolder);
             if (!Directory.Exists(rootFolder))
             {
                 Directory.CreateDirectory(rootFolder);
             }
         }
 
-        public string CombinePath(string rootPath, string childPath)
+        public string CombinePath(string parentPath, string childPath, params string[] paths)
         {
-            return string.Format(CultureInfo.InvariantCulture, "{0}{1}{2}", rootPath, Path.DirectorySeparatorChar, childPath);
+            return Combine(parentPath, childPath, paths);
         }
 
         public Stream OpenForRead(string path)
@@ -62,9 +75,37 @@
             return files;
         }
 
+        public bool IsFolderExist(string path)
+        {
+            return Directory.Exists(Path.Combine(this.rootFolder, path));
+        }
+
         public bool IsFileExist(string path)
         {
             return File.Exists(Path.Combine(this.rootFolder, path));
+        }
+
+        private static string Combine(string parentPath, string childPath, IReadOnlyList<string> pathList)
+        {
+            var build = new StringBuilder();
+            build.Append(FormalizePath(parentPath));
+            build.Append(Path.DirectorySeparatorChar);
+            build.Append(FormalizePath(childPath));
+            if (pathList != null)
+            {
+                for (var i = 0; i < pathList.Count; i++)
+                {
+                    build.Append(Path.DirectorySeparatorChar);
+                    build.Append(FormalizePath(pathList[i]));
+                }
+            }
+
+            return build.ToString();
+        }
+
+        private static string FormalizePath(string path)
+        {
+            return path.Replace(DirectorySeparatorChar, Path.DirectorySeparatorChar);
         }
     }
 }

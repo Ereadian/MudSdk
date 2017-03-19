@@ -6,7 +6,7 @@
   <start>normal</start>
   <lines>2</lines>
   <worlds>
-    <world name="login" type="Ereadian.MudSdk.Sdk.WorldManagement.Login.LoginWorld, MudSDK" />
-    <world name="normal" type="Ereadian.MudSdk.Sdk.WorldManagement.General.GeneralWorld, MudSDK" />
+    <world name="login">Ereadian.MudSdk.Sdk.WorldManagement.Login.LoginWorld, MudSDK</world>
+    <world name="normal">Ereadian.MudSdk.Sdk.WorldManagement.General.GeneralWorld, MudSDK</world>
   </worlds>
 </settings>

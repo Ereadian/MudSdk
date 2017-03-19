@@ -62,6 +62,9 @@
     <Compile Include="..\..\Source\SDK\ContentManagement\ColorManager.cs">
       <Link>ContentManagement\ColorManager.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\ContentManagement\Content.cs">
+      <Link>ContentManagement\Content.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\ContentType.cs">
       <Link>ContentManagement\ContentType.cs</Link>
     </Compile>
@@ -71,11 +74,23 @@
     <Compile Include="..\..\Source\SDK\ContentManagement\IContent.cs">
       <Link>ContentManagement\IContent.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\ContentManagement\LocaleManager.cs">
+      <Link>ContentManagement\LocaleManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\Message.cs">
       <Link>ContentManagement\Message.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\ParameterContent.cs">
       <Link>ContentManagement\ParameterContent.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ContentManagement\Resource.cs">
+      <Link>ContentManagement\Resource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ContentManagement\ResourceCollection.cs">
+      <Link>ContentManagement\ResourceCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\ContentManagement\Resources.cs">
+      <Link>ContentManagement\Resources.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\ContentManagement\Text.cs">
       <Link>ContentManagement\Text.cs</Link>
@@ -113,14 +128,8 @@
     <Compile Include="..\..\Source\SDK\Game.cs">
       <Link>Game.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\GameContext.cs">
-      <Link>GameContext.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\SDK\GameSettings.cs">
       <Link>GameSettings.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\GameSettingsData.cs">
-      <Link>GameSettingsData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\GameTitle.cs">
       <Link>GameTitle.cs</Link>
@@ -128,23 +137,8 @@
     <Compile Include="..\..\Source\SDK\GameUtility.cs">
       <Link>GameUtility.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\ContentData.cs">
-      <Link>Globalization\ContentData.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\LocaleManager.cs">
-      <Link>Globalization\LocaleManager.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\Resource.cs">
-      <Link>Globalization\Resource.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\ResourceCollection.cs">
-      <Link>Globalization\ResourceCollection.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\ResourceCollectionData.cs">
-      <Link>Globalization\ResourceCollectionData.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\Globalization\ResourceData.cs">
-      <Link>Globalization\ResourceData.cs</Link>
+    <Compile Include="..\..\Source\SDK\IGameContext.cs">
+      <Link>IGameContext.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\IO\Connector.cs">
       <Link>IO\Connector.cs</Link>
@@ -154,6 +148,9 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\IO\ContentFileStorage.cs">
       <Link>IO\ContentFileStorage.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Source\SDK\IO\ContentStorageExtensions.cs">
+      <Link>IO\ContentStorageExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\IO\IClient.cs">
       <Link>IO\IClient.cs</Link>
@@ -173,29 +170,17 @@
     <Compile Include="..\..\Source\SDK\ItemManagement\Item.cs">
       <Link>ItemManagement\Item.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\ItemManagement\ItemData.cs">
-      <Link>ItemManagement\ItemData.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\SDK\ItemManagement\ItemType.cs">
       <Link>ItemManagement\ItemType.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\ItemManagement\ItemTypeCollectionData.cs">
-      <Link>ItemManagement\ItemTypeCollectionData.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\ItemManagement\ItemTypeData.cs">
-      <Link>ItemManagement\ItemTypeData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\Area.cs">
       <Link>RoomManagement\Area.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\RoomManagement\AreaData.cs">
-      <Link>RoomManagement\AreaData.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\Room.cs">
       <Link>RoomManagement\Room.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\RoomManagement\RoomData.cs">
-      <Link>RoomManagement\RoomData.cs</Link>
+    <Compile Include="..\..\Source\SDK\RoomManagement\RoomExtensions.cs">
+      <Link>RoomManagement\RoomExtensions.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\RoomManagement\RoomManager.cs">
       <Link>RoomManagement\RoomManager.cs</Link>
@@ -221,17 +206,14 @@
     <Compile Include="..\..\Source\SDK\SystemResources.cs">
       <Link>SystemResources.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\TypeManager.cs">
+      <Link>TypeManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorld.cs">
       <Link>WorldManagement\General\GeneralWorld.cs</Link>
     </Compile>
-    <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorldData.cs">
-      <Link>WorldManagement\General\GeneralWorldData.cs</Link>
-    </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorldRuntime.cs">
       <Link>WorldManagement\General\GeneralWorldRuntime.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\WorldManagement\General\GeneralWorldRuntimeData.cs">
-      <Link>WorldManagement\General\GeneralWorldRuntimeData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\General\WorldStatus.cs">
       <Link>WorldManagement\General\WorldStatus.cs</Link>
@@ -259,9 +241,6 @@
     </Compile>
     <Compile Include="..\..\Source\SDK\WorldManagement\WorldRuntime.cs">
       <Link>WorldManagement\WorldRuntime.cs</Link>
-    </Compile>
-    <Compile Include="..\..\Source\SDK\WorldManagement\WorldTypeData.cs">
-      <Link>WorldManagement\WorldTypeData.cs</Link>
     </Compile>
     <Compile Include="..\..\Source\SDK\XmlExtensions.cs">
       <Link>XmlExtensions.cs</Link>

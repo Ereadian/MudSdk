@@ -6,21 +6,25 @@
     public struct Message
     {
         public static Message NewLineMessage = new Message(
-            new IContent[] { new TextContent(Environment.NewLine) },
-            null);
+            new Resource(
+                new Text[]
+                {
+                    new Text(
+                        LocaleManager.DefaultLocaleId,
+                        new Content(
+                            new IContent[]
+                            {
+                                new TextContent(Environment.NewLine)
+                            }
+                            ))
+                }));
 
-        public IReadOnlyList<IContent> Template;
+        public Resource Resource;
         public IReadOnlyList<object> Parameters;
         
-        public Message(IReadOnlyList<IContent> template, IReadOnlyList<object> parameters)
+        public Message(Resource resource, params object[] parameters)
         {
-            this.Template = template;
-            this.Parameters = parameters;
-        }
-
-        public Message(IReadOnlyList<Text> template, int localeId, IReadOnlyList<object> parameters)
-        {
-            this.Template = ContentUtility.GetContent(template, localeId);
+            this.Resource = resource;
             this.Parameters = parameters;
         }
     }

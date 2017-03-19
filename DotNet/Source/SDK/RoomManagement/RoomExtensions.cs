@@ -1,25 +1,17 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="Area.cs" company="Ereadian"> 
+// <copyright file="RoomExtensions.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
 namespace Ereadian.MudSdk.Sdk.RoomManagement
 {
-    using System;
-    using System.Collections.Generic;
-
-    public class Area
+    public static class RoomExtensions
 	{
-        public Area(string name)
+        public static string GeFullName(this Room room)
         {
-            this.Name = name;
-            this.Rooms = new Dictionary<string, Room>(StringComparer.OrdinalIgnoreCase);
+            return RoomManager.GetRoomFullName(room.Area.Name, room.Name);
         }
-
-        public string Name { get; private set; }
-
-        public IDictionary<string, Room> Rooms { get; private set; }
-	}
+    }
 }
 

@@ -5,10 +5,11 @@
 
     public interface IContentStorage
     {
-        string CombinePath(string rootPath, string childPath);
+        string CombinePath(string parentPath, string childPath, params string[] paths);
         Stream OpenForRead(string path);
         Stream OpenForWrite(string path);
         IReadOnlyList<string> GetFiles(string folder);
+        bool IsFolderExist(string path);
         bool IsFileExist(string path);
     }
 }

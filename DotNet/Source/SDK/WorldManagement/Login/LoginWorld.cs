@@ -20,10 +20,10 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
         private static readonly MD5 md5 = MD5.Create();
         private Message localeNames;
 
-        public override void Init(string name, Game game)
+        public override void Init(string name, IGameContext context)
         {
-            base.Init(name, game);
-            this.localeNames = CreateLocaleList(game);
+            base.Init(name, context);
+            this.localeNames = CreateLocaleList(context.LocaleManager);
         }
 
         public override void Run(Player player)
@@ -212,18 +212,25 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
             return 0 == comparer.Compare(hashOfInput, hash);
         }
 
-        private static Message CreateLocaleList(Game game)
+        private static Message CreateLocaleList(LocaleManager localeManager)
         {
-            var locales = game.Context.LocaleManager;
-            var list = new IContent[locales.LocaleCount];
+            var locales = localeManager;
+            var textList = new IContent[locales.LocaleCount];
             for (var i = 0; i < locales.LocaleCount; i++)
             {
                 var culture = locales.GetCulture(i);
                 var text = string.Format("{0}: {1}({2}){3}", i + 1, culture.NativeName, culture.EnglishName, Environment.NewLine);
-                list[i] = new TextContent(text);
+                textList[i] = new TextContent(text);
             }
 
-            return new Message(list, null);
+            var resource = new Resource(
+                new Text[]
+                {
+                    new Text(
+                        LocaleManager.DefaultLocaleId,
+                        new Content(textList))
+                });
+            return new Message(resource, null);
         }
     }
 }

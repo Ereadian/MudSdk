@@ -19,8 +19,8 @@ namespace Ereadian.MudSdk.Sdk.IO
         /// Render message
         /// </summary>
         /// <param name="message">message to render</param>
-        /// <param name="colorIndex">color index</param>
-        void RenderMessage(Message message);
+        /// <param name="localeId">locale id</param>
+        void RenderMessage(Message message, int localeId);
 
         /// <summary>
         /// Disconnect from game

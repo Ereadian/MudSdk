@@ -7,6 +7,7 @@
 namespace Ereadian.MudSdk.Sdk.Executors
 {
     using System;
+    using System.Configuration;
     using System.IO;
     using System.Text;
     using Ereadian.MudSdk.Sdk.IO;
@@ -35,9 +36,9 @@ namespace Ereadian.MudSdk.Sdk.Executors
             }
 
             var game = new Game();
-
-            var profileStorage = new ProfileFileStorage(new ContentFileStorage(Path.Combine(gamefolder, "users", "profile")));
-            game.Start(gamefolder, profileStorage);
+            var contentStorage = new ContentFileStorage();
+            var profileStorage = new ProfileFileStorage(new ContentFileStorage(null, "users/profile"));
+            game.Start(contentStorage, profileStorage, null);
 
             var quit = false;
             var client = new ConsoleClient(game, () => quit = true);

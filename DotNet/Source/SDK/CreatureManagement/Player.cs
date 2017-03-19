@@ -104,7 +104,7 @@ namespace Ereadian.MudSdk.Sdk.CreatureManagement
             var client = player.Client;
             for (var i = 0; i < messages.Count; i++)
             {
-                client.RenderMessage(messages[i]);
+                client.RenderMessage(messages[i], player.Profile.LocaleId);
             }
         }
     }

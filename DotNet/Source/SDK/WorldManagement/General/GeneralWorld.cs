@@ -5,10 +5,14 @@
     using System.Threading;
     using ContentManagement;
     using Ereadian.MudSdk.Sdk.CreatureManagement;
+    using Ereadian.MudSdk.Sdk.IO;
 
     public class GeneralWorld : World
     {
-        public  string RuntimeDataFolder { get; set; }
+        public const string EntryRoomNameElementName = "entry";
+        public const string RespawnRoomNameElementName = "respawn";
+
+        public string RuntimeDataFolder { get; private set; }
 
         public override void Run(Player player)
         {
@@ -27,32 +31,34 @@
             }
         }
 
-        public override void Init(string name, Game game)
+        public override void Init(string name, IGameContext context)
         {
-            base.Init(name, game);
-            var configurationFile = Path.Combine(game.Context.Settings.GameFolder, "worlds", name + ".xml");
+            base.Init(name, context);
+            var contentStorage = context.ContentStorage;
+            var configurationFile = contentStorage.CombinePath("worlds", name + ".xml");
             if (!File.Exists(configurationFile))
             {
                 // TODO: write error
                 return;
             }
 
-            var data = Singleton<Serializer<GeneralWorldData>>.Instance.Deserialize(configurationFile);
-            if (!string.IsNullOrEmpty(data.EntryRoomName))
+            var worldXml = contentStorage.LoadXml(configurationFile);
+            var roomName = worldXml.GetChildElementText(EntryRoomNameElementName);
+            if (!string.IsNullOrEmpty(roomName))
             {
-                this.EntryRoom = game.Context.RoomManager.FindRoom(data.EntryRoomName);
+                this.EntryRoom = context.RoomManager.FindRoom(roomName);
             }
 
-            if (!string.IsNullOrEmpty(data.RespawnRoomName))
+            roomName = worldXml.GetChildElementText(RespawnRoomNameElementName);
+            if (!string.IsNullOrEmpty(roomName))
             {
-                this.RespawnRoom = game.Context.RoomManager.FindRoom(data.RespawnRoomName);
+                this.RespawnRoom = context.RoomManager.FindRoom(roomName);
             }
 
-            this.RuntimeDataFolder = Path.GetFullPath(Path.Combine(
-                game.Context.Settings.GameFolder, 
+            this.RuntimeDataFolder = contentStorage.CombinePath(
                 Constants.UserFolderName, 
                 Constants.UserWorldRuntimeFolderName, 
-                name));
+                name);
             if (!Directory.Exists(this.RuntimeDataFolder))
             {
                 Directory.CreateDirectory(this.RuntimeDataFolder);
@@ -74,7 +80,9 @@
 
         protected override IWorldRuntime CreateRuntime(Player player)
         {
-            return new GeneralWorldRuntime(player, this);
+            var runtime = new GeneralWorldRuntime(this);
+            runtime.Init(player);
+            return runtime;
         }
 
         private GeneralWorldRuntime GetRuntime(Player player)

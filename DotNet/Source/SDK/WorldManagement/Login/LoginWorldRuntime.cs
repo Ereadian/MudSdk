@@ -6,6 +6,10 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
     {
         public LoginWorldRuntime(LoginWorld world) : base(world)
         {
+        }
+
+        public override void Init(Player player)
+        {
             this.Status = LoginStatus.Enter;
         }
 

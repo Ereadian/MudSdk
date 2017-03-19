@@ -1,115 +1,47 @@
 <?xml version="1.0"?>
-<collection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SystemResources">
-  <resources>
-    <resource name="SelectLocale">
-      <contents>
-        <content locale="zh-cn">
-          <data>请输入语言编号:</data>
-        </content>
-        <content locale="en-us">
-          <data>Please enter id of langauge:</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="InvalidLocaleId">
-      <contents>
-        <content locale="zh-cn">
-          <data>{%red%}错误的语言编号，请重新输入。{%%}</data>
-        </content>
-        <content locale="en-us">
-          <data>{%red%}Invalid language id. Please try again.{%%}</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="EnterUserName">
-      <contents>
-        <content locale="zh-cn">
-          <data>请输入用户名</data>
-        </content>
-        <content locale="en-us">
-          <data>Please enter user name</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="EnterPassword">
-      <contents>
-        <content locale="zh-cn">
-          <data>请输入密码</data>
-        </content>
-        <content locale="en-us">
-          <data>please enter passwod</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="InvalidName">
-      <contents>
-        <content locale="zh-cn">
-          <data>{%red%}用户名只能包含字母数字和小数点{%%}</data>
-        </content>
-        <content locale="en-us">
-          <data>{%red%}User name should contain letter, number and dot only{%%}</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="InvalidPassword">
-      <contents>
-        <content locale="zh-cn">
-          <data>{%red%}密码不正确，请重试。{%%}</data>
-        </content>
-        <content locale="en-us">
-          <data>{%red%}Password is not correct. Please try again.{%%}</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="NewUser">
-      <contents>
-        <content locale="zh-cn">
-          <data>欢迎加入游戏。系统正在为您建立账号。请输入您新账号的密码:</data>
-        </content>
-        <content locale="en-us">
-          <data>Welcome to the game! we are creating profile for you. Please enter password for your account:</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="ConfirmPassword">
-      <contents>
-        <content locale="zh-cn">
-          <data>请再次输入您的密码:</data>
-        </content>
-        <content locale="en-us">
-          <data>Please re-enter password:</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="PasswordNotMatch">
-      <contents>
-        <content locale="zh-cn">
-          <data>{%red%}密码不一致。请重新创建密码。{%%}</data>
-        </content>
-        <content locale="en-us">
-          <data>{%red%}Password does not match. Please re-create password.{%%}</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="CreatingAccount">
-      <contents>
-        <content locale="zh-cn">
-          <data>创建游戏账号中。。。</data>
-        </content>
-        <content locale="en-us">
-          <data>Creating account ...</data>
-        </content>
-      </contents>
-    </resource>
-    <resource name="LoadingUserWorldData">
-      <contents>
-        <content locale="zh-cn">
-          <data>加载玩家数据。。。</data>
-        </content>
-        <content locale="en-us">
-          <data>Loading player game data ...</data>
-        </content>
-      </contents>
-    </resource>
-  </resources>
-</collection>
+<resources name="SystemResources">
+  <resource name="SelectLocale">
+    <content locale="zh-cn">请输入语言编号:</content>
+    <content locale="en-us">Please enter id of langauge:</content>
+  </resource>
+  <resource name="InvalidLocaleId">
+    <content locale="zh-cn">{%red%}错误的语言编号，请重新输入。{%%}</content>
+    <content locale="en-us">{%red%}Invalid language id. Please try again.{%%}</content>
+  </resource>
+  <resource name="EnterUserName">
+    <content locale="zh-cn">请输入用户名</content>
+    <content locale="en-us">Please enter user name</content>
+  </resource>
+  <resource name="EnterPassword">
+    <content locale="zh-cn">请输入密码</content>
+    <content locale="en-us">please enter passwod</content>
+  </resource>
+  <resource name="InvalidName">
+    <content locale="zh-cn">{%red%}用户名只能包含字母数字和小数点{%%}</content>
+    <content locale="en-us">{%red%}User name should contain letter, number and dot only{%%}</content>
+  </resource>
+  <resource name="InvalidPassword">
+    <content locale="zh-cn">{%red%}密码不正确，请重试。{%%}</content>
+    <content locale="en-us">{%red%}Password is not correct. Please try again.{%%}</content>
+  </resource>
+  <resource name="NewUser">
+    <content locale="zh-cn">欢迎加入游戏。系统正在为您建立账号。请输入您新账号的密码:</content>
+    <content locale="en-us">Welcome to the game! we are creating profile for you. Please enter password for your account:</content>
+  </resource>
+  <resource name="ConfirmPassword">
+    <content locale="zh-cn">请再次输入您的密码:</content>
+    <content locale="en-us">Please re-enter password:</content>
+  </resource>
+  <resource name="PasswordNotMatch">
+    <content locale="zh-cn">{%red%}密码不一致。请重新创建密码。{%%}</content>
+    <content locale="en-us">{%red%}Password does not match. Please re-create password.{%%}</content>
+  </resource>
+  <resource name="CreatingAccount">
+    <content locale="zh-cn">创建游戏账号中。。。</content>
+    <content locale="en-us">Creating account ...</content>
+  </resource>
+  <resource name="LoadingUserWorldData">
+    <content locale="zh-cn">加载玩家数据。。。</content>
+    <content locale="en-us">Loading player game data ...</content>
+  </resource>
+</resources>

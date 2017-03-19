@@ -1,5 +1,6 @@
 ﻿namespace Ereadian.MudSdk.Sdk.WorldManagement
 {
+    using System;
     using System.Threading;
     using Ereadian.MudSdk.Sdk.CreatureManagement;
     using Ereadian.MudSdk.Sdk.RoomManagement;
@@ -8,20 +9,24 @@
     {
         private static volatile int nextWorldId = 0;
 
-        public int Id { get; private set; }
-        public string Name { get; private set; }
-
-        public Room EntryRoom { get; protected set; }
-        public Room RespawnRoom { get; protected set; }
-
         public World()
         {
             this.Id = Interlocked.Increment(ref nextWorldId);
         }
 
-        public virtual void Init(string name, Game game)
+        public int Id { get; private set; }
+
+        public string Name { get; private set; }
+
+        public IGameContext GameConext { get; private set; }
+
+        public Room EntryRoom { get; protected set; }
+        public Room RespawnRoom { get; protected set; }
+
+        public virtual void Init(string name, IGameContext context)
         {
             this.Name = name;
+            this.GameConext = context;
         }
 
         public virtual void Add(Player player)
