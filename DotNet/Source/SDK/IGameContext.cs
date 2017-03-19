@@ -6,13 +6,14 @@
 
 namespace Ereadian.MudSdk.Sdk
 {
-    using Ereadian.MudSdk.Sdk.Diagnostics;
+    using System;
     using Ereadian.MudSdk.Sdk.ContentManagement;
+    using Ereadian.MudSdk.Sdk.Diagnostics;
+    using Ereadian.MudSdk.Sdk.IO;
     using Ereadian.MudSdk.Sdk.RoomManagement;
     using Ereadian.MudSdk.Sdk.WorldManagement;
-    using Ereadian.MudSdk.Sdk.IO;
 
-    public interface IGameContext
+    public interface IGameContext : IDisposable
     {
         GameSettings Settings { get; }
 

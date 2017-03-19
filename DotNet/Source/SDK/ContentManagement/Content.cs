@@ -14,11 +14,34 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
     /// </summary>
     public struct Content
     {
+        /// <summary>
+        /// Color start tag
+        /// </summary>
         public const string ColorTagStart = "{%";
+
+        /// <summary>
+        /// Color end tag
+        /// </summary>
         public const string ColorTagEnd = "%}";
+
+        /// <summary>
+        /// Parameter start tag
+        /// </summary>
         public const string ParameterTagStart = "{#";
+
+        /// <summary>
+        /// Parameter end tag
+        /// </summary>
         public const string ParameterTagEnd = "#}";
+
+        /// <summary>
+        /// Blank start tag
+        /// </summary>
         public const string BlankTagStart = "{!";
+
+        /// <summary>
+        /// Blank end tag
+        /// </summary>
         public const string BlankTagEnd = "!}";
 
         /// <summary>
@@ -38,15 +61,17 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                     (content, start, end, colorIndex) => new BlankContent(content, start, end)),
             };
 
-        public IReadOnlyList<IContent> Data { get; private set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Content" /> struct.
+        /// </summary>
+        /// <param name="content">content data list</param>
         public Content(IReadOnlyList<IContent> content)
         {
             this.Data = content;
         }
 
         /// <summary>
-        /// Get content list from raw text
+        /// Initializes a new instance of the <see cref="Content" /> struct.
         /// </summary>
         /// <param name="text">raw text</param>
         /// <param name="colorIndex">color index</param>
@@ -89,6 +114,11 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
 
             this.Data = (list != null) && (list.Count > 0) ? list.ToArray() : Empty<IContent>.Array;
         }
+
+        /// <summary>
+        /// Gets content data
+        /// </summary>
+        public IReadOnlyList<IContent> Data { get; private set; }
 
         /// <summary>
         /// Match processor

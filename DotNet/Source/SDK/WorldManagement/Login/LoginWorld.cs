@@ -42,9 +42,9 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
             switch (runtime.Status)
             {
                 case LoginStatus.Enter:
-                    player.AddOuput(ContentUtility.CreateMessage(GameTitle.Title));
+                    player.AddOuput(Message.Create(GameTitle.Title));
                     player.AddOuput(this.localeNames);
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.SelectLocale));
+                    player.AddOuput(Message.Create(SystemResources.SelectLocale));
                     runtime.Status = LoginStatus.SelectLocale;
                     break;
                 case LoginStatus.SelectLocale:
@@ -56,15 +56,15 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 
                     if (!int.TryParse(localeChoice, out localeId) || (localeId < 1) || (localeId > player.CurrentGame.Context.LocaleManager.LocaleCount))
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidLocaleId));
+                        player.AddOuput(Message.Create(SystemResources.InvalidLocaleId));
                         player.AddOuput(this.localeNames);
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.SelectLocale));
+                        player.AddOuput(Message.Create(SystemResources.SelectLocale));
                         return;
                     }
 
                     runtime.LocaleId = --localeId;
 
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterUserName, runtime.LocaleId));
+                    player.AddOuput(Message.Create(SystemResources.EnterUserName));
                     runtime.Status = LoginStatus.EnterUserName;
                     break;
                 case LoginStatus.EnterUserName:
@@ -77,7 +77,7 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     userName = userName.Trim();
                     if (!VerifyInput(userName))
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName, runtime.LocaleId));
+                        player.AddOuput(Message.Create(SystemResources.InvalidName));
                         return;
                     }
 
@@ -85,13 +85,13 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     player.Profile = player.CurrentGame.Context.ProfileStorage.Load(userName);
                     if (player.Profile == null)
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser, runtime.LocaleId));
+                        player.AddOuput(Message.Create(SystemResources.NewUser));
                         runtime.Status = LoginStatus.CreateProfile;
                     }
                     else
                     {
                         player.Profile.LocaleId = runtime.LocaleId;
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.EnterPassword, runtime.LocaleId));
+                        player.AddOuput(Message.Create(SystemResources.EnterPassword));
                         runtime.Status = LoginStatus.VerifyPassword;
                     }
 
@@ -106,13 +106,13 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     password = password.Trim();
                     if (!VerifyInput(password))
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName, runtime.LocaleId));
+                        player.AddOuput(Message.Create(SystemResources.InvalidName));
                         return;
                     }
 
                     if (player.Profile.PasswordHash != GetHash(password))
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidPassword, runtime.LocaleId));
+                        player.AddOuput(Message.Create(SystemResources.InvalidPassword));
                         return;
                     }
 
@@ -128,11 +128,11 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     password = password.Trim();
                     if (!VerifyInput(password))
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.InvalidName, runtime.LocaleId));
+                        player.AddOuput(Message.Create(SystemResources.InvalidName));
                         return;
                     }
 
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.ConfirmPassword, runtime.LocaleId));
+                    player.AddOuput(Message.Create(SystemResources.ConfirmPassword));
                     runtime.Password = password;
                     runtime.Status = LoginStatus.ConfirmPassword;
                     break;
@@ -146,13 +146,13 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 
                     if (password != runtime.Password)
                     {
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.PasswordNotMatch, runtime.LocaleId));
-                        player.AddOuput(ContentUtility.CreateMessage(SystemResources.NewUser, runtime.LocaleId));
+                        player.AddOuput(Message.Create(SystemResources.PasswordNotMatch));
+                        player.AddOuput(Message.Create(SystemResources.NewUser));
                         runtime.Status = LoginStatus.CreateProfile;
                         return;
                     }
 
-                    player.AddOuput(ContentUtility.CreateMessage(SystemResources.CreatingAccount, runtime.LocaleId));
+                    player.AddOuput(Message.Create(SystemResources.CreatingAccount));
                     player.Profile = new Profile(Guid.NewGuid(), runtime.UserName, GetHash(runtime.Password));
                     player.Profile.WorldName = player.CurrentGame.Context.WorldManager.StartWorld.Name;
                     runtime.Status = LoginStatus.EnterWorld;

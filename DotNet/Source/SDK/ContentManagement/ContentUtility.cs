@@ -45,23 +45,5 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
             var length = current - start;
             return length == 0 ? string.Empty : content.Substring(start, length);
         }
-
-        public static Resource GetResource<T>(T id) where T : struct
-        {
-            return Singleton<Resources<T>>.Instance[id];
-        }
-
-        public static Message CreateMessage<T>(T resourceId)
-            where T : struct
-        {
-            return CreateMessage(resourceId, LocaleManager.DefaultLocaleId, null);
-        }
-
-        public static Message CreateMessage<T>(T resourceId, int localeId, params object[] parameters)
-            where T : struct
-        {
-            var resource = GetResource<T>(resourceId);
-            return new Message(resource, parameters);
-        }
     }
 }

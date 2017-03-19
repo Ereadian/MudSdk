@@ -1,5 +1,5 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="ColorIndex.cs" company="Ereadian"> 
+// <copyright file="ColorManager.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
@@ -15,11 +15,6 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
     /// </summary>
     public class ColorManager : IDisposable
     {
-        /// <summary>
-        /// undefined/default color name
-        /// </summary>
-        public const string UndefinedColorName = "";
-
         /// <summary>
         /// undefined/default color id
         /// </summary>
@@ -42,6 +37,19 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// read/write lock
         /// </summary>
         private ReaderWriterLockSlim readWriteLock = new ReaderWriterLockSlim();
+
+        /// <summary>
+        /// Initializes static members of the <see cref="ColorManager" /> class.
+        /// </summary>
+        static ColorManager()
+        {
+            UndefinedColorName = string.Empty;
+        }
+
+        /// <summary>
+        /// Gets undefined/default color name
+        /// </summary>
+        public static string UndefinedColorName { get; private set; }
 
         /// <summary>
         /// Gets color id by name

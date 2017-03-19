@@ -135,18 +135,6 @@ namespace Ereadian.MudSdk.Sdk
             }
         }
 
-        private T LoadData<T>(string root, string file) where T: new()
-        {
-            var path = Path.GetFullPath(Path.Combine(root, file + ".xml"));
-            if (!File.Exists(path))
-            {
-                this.WriteConsole("File does not exist: " + path);
-                return default(T);
-            }
-
-            return Singleton<Serializer<T>>.Instance.Deserialize(path);
-        }
-
         private class GameContext : IGameContext
         {
             public GameSettings Settings { get; internal set; }
@@ -165,6 +153,24 @@ namespace Ereadian.MudSdk.Sdk
             public IProfileStorage ProfileStorage { get; internal set; }
 
             public ILog Log { get; internal set; }
+
+            #region IDisposable Support
+            protected virtual void DisposeItems()
+            {
+                this.ColorManager.Dispose();
+            }
+
+            public void Dispose()
+            {
+                lock (this)
+                {
+                    if (this.ColorManager != null)
+                    {
+                        this.DisposeItems();
+                    }
+                }
+            }
+            #endregion IDisposable Support
         }
     }
 }

@@ -67,7 +67,7 @@
 
         public override void Add(Player player)
         {
-            player.AddOuput(ContentUtility.CreateMessage(SystemResources.LoadingUserWorldData, player.Profile.LocaleId));
+            player.AddOuput(Message.Create(SystemResources.LoadingUserWorldData));
             ThreadPool.QueueUserWorkItem(AddPlayerTask, Tuple.Create(this, player));
         }
 
