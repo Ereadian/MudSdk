@@ -19,16 +19,6 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         public const string LocaleAttributeName = "locale";
 
         /// <summary>
-        /// locale id of current content
-        /// </summary>
-        public int LocaleId { get; private set; }
-
-        /// <summary>
-        /// Formalized contents (color, text as so on)
-        /// </summary>
-        public Content Content { get; private set; }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Text" /> structure.
         /// </summary>
         /// <param name="localeId">locale id</param>
@@ -57,5 +47,15 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                   new Content(contentElement.InnerText, colorManager))
         {
         }
+
+        /// <summary>
+        /// Gets locale id of current content
+        /// </summary>
+        public int LocaleId { get; private set; }
+
+        /// <summary>
+        /// Gets formalized contents (color, text as so on)
+        /// </summary>
+        public Content Content { get; private set; }
     }
 }

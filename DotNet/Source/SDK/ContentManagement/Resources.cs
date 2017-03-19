@@ -12,10 +12,17 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
     /// <summary>
     /// Resource data
     /// </summary>
-    public class Resources<T> where T: struct
+    /// <typeparam name="T">resource enumerator type</typeparam>
+    public class Resources<T> where T : struct
     {
+        /// <summary>
+        /// resources for give resource enumerator type
+        /// </summary>
         private readonly IReadOnlyList<Resource> resources;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Resources{T}" /> class.
+        /// </summary>
         public Resources()
         {
             Resource[] collection = null;
@@ -50,9 +57,14 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                 }
             }
 
-            resources = collection;
+            this.resources = collection;
         }
 
+        /// <summary>
+        /// Gets resource by resource id
+        /// </summary>
+        /// <param name="id">resource id</param>
+        /// <returns>resource instance</returns>
         public Resource this[T id]
         {
             get

@@ -14,7 +14,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// <summary>
         /// Initializes a new instance of the <see cref="TextContent" /> class.
         /// </summary>
-        /// <param name="text"></param>
+        /// <param name="text">text content</param>
         public TextContent(string text)
         {
             this.Text = text;
