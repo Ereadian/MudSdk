@@ -12,22 +12,59 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
     using Ereadian.MudSdk.Sdk.IO;
 
     /// <summary>
-    /// Resource data
+    /// Resource collection
     /// </summary>
     public static class ResourceCollection
     {
+        /// <summary>
+        /// name of collection name attribute
+        /// </summary>
         public const string ResourceCollectionNameAttributeName = "name";
+
+        /// <summary>
+        /// name of resource element
+        /// </summary>
         public const string ResourceElementName = "resource";
+
+        /// <summary>
+        /// name of resource name attribute
+        /// </summary>
         public const string ResourceNameAttributeName = "name";
+
+        /// <summary>
+        /// name of content element
+        /// </summary>
         public const string ContentElementName = "content";
 
+        /// <summary>
+        /// default resource folder name
+        /// </summary>
+        public const string DefaultResourceFolderName = "contents";
+
+        /// <summary>
+        /// resource collection
+        /// </summary>
         private static Dictionary<string, Dictionary<string, Resource>> resourceCollection;
 
+        /// <summary>
+        /// Load resources
+        /// </summary>
+        /// <param name="context">game context</param>
+        public static void LoadResources(IGameContext context)
+        {
+            LoadResources(DefaultResourceFolderName, context);
+        }
+
+        /// <summary>
+        /// Load resources
+        /// </summary>
+        /// <param name="resourceFolder">resource folder name</param>
+        /// <param name="context">game context</param>
         public static void LoadResources(string resourceFolder, IGameContext context)
         {
             var storage = context.ContentStorage;
-            var locales = context.LocaleManager;
-            var colors = context.ColorManager;
+            var localeManager = context.LocaleManager;
+            var colorManager = context.ColorManager;
             resourceCollection = new Dictionary<string, Dictionary<string, Resource>>(StringComparer.OrdinalIgnoreCase);
             var files = storage.GetFiles(resourceFolder);
             if (files != null)
@@ -64,7 +101,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                         list.Clear();
                         foreach (XmlElement contentElement in resourceElement.SelectNodes(ContentElementName))
                         {
-                            var content = new Text(contentElement, locales, colors);
+                            var content = new Text(contentElement, localeManager, colorManager);
                             list.Add(content);
                         }
 

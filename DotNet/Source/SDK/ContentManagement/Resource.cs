@@ -14,13 +14,25 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
     /// </summary>
     public struct Resource
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Resource" /> struct.
+        /// </summary>
+        /// <param name="data">resource data</param>
         public Resource(IReadOnlyList<Text> data)
         {
             this.Data = data;
         }
 
+        /// <summary>
+        /// Gets resource data
+        /// </summary>
         public IReadOnlyList<Text> Data { get; private set; }
 
+        /// <summary>
+        /// Gets content from resource by locale id
+        /// </summary>
+        /// <param name="localeId">locale id</param>
+        /// <returns>content of the locale</returns>
         public Content this[int localeId]
         {
             get
