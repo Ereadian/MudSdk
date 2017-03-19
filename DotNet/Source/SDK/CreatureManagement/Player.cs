@@ -38,19 +38,19 @@ namespace Ereadian.MudSdk.Sdk.CreatureManagement
         /// </summary>
         /// <param name="game">game instance</param>
         /// <param name="client">player client</param>
-        public Player(Game game, IClient client) : base(game.ActionableItemManager)
+        public Player(IGameContext context, IClient client) : base(context.ActionableItemManager)
         {
             this.Client = client;
-            this.CurrentGame = game;
-            var world = game.Context.WorldManager.LoginWorld;
+            this.GameContext = context;
+            var world = context.WorldManager.LoginWorld;
             world.Add(this);
-            game.ActionableItemManager.Add(this);
+            context.ActionableItemManager.Add(this);
         }
 
         /// <summary>
         /// Gets current game instance
         /// </summary>
-        public Game CurrentGame { get; private set; }
+        public IGameContext GameContext { get; private set; }
 
         /// <summary>
         /// Gets or sets player locale id

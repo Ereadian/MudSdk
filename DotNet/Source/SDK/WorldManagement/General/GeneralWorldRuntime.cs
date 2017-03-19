@@ -58,7 +58,7 @@
         {
             base.Descrialize(player, runtimeXml);
             var roomName = runtimeXml.GetChildElementText(RoomElementName);
-            this.Room = player.CurrentGame.Context.RoomManager.FindRoom(roomName);
+            this.Room = player.GameContext.RoomManager.FindRoom(roomName);
             if (this.Room == null)
             {
                 this.Room = this.World.EntryRoom;

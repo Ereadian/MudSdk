@@ -21,6 +21,8 @@ namespace Ereadian.MudSdk.Sdk
 
         ColorManager ColorManager { get; }
 
+        ActionableObjectManager ActionableItemManager { get; }
+
         TypeManager TypeManager { get; }
 
         RoomManager RoomManager { get; }

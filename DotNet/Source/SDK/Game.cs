@@ -23,8 +23,6 @@ namespace Ereadian.MudSdk.Sdk
     {
         public IGameContext Context { get; private set; }
 
-        public ActionableObjectManager ActionableItemManager { get; private set; }
-
         public Thread thread;
 
         public ManualResetEventSlim StopEvent { get; private set; }
@@ -49,9 +47,8 @@ namespace Ereadian.MudSdk.Sdk
             var worldManager = new WorldManager(context.Settings.LoginWorldName, context.Settings.StartWorldName);
             this.RegisterWorlds(worldManager, context);
             context.WorldManager = worldManager;
+            context.ActionableItemManager = new ActionableObjectManager();
 
-            // create actionable manager
-            this.ActionableItemManager = new ActionableObjectManager();
             this.StopEvent = new ManualResetEventSlim(false);
             this.thread = new Thread(RunGame);
             this.thread.Start(this);
@@ -64,7 +61,7 @@ namespace Ereadian.MudSdk.Sdk
             stopwatch.Start();
             while (!this.StopEvent.Wait(timeout))
             {
-                this.ActionableItemManager.Run();
+                this.Context.ActionableItemManager.Run();
                 stopwatch.Stop();
                 timeout = this.Context.Settings.HeartBeat - (int)stopwatch.ElapsedMilliseconds;
                 if (timeout < 0)
@@ -86,7 +83,7 @@ namespace Ereadian.MudSdk.Sdk
 
         public IConnector Connect(IClient client)
         {
-            return new Connector(this, client);
+            return new Connector(this.Context, client);
         }
 
         protected virtual void RegisterWorlds(WorldManager worldManager, IGameContext context)
@@ -142,6 +139,8 @@ namespace Ereadian.MudSdk.Sdk
             public LocaleManager LocaleManager { get; internal set; }
 
             public ColorManager ColorManager { get; internal set; }
+
+            public ActionableObjectManager ActionableItemManager { get; internal set; }
 
             public TypeManager TypeManager { get; internal set; }
 

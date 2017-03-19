@@ -103,7 +103,7 @@
             var runtime = GetRuntime(player);
             var profile = player.Profile;
             player.Profile.LastActive = DateTime.UtcNow;
-            player.CurrentGame.Context.ProfileStorage.Save(player.Profile);
+            player.GameContext.ProfileStorage.Save(player.Profile);
 
 
             if (runtime.Room == null)

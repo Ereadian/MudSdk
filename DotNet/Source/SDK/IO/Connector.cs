@@ -1,14 +1,11 @@
 ﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
-// <copyright file="IConnector.cs" company="Ereadian"> 
+// <copyright file="Connector.cs" company="Ereadian"> 
 //     Copyright (c) Ereadian.  All rights reserved. 
 // </copyright> 
 //------------------------------------------------------------------------------------------------------------------------------------------ 
 
 namespace Ereadian.MudSdk.Sdk.IO
 {
-    using System;
-    using System.Collections.Generic;
-    using Ereadian.MudSdk.Sdk.ContentManagement;
     using Ereadian.MudSdk.Sdk.CreatureManagement;
 
     /// <summary>
@@ -18,9 +15,9 @@ namespace Ereadian.MudSdk.Sdk.IO
     {
         private Player player;
 
-        public Connector(Game game, IClient client)
+        public Connector(IGameContext context, IClient client)
         {
-            this.player = new Player(game, client);
+            this.player = new Player(context, client);
         }
 
         /// <summary>

@@ -1,4 +1,10 @@
-﻿namespace Ereadian.MudSdk.Sdk
+﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
+// <copyright file="ActionableObjectManager.cs" company="Ereadian"> 
+//     Copyright (c) Ereadian.  All rights reserved. 
+// </copyright> 
+//------------------------------------------------------------------------------------------------------------------------------------------ 
+
+namespace Ereadian.MudSdk.Sdk
 {
     using System.Collections.Generic;
 

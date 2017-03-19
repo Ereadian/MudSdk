@@ -54,7 +54,7 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                         return;
                     }
 
-                    if (!int.TryParse(localeChoice, out localeId) || (localeId < 1) || (localeId > player.CurrentGame.Context.LocaleManager.LocaleCount))
+                    if (!int.TryParse(localeChoice, out localeId) || (localeId < 1) || (localeId > player.GameContext.LocaleManager.LocaleCount))
                     {
                         player.AddOuput(Message.Create(SystemResources.InvalidLocaleId));
                         player.AddOuput(this.localeNames);
@@ -82,7 +82,7 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     }
 
                     runtime.UserName = userName;
-                    player.Profile = player.CurrentGame.Context.ProfileStorage.Load(userName);
+                    player.Profile = player.GameContext.ProfileStorage.Load(userName);
                     if (player.Profile == null)
                     {
                         player.AddOuput(Message.Create(SystemResources.NewUser));
@@ -153,13 +153,13 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 
                     player.AddOuput(Message.Create(SystemResources.CreatingAccount));
                     player.Profile = new Profile(Guid.NewGuid(), runtime.UserName, GetHash(runtime.Password));
-                    player.Profile.WorldName = player.CurrentGame.Context.WorldManager.StartWorld.Name;
+                    player.Profile.WorldName = player.GameContext.WorldManager.StartWorld.Name;
                     runtime.Status = LoginStatus.EnterWorld;
                     break;
                 case LoginStatus.EnterWorld:
                     player.LocaleId = runtime.LocaleId;
                     runtime.Status = LoginStatus.Transferring;
-                    player.CurrentGame.Context.WorldManager.GetWorld(player.Profile.WorldName).Add(player);
+                    player.GameContext.WorldManager.GetWorld(player.Profile.WorldName).Add(player);
                     break;
             }
         }
