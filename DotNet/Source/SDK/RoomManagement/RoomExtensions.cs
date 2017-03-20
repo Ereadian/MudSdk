@@ -16,7 +16,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// </summary>
         /// <param name="room">room instance</param>
         /// <returns>room full name</returns>
-        public static string GeFullName(this Room room)
+        public static string GetFullName(this IRoom room)
         {
             return RoomManager.GetRoomFullName(room.Area.Name, room.Name);
         }

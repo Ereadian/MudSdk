@@ -69,6 +69,7 @@
             var runtimeFile = GetFilePath(player, this.CurrentWorld);
             var document = new XmlDocument();
             var rootElement = document.CreateElement(RootElementName);
+            document.AppendChild(rootElement);
             this.Serialize(player, rootElement);
             using (var stream = this.World.GameConext.ContentStorage.OpenForWrite(runtimeFile))
             {
@@ -79,6 +80,7 @@
         public override void Serialize(Player player, XmlElement runtimeXml)
         {
             base.Serialize(player, runtimeXml);
+            runtimeXml.AddTextElement(RoomElementName, this.Room.GetFullName());
         }
 
         private static string GetFilePath(Player player, GeneralWorld world)
