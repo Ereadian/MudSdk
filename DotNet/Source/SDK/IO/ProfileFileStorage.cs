@@ -1,4 +1,10 @@
-﻿namespace Ereadian.MudSdk.Sdk.IO
+﻿//------------------------------------------------------------------------------------------------------------------------------------------ 
+// <copyright file="ProfileFileStorage.cs" company="Ereadian"> 
+//     Copyright (c) Ereadian.  All rights reserved. 
+// </copyright> 
+//------------------------------------------------------------------------------------------------------------------------------------------ 
+
+namespace Ereadian.MudSdk.Sdk.IO
 {
     using System;
     using System.Collections.Concurrent;
@@ -6,7 +12,6 @@
     using System.Threading.Tasks;
     using System.Xml;
     using Ereadian.MudSdk.Sdk.CreatureManagement;
-    using Ereadian.MudSdk.Sdk.WorldManagement;
 
     public class ProfileFileStorage : IProfileStorage
     {
@@ -15,16 +20,23 @@
         private const string PasswordHashElementName = "password";
         private const string WorldElemenName = "world";
         private const string LastActiveElementName = "active";
+        private const string DefaultProfileFolder = "users/profile";
 
         private ConcurrentDictionary<string, Guid> NameIdMapping;
-        private IContentStorage storage;
+        private readonly IContentStorage storage;
+        private readonly string profileFolder;
 
-        public ProfileFileStorage(IContentStorage storage)
+        public ProfileFileStorage(IContentStorage storage) : this(storage, DefaultProfileFolder)
+        {
+        }
+
+        public ProfileFileStorage(IContentStorage storage, string folder)
         {
             this.storage = storage;
+            this.profileFolder = folder;
             var mappping = new ConcurrentDictionary<string, Guid>(StringComparer.OrdinalIgnoreCase);
             this.NameIdMapping = mappping;
-            var files = storage.GetFiles(null);
+            var files = storage.GetFiles(profileFolder);
             if ((files != null) && (files.Count > 0))
             {
                 Parallel.For(
@@ -33,7 +45,7 @@
                     index =>
                     {
                         var file = files[index];
-                        var profile = Load(file);
+                        var profile = Load(storage, folder, file);
                         if (!mappping.TryAdd(profile.Name, profile.Id))
                         {
                             // TODO: log error
@@ -55,7 +67,7 @@
                 return null;
             }
 
-            return Load(this.storage, id, GameUtility.GetFilenameById(id));
+            return Load(this.storage, this.profileFolder, id, GameUtility.GetFilenameById(id));
         }
 
         public void Save(Profile profile)
@@ -74,19 +86,20 @@
             }
         }
 
-        private static Profile Load(IContentStorage storage, string file)
+        private static Profile Load(IContentStorage storage, string profileFolder, string file)
         {
             var id = Guid.Parse(file.Substring(0, file.LastIndexOf('.')));
-            return Load(storage, id, file);
+            return Load(storage, profileFolder, id, file);
         }
 
-        private static Profile Load(IContentStorage storage, Guid id, string file)
+        private static Profile Load(IContentStorage storage, string profileFolder, Guid id, string file)
         {
             Profile profile = null;
-            if (storage.IsFileExist(file))
+            var path = storage.CombinePath(profileFolder, file);
+            if (storage.IsFileExist(path))
             {
                 var document = new XmlDocument();
-                using (var stream = storage.OpenForRead(file))
+                using (var stream = storage.OpenForRead(path))
                 {
                     document.Load(stream);
                 }

@@ -18,6 +18,16 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
     public class Room : IRoom
     {
         /// <summary>
+        /// title element name
+        /// </summary>
+        public const string TitleElementName = "title";
+
+        /// <summary>
+        /// description element name
+        /// </summary>
+        public const string DescriptionElementName = "description";
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Room" /> class.
         /// </summary>
         /// <param name="phaseId">phase id</param>
@@ -30,6 +40,21 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         {
             this.Name = name;
             this.Area = area;
+            var titleElement = roomData.SelectSingleNode(TitleElementName) as XmlElement;
+            if (titleElement == null)
+            {
+                this.Title = new Resource(name);
+            }
+            else
+            {
+                this.Title = new Resource(titleElement, context.LocaleManager, context.ColorManager);
+            }
+
+            var descriptionElement = roomData.SelectSingleNode(DescriptionElementName) as XmlElement;
+            if (descriptionElement != null)
+            {
+                this.Description = new Resource(descriptionElement, context.LocaleManager, context.ColorManager);
+            }
             return true;
         }
 

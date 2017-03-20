@@ -50,16 +50,6 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         public const string TypeNameAttributeName = "reference";
 
         /// <summary>
-        /// title element name
-        /// </summary>
-        public const string TitleElementName = "title";
-
-        /// <summary>
-        /// description element name
-        /// </summary>
-        public const string DescriptionElementName = "description";
-
-        /// <summary>
         /// Default folder name
         /// </summary>
         public const string DefaultFolderName = "maps";
@@ -290,8 +280,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
             ColorManager colorManager)
         {
             var list = new List<Text>();
-            foreach (XmlElement contentElement in contentsElement.SelectNodes(
-                ResourceCollection.ContentElementName))
+            foreach (XmlElement contentElement in contentsElement.SelectNodes(Resource.ContentElementName))
             {
                 var content = new Text(contentElement, localeManager, colorManager);
                 list.Add(content);

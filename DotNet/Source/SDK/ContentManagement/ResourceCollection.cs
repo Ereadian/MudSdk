@@ -32,11 +32,6 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         public const string ResourceNameAttributeName = "name";
 
         /// <summary>
-        /// name of content element
-        /// </summary>
-        public const string ContentElementName = "content";
-
-        /// <summary>
         /// default resource folder name
         /// </summary>
         public const string DefaultResourceFolderName = "contents";
@@ -69,7 +64,6 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
             var files = storage.GetFiles(resourceFolder);
             if (files != null)
             {
-                var list = new List<Text>();
                 for (var i = 0; i < files.Count; i++)
                 {
                     var path = storage.CombinePath(resourceFolder, files[i]);
@@ -98,14 +92,9 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                             continue;
                         }
 
-                        list.Clear();
-                        foreach (XmlElement contentElement in resourceElement.SelectNodes(ContentElementName))
-                        {
-                            var content = new Text(contentElement, localeManager, colorManager);
-                            list.Add(content);
-                        }
+                        var resource = new Resource(resourceElement, localeManager, colorManager);
 
-                        if (list.Count > 0)
+                        if ((resource.Data != null) && (resource.Data.Count > 0))
                         {
                             if (!resourceCollection.TryGetValue(collectionName, out resources))
                             {
@@ -121,7 +110,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                                 }
                             }
 
-                            resources.Add(resourceName, new Resource(list.ToArray()));
+                            resources.Add(resourceName, resource);
                         }
                     }
                 }

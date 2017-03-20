@@ -73,6 +73,18 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// <summary>
         /// Initializes a new instance of the <see cref="Content" /> struct.
         /// </summary>
+        /// <param name="text">simple text</param>
+        public Content(string text)
+        {
+            this.Data = new IContent[]
+            {
+                new  TextContent(text)
+            };
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Content" /> struct.
+        /// </summary>
         /// <param name="text">raw text</param>
         /// <param name="colorIndex">color index</param>
         /// <returns>content list</returns>
