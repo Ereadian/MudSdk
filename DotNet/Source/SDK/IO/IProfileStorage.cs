@@ -5,8 +5,9 @@
 
     public interface IProfileStorage
     {
+        void Init(IGameContext context);
         bool TryRegisterProfile(string name, Guid id);
-        Profile Load(string name);
-        void Save(Profile profile);
+        Profile Load(string name, IGameContext context);
+        void Save(Profile profile, IGameContext context);
     }
 }

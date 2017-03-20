@@ -6,14 +6,11 @@
 
 namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
 {
-    using Ereadian.MudSdk.Sdk.ContentManagement;
-    using Ereadian.MudSdk.Sdk.CreatureManagement;
-    using Ereadian.MudSdk.Sdk.RoomManagement;
     using System;
-    using System.Collections.Generic;
     using System.Security.Cryptography;
     using System.Text;
-    using System.Threading;
+    using Ereadian.MudSdk.Sdk.ContentManagement;
+    using Ereadian.MudSdk.Sdk.CreatureManagement;
 
     public class LoginWorld : World
     {
@@ -82,7 +79,7 @@ namespace Ereadian.MudSdk.Sdk.WorldManagement.Login
                     }
 
                     runtime.UserName = userName;
-                    player.Profile = player.GameContext.ProfileStorage.Load(userName);
+                    player.Profile = player.GameContext.ProfileStorage.Load(userName, player.GameContext);
                     if (player.Profile == null)
                     {
                         player.AddOuput(Message.Create(SystemResources.NewUser));

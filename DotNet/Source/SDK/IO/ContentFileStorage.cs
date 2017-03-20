@@ -45,12 +45,13 @@
 
         public Stream OpenForRead(string path)
         {
-            return new FileStream(Path.Combine(this.rootFolder, path), FileMode.Open, FileAccess.Read);
+            var targetPath = FormalizePath(path);
+            return new FileStream(Path.Combine(this.rootFolder, targetPath), FileMode.Open, FileAccess.Read);
         }
 
         public Stream OpenForWrite(string path)
         {
-            var targetPath = Path.Combine(this.rootFolder, path);
+            var targetPath = Path.Combine(this.rootFolder, FormalizePath(path));
             var folder = Path.GetDirectoryName(targetPath);
             if (!Directory.Exists(folder))
             {
@@ -62,7 +63,7 @@
 
         public IReadOnlyList<string> GetFiles(string folder)
         {
-            var path = string.IsNullOrEmpty(folder) ? this.rootFolder : Path.Combine(this.rootFolder, folder);
+            var path = string.IsNullOrEmpty(folder) ? this.rootFolder : Path.Combine(this.rootFolder, FormalizePath(folder));
             var folderInformation = new DirectoryInfo(path);
             string[] files = null;
 
@@ -112,6 +113,11 @@
 
         private static string FormalizePath(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return path;
+            }
+
             return path.Replace(DirectorySeparatorChar, Path.DirectorySeparatorChar);
         }
     }

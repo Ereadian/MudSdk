@@ -20,32 +20,29 @@ namespace Ereadian.MudSdk.Sdk.IO
         private const string PasswordHashElementName = "password";
         private const string WorldElemenName = "world";
         private const string LastActiveElementName = "active";
-        private const string DefaultProfileFolder = "users/profile";
 
         private ConcurrentDictionary<string, Guid> NameIdMapping;
         private readonly IContentStorage storage;
-        private readonly string profileFolder;
 
-        public ProfileFileStorage(IContentStorage storage) : this(storage, DefaultProfileFolder)
-        {
-        }
-
-        public ProfileFileStorage(IContentStorage storage, string folder)
+        public ProfileFileStorage(IContentStorage storage)
         {
             this.storage = storage;
-            this.profileFolder = folder;
-            var mappping = new ConcurrentDictionary<string, Guid>(StringComparer.OrdinalIgnoreCase);
-            this.NameIdMapping = mappping;
-            var files = storage.GetFiles(profileFolder);
+            this.NameIdMapping = new ConcurrentDictionary<string, Guid>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        public void Init(IGameContext context)
+        {
+            var mappping = this.NameIdMapping;
+            var files = storage.GetFiles(context.Settings.PlayerProfileFolder);
             if ((files != null) && (files.Count > 0))
             {
                 Parallel.For(
-                    0, 
+                    0,
                     files.Count,
                     index =>
                     {
                         var file = files[index];
-                        var profile = Load(storage, folder, file);
+                        var profile = Load(storage, context.Settings.PlayerProfileFolder, file);
                         if (!mappping.TryAdd(profile.Name, profile.Id))
                         {
                             // TODO: log error
@@ -59,7 +56,7 @@ namespace Ereadian.MudSdk.Sdk.IO
             return this.NameIdMapping.TryAdd(name, id);
         }
 
-        public Profile Load(string name)
+        public Profile Load(string name, IGameContext context)
         {
             Guid id;
             if (!this.NameIdMapping.TryGetValue(name, out id))
@@ -67,10 +64,10 @@ namespace Ereadian.MudSdk.Sdk.IO
                 return null;
             }
 
-            return Load(this.storage, this.profileFolder, id, GameUtility.GetFilenameById(id));
+            return Load(this.storage, context.Settings.PlayerProfileFolder, id, GameUtility.GetFilenameById(id));
         }
 
-        public void Save(Profile profile)
+        public void Save(Profile profile, IGameContext context)
         {
             var document = new XmlDocument();
             var rootElement = document.CreateElement(RootElementName);
@@ -80,7 +77,8 @@ namespace Ereadian.MudSdk.Sdk.IO
             rootElement.AddTextElement(WorldElemenName, profile.WorldName);
             rootElement.AddTextElement(LastActiveElementName, profile.LastActive.ToString(CultureInfo.InvariantCulture));
 
-            using (var stream = this.storage.OpenForWrite(GameUtility.GetFilenameById(profile.Id)))
+            var path = this.storage.CombinePath(context.Settings.PlayerProfileFolder, GameUtility.GetFilenameById(profile.Id));
+            using (var stream = this.storage.OpenForWrite(path))
             {
                 document.Save(stream);
             }

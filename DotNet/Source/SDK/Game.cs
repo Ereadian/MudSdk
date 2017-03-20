@@ -61,6 +61,7 @@ namespace Ereadian.MudSdk.Sdk
             context.WorldManager = worldManager;
             context.ActionableItemManager = new ActionableObjectManager();
 
+            profileStorage.Init(context);
             this.StopEvent = new ManualResetEventSlim(false);
             this.thread = new Thread(RunGame);
             this.thread.Start(this);
