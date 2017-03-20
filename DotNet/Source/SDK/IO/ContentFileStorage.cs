@@ -50,7 +50,14 @@
 
         public Stream OpenForWrite(string path)
         {
-            return new FileStream(Path.Combine(this.rootFolder, path), FileMode.Create, FileAccess.Write);
+            var targetPath = Path.Combine(this.rootFolder, path);
+            var folder = Path.GetDirectoryName(targetPath);
+            if (!Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            return new FileStream(targetPath, FileMode.Create, FileAccess.Write);
         }
 
         public IReadOnlyList<string> GetFiles(string folder)

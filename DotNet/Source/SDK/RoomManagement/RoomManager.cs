@@ -12,7 +12,8 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
     using System.Threading.Tasks;
     using System.Xml;
     using Ereadian.MudSdk.Sdk.ContentManagement;
-    using IO;
+    using Ereadian.MudSdk.Sdk.IO;
+    using Ereadian.MudSdk.Sdk.Runtime;
 
     /// <summary>
     /// Room manager
@@ -44,29 +45,20 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// </summary>
         public const string TypeElementName = "type";
 
-        /// <summary>
-        /// name of reference type attribute name
-        /// </summary>
-        public const string TypeNameAttributeName = "reference";
-
-        /// <summary>
-        /// Default folder name
-        /// </summary>
-        public const string DefaultFolderName = "maps";
-
         private IDictionary<string, Area> areas;
         private IDictionary<string, IRoom> rooms;
 
-        public RoomManager(IGameContext context) : this(DefaultFolderName, context)
-        {
-        }
-
-        public RoomManager(string folder, IGameContext context)
+        public RoomManager(IGameContext context, string folder = null)
         {
             var storage = context.ContentStorage;
             var typeManager = context.TypeManager;
             var localeManager = context.LocaleManager;
             var colorManager = context.ColorManager;
+
+            if (string.IsNullOrEmpty(folder))
+            {
+                folder = context.Settings.MapDataFolder;
+            }
 
             var syncObject = new object();
             this.areas = new Dictionary<string, Area>(StringComparer.OrdinalIgnoreCase);
@@ -83,7 +75,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                     index =>
                     {
                         var path = storage.CombinePath(folder, files[index]);
-                        LoadRoomsFromMapFile(storage, path, syncObject, typeManager, activeConfigurations);
+                        LoadRoomsFromMapFile(storage, path, syncObject, context, activeConfigurations);
                     });
             }
 
@@ -107,7 +99,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                     {
                         var roomData = activeConfigurations[index];
                         var room = roomData.Area.Rooms[roomData.Name];
-                        if (room.Init(phaseId, roomData.Name, roomData.Area, roomData.Data, context, getRoom))
+                        if (!room.Init(phaseId, roomData.Name, roomData.Area, roomData.Data, context, getRoom))
                         {
                             lock (syncObject)
                             {
@@ -146,18 +138,11 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         private void LoadRoomsFromMapFile(
             IContentStorage storage, 
             string path, 
-            object syncObject, 
-            TypeManager typeManager, 
+            object syncObject,
+            IGameContext context, 
             IList<RoomData> activeConfigurations)
         {
-            XmlElement rootElement;
-            using (var stream = storage.OpenForRead(path))
-            {
-                var document = new XmlDocument();
-                document.Load(stream);
-                rootElement = document.DocumentElement;
-            }
-
+            XmlElement rootElement = storage.LoadXml(path);
             string areaName = rootElement.GetAttribute(AreaNameAttributeName);
             if (string.IsNullOrWhiteSpace(areaName))
             {
@@ -190,27 +175,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                 var typeElement = roomElement.SelectSingleNode(TypeElementName) as XmlElement;
                 if (typeElement != null)
                 {
-                    Type type = GetTypeFromXml(typeElement, typeManager);
-                    if (type == null)
-                    {
-                        // TODO: write error. type was not found
-                    }
-                    else
-                    {
-                        try
-                        {
-                            var instance = Activator.CreateInstance(type);
-                            room = instance as IRoom;
-                            if (room == null)
-                            {
-                                // TODO: write error. wrong instance
-                            }
-                        }
-                        catch
-                        {
-                            // TODO: write error. Creating room got exception
-                        }
-                    }
+                    room = RuntimeUtility.CreateInstance<IRoom>(typeElement, context.TypeManager, context.Log);
                 }
 
                 if (room == null)
@@ -240,38 +205,6 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                     }
                 }
             }
-        }
-
-        private static Type GetTypeFromXml(XmlElement typeElement, TypeManager typeManager)
-        {
-            Type type = null;
-            var referenceName = typeElement.GetAttribute(TypeNameAttributeName);
-            if (!string.IsNullOrWhiteSpace(referenceName))
-            {
-                type = typeManager.GetRegisteredType(referenceName.Trim());
-                if (type == null)
-                {
-                    // TODO: write error. could not find registered type
-                }
-            }
-            else
-            {
-                var typeName = typeElement.InnerText;
-                if (string.IsNullOrEmpty(typeName))
-                {
-                    // TODO: write error. type name is required
-                }
-                else
-                {
-                    type = Type.GetType(typeName.Trim());
-                    if (type == null)
-                    {
-                        // TODO: write type does not exist
-                    }
-                }
-            }
-
-            return type;
         }
 
         private static Resource LoadContentFromXml(

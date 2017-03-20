@@ -9,6 +9,7 @@ namespace Ereadian.MudSdk.Sdk
     using System;
     using System.Diagnostics;
     using System.Threading;
+    using System.Xml;
     using Ereadian.MudSdk.Sdk.ContentManagement;
     using Ereadian.MudSdk.Sdk.Diagnostics;
     using Ereadian.MudSdk.Sdk.IO;
@@ -46,7 +47,7 @@ namespace Ereadian.MudSdk.Sdk
             context.Log = log ?? new ConsoleLogger();
             context.ContentStorage = contentStorage;
             context.ProfileStorage = profileStorage;
-            context.Settings = new GameSettings(contentStorage);
+            context.Settings = new GameSettings(contentStorage, log);
             context.ColorManager = new ColorManager();
             context.LocaleManager = new LocaleManager(this.Context.Settings.DefaultLocale);
             context.TypeManager = new TypeManager(contentStorage);
@@ -110,7 +111,10 @@ namespace Ereadian.MudSdk.Sdk
                     try
                     {
                         world = Activator.CreateInstance(worldType) as IWorld;
-                        world.Init(worldName, context);
+                        if (world == null)
+                        {
+                            // TODO: write error
+                        }
                     }
                     catch
                     {
@@ -119,19 +123,20 @@ namespace Ereadian.MudSdk.Sdk
 
                     if (world != null)
                     {
-                        worldManager.RegisterWorld(worldName, world);
+                        world.Init(worldName, context);
+                        worldManager.RegisterWorld(worldName, world, context.Log);
                     }
                 }
             }
 
             if (worldManager.LoginWorld == null)
             {
-                worldManager.RegisterWorld(settings.LoginWorldName, new LoginWorld());
+                worldManager.RegisterWorld(settings.LoginWorldName, new LoginWorld(), context.Log);
             }
 
             if (worldManager.StartWorld == null)
             {
-                worldManager.RegisterWorld(settings.StartWorldName, new GeneralWorld());
+                worldManager.RegisterWorld(settings.StartWorldName, new GeneralWorld(), context.Log);
             }
         }
 

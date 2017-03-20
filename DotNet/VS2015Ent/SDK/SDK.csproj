@@ -197,6 +197,9 @@
     <Compile Include="..\..\Source\SDK\Runtime\ObjectFactory.cs">
       <Link>Runtime\ObjectFactory.cs</Link>
     </Compile>
+    <Compile Include="..\..\Source\SDK\Runtime\RuntimeUtility.cs">
+      <Link>Runtime\RuntimeUtility.cs</Link>
+    </Compile>
     <Compile Include="..\..\Source\SDK\Runtime\XmlConfigurationSectionHandler.cs">
       <Link>Runtime\XmlConfigurationSectionHandler.cs</Link>
     </Compile>

@@ -5,6 +5,12 @@
   <login>login</login>
   <start>normal</start>
   <lines>2</lines>
+  <folders>
+    <folder name="profile">users/profile</folder>
+    <folder name="data">users/data</folder>
+    <folder name="map">maps</folder>
+    <folder name="wrold">worlds</folder>
+  </folders>
   <worlds>
     <world name="login">Ereadian.MudSdk.Sdk.WorldManagement.Login.LoginWorld, MudSDK</world>
     <world name="normal">Ereadian.MudSdk.Sdk.WorldManagement.General.GeneralWorld, MudSDK</world>

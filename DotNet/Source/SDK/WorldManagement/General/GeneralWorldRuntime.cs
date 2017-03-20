@@ -43,7 +43,6 @@
             }
 
             this.Status = WorldStatus.Init;
-
         }
 
         public override void Load(Player player)

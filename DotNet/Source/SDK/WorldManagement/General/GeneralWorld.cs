@@ -35,14 +35,7 @@
         {
             base.Init(name, context);
             var contentStorage = context.ContentStorage;
-            var configurationFile = contentStorage.CombinePath("worlds", name + ".xml");
-            if (!File.Exists(configurationFile))
-            {
-                // TODO: write error
-                return;
-            }
-
-            var worldXml = contentStorage.LoadXml(configurationFile);
+            var worldXml = this.LoadWorldConfiguration(name, context);
             var roomName = worldXml.GetChildElementText(EntryRoomNameElementName);
             if (!string.IsNullOrEmpty(roomName))
             {
@@ -55,14 +48,7 @@
                 this.RespawnRoom = context.RoomManager.FindRoom(roomName);
             }
 
-            this.RuntimeDataFolder = contentStorage.CombinePath(
-                Constants.UserFolderName, 
-                Constants.UserWorldRuntimeFolderName, 
-                name);
-            if (!Directory.Exists(this.RuntimeDataFolder))
-            {
-                Directory.CreateDirectory(this.RuntimeDataFolder);
-            }
+            this.RuntimeDataFolder = contentStorage.CombinePath(context.Settings.PlayerDataFolder, name);
         }
 
         public override void Add(Player player)

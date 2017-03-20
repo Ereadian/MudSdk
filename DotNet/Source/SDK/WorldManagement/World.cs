@@ -2,6 +2,8 @@
 {
     using System;
     using System.Threading;
+    using System.Xml;
+    using Ereadian.MudSdk.Sdk.IO;
     using Ereadian.MudSdk.Sdk.CreatureManagement;
     using Ereadian.MudSdk.Sdk.RoomManagement;
 
@@ -67,6 +69,13 @@
             }
 
             return null;
+        }
+
+        protected XmlElement LoadWorldConfiguration(string name, IGameContext context)
+        {
+            var contentStorage = context.ContentStorage;
+            var configurationFile = contentStorage.CombinePath(context.Settings.WorldDataFolder, name + ".xml");
+            return contentStorage.LoadXml(configurationFile);
         }
     }
 }

@@ -6,11 +6,11 @@
 
 namespace Ereadian.MudSdk.Sdk.RoomManagement
 {
-    using System.Xml;
+    using System;
     using System.Collections.Generic;
+    using System.Xml;
     using Ereadian.MudSdk.Sdk.ContentManagement;
     using Ereadian.MudSdk.Sdk.CreatureManagement;
-    using System;
 
     /// <summary>
     /// Room on map
@@ -26,37 +26,6 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// description element name
         /// </summary>
         public const string DescriptionElementName = "description";
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Room" /> class.
-        /// </summary>
-        /// <param name="phaseId">phase id</param>
-        /// <param name="name">room name</param>
-        /// <param name="area">area the room belongs to</param>
-        /// <param name="roomData">room data</param>
-        /// <param name="context">game context</param>
-        /// <param name="getRoom">get room method</param>
-        public virtual bool Init(int phaseId, string name, Area area, XmlElement roomData, IGameContext context, Func<string, IRoom> getRoom)
-        {
-            this.Name = name;
-            this.Area = area;
-            var titleElement = roomData.SelectSingleNode(TitleElementName) as XmlElement;
-            if (titleElement == null)
-            {
-                this.Title = new Resource(name);
-            }
-            else
-            {
-                this.Title = new Resource(titleElement, context.LocaleManager, context.ColorManager);
-            }
-
-            var descriptionElement = roomData.SelectSingleNode(DescriptionElementName) as XmlElement;
-            if (descriptionElement != null)
-            {
-                this.Description = new Resource(descriptionElement, context.LocaleManager, context.ColorManager);
-            }
-            return true;
-        }
 
         /// <summary>
         /// Gets room name
@@ -84,6 +53,39 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         public IReadOnlyDictionary<string, int> Outlets { get; private set; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Room" /> class.
+        /// </summary>
+        /// <param name="phaseId">phase id</param>
+        /// <param name="name">room name</param>
+        /// <param name="area">area the room belongs to</param>
+        /// <param name="roomData">room data</param>
+        /// <param name="context">game context</param>
+        /// <param name="getRoom">get room method</param>
+        /// <returns>false: need another around initialization. true: finished</returns>
+        public virtual bool Init(int phaseId, string name, Area area, XmlElement roomData, IGameContext context, Func<string, IRoom> getRoom)
+        {
+            this.Name = name;
+            this.Area = area;
+            var titleElement = roomData.SelectSingleNode(TitleElementName) as XmlElement;
+            if (titleElement == null)
+            {
+                this.Title = new Resource(name);
+            }
+            else
+            {
+                this.Title = new Resource(titleElement, context.LocaleManager, context.ColorManager);
+            }
+
+            var descriptionElement = roomData.SelectSingleNode(DescriptionElementName) as XmlElement;
+            if (descriptionElement != null)
+            {
+                this.Description = new Resource(descriptionElement, context.LocaleManager, context.ColorManager);
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Show current room information to player
         /// </summary>
         /// <param name="player">player to show</param>
@@ -99,8 +101,8 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         public virtual void ShowRoomDescription(Player player)
         {
             player.AddOuput(Message.NewLineMessage);
-            player.AddOuput(Message.Create(this.Title));
-            player.AddOuput(Message.Create(this.Description));
+            player.AddOuput(new Message(this.Title));
+            player.AddOuput(new Message(this.Description));
         }
     }
 }
