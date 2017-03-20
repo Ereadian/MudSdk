@@ -27,8 +27,21 @@ namespace Ereadian.MudSdk.Sdk
 
         public ManualResetEventSlim StopEvent { get; private set; }
 
-        public virtual void Start(IContentStorage contentStorage, IProfileStorage profileStorage, ILog log)
+        public virtual void Start(
+            IContentStorage contentStorage = null,
+            IProfileStorage profileStorage = null,
+            ILog log = null)
         {
+            if (contentStorage == null)
+            {
+                contentStorage = new ContentFileStorage();
+            }
+
+            if (profileStorage == null)
+            {
+                profileStorage = new ProfileFileStorage(contentStorage);
+            }
+
             var context = new GameContext();
             this.Context = context;
 
@@ -108,7 +121,7 @@ namespace Ereadian.MudSdk.Sdk
 
                     if (world != null)
                     {
-                       worldManager.RegisterWorld(worldName, world);
+                        worldManager.RegisterWorld(worldName, world);
                     }
                 }
             }

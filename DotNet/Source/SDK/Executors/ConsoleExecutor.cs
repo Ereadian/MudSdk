@@ -21,24 +21,8 @@ namespace Ereadian.MudSdk.Sdk.Executors
             Console.InputEncoding = DefaultEncoding;
             Console.OutputEncoding = DefaultEncoding;
 
-            string gamefolder;
-            if (args.Length < 1)
-            {
-                Console.WriteLine("please specify game data folder");
-                return;
-            }
-
-            gamefolder = Path.GetFullPath(args[0]);
-            if (!Directory.Exists(gamefolder))
-            {
-                Console.WriteLine("Game folder does not exist: {0}", gamefolder);
-                return;
-            }
-
             var game = new Game();
-            var contentStorage = new ContentFileStorage();
-            var profileStorage = new ProfileFileStorage(new ContentFileStorage(null, "users/profile"));
-            game.Start(contentStorage, profileStorage, null);
+            game.Start();
 
             var quit = false;
             var client = new ConsoleClient(game, () => quit = true);
