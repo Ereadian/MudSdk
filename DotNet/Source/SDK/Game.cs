@@ -8,16 +8,14 @@ namespace Ereadian.MudSdk.Sdk
 {
     using System;
     using System.Diagnostics;
-    using System.IO;
     using System.Threading;
     using Ereadian.MudSdk.Sdk.ContentManagement;
+    using Ereadian.MudSdk.Sdk.Diagnostics;
     using Ereadian.MudSdk.Sdk.IO;
     using Ereadian.MudSdk.Sdk.RoomManagement;
     using Ereadian.MudSdk.Sdk.WorldManagement;
-    using Ereadian.MudSdk.Sdk.WorldManagement.Login;
     using Ereadian.MudSdk.Sdk.WorldManagement.General;
-    using Ereadian.MudSdk.Sdk.CreatureManagement;
-    using Ereadian.MudSdk.Sdk.Diagnostics;
+    using Ereadian.MudSdk.Sdk.WorldManagement.Login;
 
     public class Game
     {

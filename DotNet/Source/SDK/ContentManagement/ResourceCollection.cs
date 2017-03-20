@@ -67,14 +67,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                 for (var i = 0; i < files.Count; i++)
                 {
                     var path = storage.CombinePath(resourceFolder, files[i]);
-                    XmlElement rootElement;
-                    using (var stream = storage.OpenForRead(path))
-                    {
-                        var document = new XmlDocument();
-                        document.Load(stream);
-                        rootElement = document.DocumentElement;
-                    }
-
+                    var rootElement = storage.LoadXml(path);
                     var collectionName = rootElement.GetAttribute(ResourceCollectionNameAttributeName);
                     if (string.IsNullOrWhiteSpace(collectionName))
                     {

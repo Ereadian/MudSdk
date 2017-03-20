@@ -108,7 +108,7 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
                 textList.Add(text);
             }
 
-            return (textList != null) || (textList.Count < 1) ? Empty<Text>.Array : textList.ToArray(); 
+            return (textList == null) || (textList.Count < 1) ? Empty<Text>.Array : textList.ToArray(); 
         }
     }
 }
