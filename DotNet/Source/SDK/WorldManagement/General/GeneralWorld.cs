@@ -54,6 +54,7 @@
         public override void Add(Player player)
         {
             player.AddOuput(Message.Create(SystemResources.LoadingUserWorldData));
+            player.AddOuput(Message.NewLineMessage);
             ThreadPool.QueueUserWorkItem(AddPlayerTask, Tuple.Create(this, player));
         }
 

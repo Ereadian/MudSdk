@@ -15,6 +15,17 @@ namespace Ereadian.MudSdk.Sdk.ContentManagement
         /// Initializes a new instance of the <see cref="BlankContent" /> class.
         /// </summary>
         /// <param name="text">whole content</param>
+        /// <param name="count">repeat count</param>
+        public BlankContent(string text, int count)
+        {
+            this.Text = text;
+            this.Count = count;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BlankContent" /> class.
+        /// </summary>
+        /// <param name="text">whole content</param>
         /// <param name="start">blank text start position</param>
         /// <param name="end">blank text end position</param>
         public BlankContent(string text, int start, int end)

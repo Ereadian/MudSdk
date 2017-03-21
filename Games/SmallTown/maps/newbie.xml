@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <area xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="newbie">
-  <room name="backyard">
+  <room name="Backyard">
     <title>
       <content locale="en-us">this is backyard</content>
       <content locale="zh-cn">武家后院</content>
@@ -11,7 +11,19 @@
     </description>
     <outlets>
       <outlet command="west" room="WestRoom" />
-      <outlet command="east" room="EastRoom" />
+    </outlets>
+  </room>
+  <room name="WestRoom">
+    <title>
+      <content locale="en-us">this is west room</content>
+      <content locale="zh-cn">西厢房</content>
+    </title>
+    <description>
+      <content locale="en-us">lots of flowers</content>
+      <content locale="zh-cn">这是主人书房，朴素中透着优雅。一个巨大无比的书架(bookshelf)几乎占据了整面墙。{!!}另外一面墙放了很多柜子(cabinet)，柜子似乎由很多小抽屉组成，这些小抽屉基本都由精致的小锁给锁上了。</content>
+    </description>
+    <outlets>
+      <outlet command="east" room="Backyard" />
     </outlets>
   </room>
 </area>

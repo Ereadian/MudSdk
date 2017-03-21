@@ -27,6 +27,14 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// </summary>
         public const string DescriptionElementName = "description";
 
+        public const string OutletRootElementName = "outlets";
+
+        public const string OutletElementName = "outlet";
+
+        public const string CommandAttributeName = "command";
+
+        public const string RoomNameAttributeName = "room";
+
         /// <summary>
         /// Gets room name
         /// </summary>
@@ -55,7 +63,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// <summary>
         /// Gets room outlets
         /// </summary>
-        public IReadOnlyDictionary<string, int> Outlets { get; private set; }
+        public IDictionary<string, IRoom> Outlets { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Room" /> class.
@@ -96,6 +104,46 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
             }
 
             this.InDesign = inDesign;
+
+            Dictionary<string, IRoom> outlets = null;
+            var outletRootElement = roomData.SelectSingleNode(OutletRootElementName) as XmlElement;
+            if (outletRootElement != null)
+            {
+                foreach (XmlElement outletElement in outletRootElement.SelectNodes(OutletElementName))
+                {
+                    var command = outletElement.GetAttribute(CommandAttributeName);
+                    if (string.IsNullOrWhiteSpace(command))
+                    {
+                        // TODO: write error. command already defined
+                        continue;
+                    }
+
+                    var neighborName = outletElement.GetAttribute(RoomNameAttributeName);
+                    if (string.IsNullOrWhiteSpace(neighborName))
+                    {
+                        // TODO: write error
+                        continue;
+                    }
+
+                    neighborName = this.ParseRoomName(neighborName.Trim());
+                    IRoom neighbor = getRoom(neighborName);
+                    if (neighbor == null)
+                    {
+                        // TODO: log error
+                        continue;
+                    }
+
+                    if (outlets == null)
+                    {
+                        outlets = new Dictionary<string, IRoom>(StringComparer.OrdinalIgnoreCase);
+                    }
+
+                    outlets.Add(command.Trim(), neighbor);
+                }
+
+                this.Outlets = outlets;
+            }
+
             return true;
         }
 
@@ -106,17 +154,63 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         public virtual void ShowRoom(Player player)
         {
             this.ShowRoomDescription(player);
+            this.ShowOutlets(player);
+        }
+
+        public string ParseRoomName(string name)
+        {
+            for (var i = 0; i < name.Length; i++)
+            {
+                if (name[i] == RoomManager.AreaSeparatorChar)
+                {
+                    return name;
+                }
+            }
+
+            return RoomManager.GetRoomFullName(this.Area.Name, name);
         }
 
         /// <summary>
         /// Show room description to player
         /// </summary>
         /// <param name="player">player to show</param>
-        public virtual void ShowRoomDescription(Player player)
+        protected virtual void ShowRoomDescription(Player player)
         {
             player.AddOuput(Message.NewLineMessage);
             player.AddOuput(new Message(this.Title));
+            player.AddOuput(Message.NewLineMessage);
             player.AddOuput(new Message(this.Description));
+            player.AddOuput(Message.NewLineMessage);
+        }
+
+        protected virtual void ShowOutlets(Player player)
+        {
+            player.AddOuput(Message.Create(SystemResources.TheRoomOutlets));
+            if (!this.ShowGenearlOutlets(player) && !this.ShowSpecialOutlets(player))
+            {
+            }
+        }
+
+        protected virtual bool ShowGenearlOutlets(Player player)
+        {
+            if (this.Outlets == null)
+            {
+                return false;
+            }
+
+            foreach (var pair in this.Outlets)
+            {
+                player.AddOuput(new Message(pair.Value.Title));
+                player.AddOuput(Message.Create(SystemResources.RoomOutletTemplate, pair.Key));
+            }
+
+            player.AddOuput(Message.NewLineMessage);
+            return true;
+        }
+
+        protected virtual bool ShowSpecialOutlets(Player player)
+        {
+            return false;
         }
     }
 }

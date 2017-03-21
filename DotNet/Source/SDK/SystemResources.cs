@@ -14,5 +14,8 @@
         CreatingAccount,
 
         LoadingUserWorldData,
+
+        TheRoomOutlets,
+        RoomOutletTemplate,
     }
 }

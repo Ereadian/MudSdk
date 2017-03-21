@@ -45,7 +45,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// <summary>
         /// Gets room outlets
         /// </summary>
-        IReadOnlyDictionary<string, int> Outlets { get; }
+        IDictionary<string, IRoom> Outlets { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Room" /> class.

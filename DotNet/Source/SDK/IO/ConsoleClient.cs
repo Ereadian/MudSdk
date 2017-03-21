@@ -105,10 +105,6 @@ namespace Ereadian.MudSdk.Sdk.IO
 
             Console.ForegroundColor = currentForegroundColor;
             Console.BackgroundColor = currenBackgroundColor;
-            for (var i = 0; i < this.game.Context.Settings.LineSpace; i++)
-            {
-                Console.WriteLine();
-            }
         }
 
         /// <summary>
