@@ -48,6 +48,11 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         public Resource Description { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether the room is in design
+        /// </summary>
+        public bool InDesign { get; private set; }
+
+        /// <summary>
         /// Gets room outlets
         /// </summary>
         public IReadOnlyDictionary<string, int> Outlets { get; private set; }
@@ -58,11 +63,19 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// <param name="phaseId">phase id</param>
         /// <param name="name">room name</param>
         /// <param name="area">area the room belongs to</param>
+        /// <param name="inDesign">whether the room is in design</param>
         /// <param name="roomData">room data</param>
         /// <param name="context">game context</param>
         /// <param name="getRoom">get room method</param>
         /// <returns>false: need another around initialization. true: finished</returns>
-        public virtual bool Init(int phaseId, string name, Area area, XmlElement roomData, IGameContext context, Func<string, IRoom> getRoom)
+        public virtual bool Init(
+            int phaseId, 
+            string name, 
+            Area area, 
+            bool inDesign, 
+            XmlElement roomData, 
+            IGameContext context, 
+            Func<string, IRoom> getRoom)
         {
             this.Name = name;
             this.Area = area;
@@ -82,6 +95,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                 this.Description = new Resource(descriptionElement, context.LocaleManager, context.ColorManager);
             }
 
+            this.InDesign = inDesign;
             return true;
         }
 

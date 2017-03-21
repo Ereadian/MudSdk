@@ -34,6 +34,7 @@ namespace Ereadian.MudSdk.Sdk
         public const string DefaultPlayerProfileFolder = "users/profile";
         public const string DefaultPlayerDataFolder = "users/data";
         public const string DefaultMapDataFolder = "maps";
+        public const string DefaultMapDesignFolder = "design";
         public const string DefaultWorldDataFolder = "worlds";
 
         /// <summary>
@@ -58,6 +59,7 @@ namespace Ereadian.MudSdk.Sdk
             this.PlayerProfileFolder = DefaultPlayerProfileFolder ;
             this.PlayerDataFolder = DefaultPlayerDataFolder ;
             this.MapDataFolder = DefaultMapDataFolder;
+            this.MapDesignFolder = DefaultMapDesignFolder;
             this.WorldDataFolder = DefaultWorldDataFolder;
             this.SetFolders(rootElement.SelectSingleNode(FolderRootElementName) as XmlElement, log);
             this.LoadWorldConfigurations(rootElement.SelectSingleNode(WorldRootElementName) as XmlElement, log);
@@ -85,6 +87,7 @@ namespace Ereadian.MudSdk.Sdk
         public string PlayerProfileFolder { get; private set; }
         public string PlayerDataFolder { get; private set; }
         public string MapDataFolder { get; private set; }
+        public string MapDesignFolder { get; private set; }
         public string WorldDataFolder { get; private set; }
 
         public IReadOnlyDictionary<string, Type> WorldTypes { get; private set; }
@@ -163,8 +166,11 @@ namespace Ereadian.MudSdk.Sdk
                         case "map":
                             this.MapDataFolder = folder;
                             break;
-                        case "wrold":
+                        case "world":
                             this.WorldDataFolder = folder;
+                            break;
+                        case "design":
+                            this.MapDesignFolder = folder;
                             break;
                         default:
                             // TODO: log error: name is not supported

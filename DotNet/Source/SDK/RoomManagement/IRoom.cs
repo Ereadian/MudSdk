@@ -33,6 +33,11 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         Resource Title { get; }
 
         /// <summary>
+        /// Gets a value indicating whether the room is in design
+        /// </summary>
+        bool InDesign { get; }
+
+        /// <summary>
         /// Gets room description
         /// </summary>
         Resource Description { get; }
@@ -48,11 +53,19 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         /// <param name="phaseId">phase id</param>
         /// <param name="name">room name</param>
         /// <param name="area">area the room belongs to</param>
+        /// <param name="inDesign">whether the room is in design</param>
         /// <param name="roomData">room data</param>
         /// <param name="context">game context</param>
         /// <param name="getRoom">get room method</param>
         /// <returns>true: done. false: need another around initialization</returns>
-        bool Init(int phaseId, string name, Area area, XmlElement roomData, IGameContext context, Func<string, IRoom> getRoom);
+        bool Init(
+            int phaseId, 
+            string name, 
+            Area area, 
+            bool inDesign, 
+            XmlElement roomData, 
+            IGameContext context, 
+            Func<string, IRoom> getRoom);
 
         /// <summary>
         /// Show current room information to player

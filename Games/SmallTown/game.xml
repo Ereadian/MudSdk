@@ -9,7 +9,8 @@
     <folder name="profile">users/profile</folder>
     <folder name="data">users/data</folder>
     <folder name="map">maps</folder>
-    <folder name="wrold">worlds</folder>
+    <folder name="design">design</folder>
+    <folder name="world">worlds</folder>
   </folders>
   <worlds>
     <world name="login">Ereadian.MudSdk.Sdk.WorldManagement.Login.LoginWorld, MudSDK</world>

@@ -48,17 +48,13 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         private IDictionary<string, Area> areas;
         private IDictionary<string, IRoom> rooms;
 
-        public RoomManager(IGameContext context, string folder = null)
+        public RoomManager(IGameContext context)
         {
             var storage = context.ContentStorage;
             var typeManager = context.TypeManager;
             var localeManager = context.LocaleManager;
             var colorManager = context.ColorManager;
 
-            if (string.IsNullOrEmpty(folder))
-            {
-                folder = context.Settings.MapDataFolder;
-            }
 
             var syncObject = new object();
             this.areas = new Dictionary<string, Area>(StringComparer.OrdinalIgnoreCase);
@@ -66,18 +62,21 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
             var activeConfigurations = new List<RoomData>();
             var inactiveConfigurations = new List<RoomData>();
 
-            var files = storage.GetFiles(folder);
-            if ((files != null) && (files.Count > 0))
-            {
-                Parallel.For(
-                    0,
-                    files.Count,
-                    index =>
-                    {
-                        var path = storage.CombinePath(folder, files[index]);
-                        LoadRoomsFromMapFile(storage, path, syncObject, context, activeConfigurations);
-                    });
-            }
+            LoadRoomsFromMapFolder(
+                storage,
+                context.Settings.MapDataFolder,
+                context,
+                false,
+                syncObject,
+                activeConfigurations);
+
+            LoadRoomsFromMapFolder(
+                storage,
+                context.Settings.MapDesignFolder,
+                context,
+                true,
+                syncObject,
+                activeConfigurations);
 
             int phaseId = 0;
             Func<string, IRoom> getRoom = name =>
@@ -99,7 +98,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                     {
                         var roomData = activeConfigurations[index];
                         var room = roomData.Area.Rooms[roomData.Name];
-                        if (!room.Init(phaseId, roomData.Name, roomData.Area, roomData.Data, context, getRoom))
+                        if (!room.Init(phaseId, roomData.Name, roomData.Area, roomData.InDesign, roomData.Data, context, getRoom))
                         {
                             lock (syncObject)
                             {
@@ -135,12 +134,35 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
             return FindRoom(GetRoomFullName(areaName, roomName));
         }
 
+        private void LoadRoomsFromMapFolder(
+            IContentStorage storage, 
+            string folder, 
+            IGameContext context, 
+            bool inDesign, 
+            object syncObject, 
+            IList<RoomData> dataToProcess)
+        {
+            var files = storage.GetFiles(folder);
+            if ((files != null) && (files.Count > 0))
+            {
+                Parallel.For(
+                    0,
+                    files.Count,
+                    index =>
+                    {
+                        var path = storage.CombinePath(folder, files[index]);
+                        LoadRoomsFromMapFile(storage, path, syncObject, context, inDesign, dataToProcess);
+                    });
+            }
+        }
+
         private void LoadRoomsFromMapFile(
             IContentStorage storage, 
             string path, 
             object syncObject,
             IGameContext context, 
-            IList<RoomData> activeConfigurations)
+            bool inDesign,
+            IList<RoomData> dataToProcess)
         {
             XmlElement rootElement = storage.LoadXml(path);
             string areaName = rootElement.GetAttribute(AreaNameAttributeName);
@@ -188,6 +210,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                 {
                     Name = roomName,
                     Area = area,
+                    InDesign = inDesign,
                     Data = roomElement
                 };
 
@@ -201,7 +224,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
                     {
                         area.Rooms.Add(roomName, room);
                         rooms.Add(fullName, room);
-                        activeConfigurations.Add(roomData);
+                        dataToProcess.Add(roomData);
                     }
                 }
             }
@@ -226,6 +249,7 @@ namespace Ereadian.MudSdk.Sdk.RoomManagement
         {
             internal string Name { get; set; }
             internal Area Area { get; set; }
+            internal bool InDesign { get; set; }
             internal XmlElement Data { get; set; }
         }
     }
